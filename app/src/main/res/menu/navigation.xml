@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/butt_film"
+        android:icon="@drawable/ic_baseline_local_movies_24"
+        android:title="Фильмы" />
+    <item
+        android:id="@+id/butt_serial"
+        android:icon="@drawable/ic_baseline_serial_24"
+        android:title="Сериалы" />
+    <item
+        android:id="@+id/butt_search"
+        android:icon="@drawable/icon_search"
+        android:title="Поиск" />
+    <item
+        android:id="@+id/butt_favorite"
+        android:icon="@drawable/ic_baseline_favorite_24"
+        android:title="Избранное" />
+</menu>
