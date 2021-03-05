@@ -13,4 +13,10 @@ class MigrationModule {
     fun provideMigration_1_2(): Migration {
         return Migration_1_2()
     }
+
+    @IntoSet
+    @Provides
+    fun provideMigration_2_3(): Migration {
+        return Migration_2_3()
+    }
 }

@@ -7,11 +7,10 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "genres",
-    primaryKeys = ["id"],
-    indices = [Index(value = ["idGenres"], unique = true)]
+    indices = [Index(name = "id_unique", value = ["idGenres"], unique = true)]
 )
 data class Genres(
-    @ColumnInfo(name = "id") val id: Long = 0,
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Long = 0,
     @ColumnInfo(name = "idGenres") val idGenres: Int,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "type") var type: String
