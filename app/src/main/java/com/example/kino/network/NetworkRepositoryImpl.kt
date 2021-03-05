@@ -1,25 +1,27 @@
 package com.example.kino.network
 
 import android.annotation.SuppressLint
-import android.util.Log
-import androidx.work.Data
-import androidx.work.ListenableWorker.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
+import com.example.kino.network.NetworkRepository.*
+import com.example.kino.network.model.GenresList
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 class NetworkRepositoryImpl(
     private val api: Api,
     private val databaseRepository: DatabaseRepository
-) :
-    NetworkRepository {
+) : NetworkRepository {
 
-    private val WORK_RESULT = "work_result"
+    private val START_RESULT: String = "START"
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
 
-    override fun isDownloadGenres(): Result {
-        return downloadGenresAll()
+    private lateinit var mResultSuccess: ResultSuccess
+
+    override fun isDownloadGenres(result: ResultSuccess) {
+         downloadGenresAll()
+        mResultSuccess = result
     }
 
     override fun isNotEmptyDB() : Boolean =
@@ -30,22 +32,17 @@ class NetworkRepositoryImpl(
     }
 
     @SuppressLint("CheckResult")
-    private fun downloadGenresAll(): Result {
-        api.getGenres("movie", API_KEY, MovieApplication.language)
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                databaseRepository.insertGenres(it.genres, "movie")
-            }, {
-                Timber.e(it)
-            })
+    private fun downloadGenresAll() {
 
-        api.getGenres("tv", API_KEY, MovieApplication.language)
+        val movie: Single<GenresList> = api.getGenres("movie", API_KEY, MovieApplication.language)
+        val serail: Single<GenresList> = api.getGenres("tv", API_KEY, MovieApplication.language)
+
+        Single.zip(movie, serail, { movies, serials -> Pair(movies,serials) })
             .subscribeOn(Schedulers.io())
             .subscribe({
-                databaseRepository.insertGenres(it.genres, "tv")
-            }, {
-                Timber.e(it)
-            })
-        return Result.success(Data.Builder().putString(WORK_RESULT, "finish").build())
+                databaseRepository.insertGenres(it.first.genres, "movie")
+                databaseRepository.insertGenres(it.second.genres, "tv")
+                mResultSuccess.setSuccess(START_RESULT)
+            },Timber::e)
     }
 }

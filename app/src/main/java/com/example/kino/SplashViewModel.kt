@@ -6,21 +6,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkInfo
-import androidx.work.WorkManager.*
-import com.example.kino.worckmanager.WorkManager
+import com.example.kino.applicationm.MovieApplication
+import com.example.kino.di.components.ActivityComponent
+import com.example.kino.di.moduls.ActivityModule
+import com.example.kino.network.NetworkRepository
 
-class SplashViewModel(application: Application) : AndroidViewModel(application) {
 
-    private lateinit var oneTimeWorkRequest: OneTimeWorkRequest
+class SplashViewModel(application: Application, val mNetworkRepository: NetworkRepository) : AndroidViewModel(application) {
 
-    fun worker() : LiveData<WorkInfo>{
-        oneTimeWorkRequest = OneTimeWorkRequest.Builder(WorkManager::class.java)
-            .build()
-        getInstance().enqueue(oneTimeWorkRequest)
-        return getInstance().getWorkInfoByIdLiveData(oneTimeWorkRequest.id)
+    private val result: MutableLiveData<String> = MutableLiveData()
+
+    private val START_RESULT: String = "START"
+    private val NO_CONNECT_RESULT: String = "noConnect"
+
+    init {
+        result.value = START_RESULT
     }
 
-    fun cancelWorker() {
-        getInstance().cancelWorkById(oneTimeWorkRequest.id)
+    private fun startNetwork() {
+
     }
+
+    fun attachObservable(): LiveData<String> = result
 }

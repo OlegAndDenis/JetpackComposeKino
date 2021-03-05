@@ -6,7 +6,6 @@ import com.example.kino.di.moduls.AppModule
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkModule
 import com.example.kino.viewmodel.ViewModelFactoryModule
-import com.example.kino.worckmanager.WorkManager
 import dagger.Component
 
 @ApplicationScope
@@ -17,8 +16,6 @@ import dagger.Component
         DataBaseModule::class]
 )
 interface AppComponent {
-
-    fun inject(workManager: WorkManager)
 
     fun getActivityComponent(activityModule: ActivityModule): ActivityComponent
 }

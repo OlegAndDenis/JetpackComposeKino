@@ -1,11 +1,14 @@
 package com.example.kino.network
 
-import androidx.work.ListenableWorker.*
-
 interface NetworkRepository {
-    fun isDownloadGenres(): Result
+    fun isDownloadGenres(result: ResultSuccess)
 
     fun getListItems()
 
     fun isNotEmptyDB() : Boolean
+
+
+    interface ResultSuccess {
+        fun setSuccess(result: String)
+    }
 }
