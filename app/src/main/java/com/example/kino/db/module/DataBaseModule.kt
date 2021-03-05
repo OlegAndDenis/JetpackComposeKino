@@ -26,10 +26,10 @@ class DataBaseModule {
 
     @Provides
     @ApplicationScope
-    fun provideRomDatabase(application: Application, dbCallback: DbCallback): DataBase {
+    fun provideRomDatabase(application: Application, dbCallback: DbCallback, migrations: MutableSet<Migration>): DataBase {
         return Room.databaseBuilder(application, DataBase::class.java, DB_NAME)
             .addCallback(dbCallback)
-            .addMigrations()
+            .addMigrations(*migrations.toTypedArray())
             .build()
     }
 

@@ -3,7 +3,6 @@ package com.example.kino
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.WorkInfo
 import androidx.work.WorkManager.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.comonnscreen.Base
@@ -19,27 +18,53 @@ import javax.inject.Inject
 class SplashScreen : Base() {
 
     private lateinit var mViewModel: SplashViewModel
-    private val WORK_RESULT = "work_result"
+    private val START_RESULT: String = "START"
+    private val NO_CONNECTION_NETWORK = "NO_CONNECTION"
+    private val ERROR = "ERROR"
 
     @Inject
     lateinit var mFactory: ViewModelFactory
 
+    lateinit var binding: SplashScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         getActivityComponent().inject(this@SplashScreen)
-        val binding = SplashScreenBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        binding = SplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-    }
-
-    init {
         mViewModel = ViewModelProvider(this@SplashScreen, mFactory).get(SplashViewModel::class.java)
+        mViewModel.attachObservable.observe(this@SplashScreen, { startIntent(it) })
     }
 
-    private fun startIntent() {
 
+    private fun startIntent(s: String) {
+        when (s) {
+            START_RESULT -> {
+                startActivity(Intent(this@SplashScreen, ContainerFragment::class.java))
+                finish()
+            }
+            NO_CONNECTION_NETWORK -> {
+                val snackbar: Snackbar = Snackbar.make(
+                    binding.root,
+                    "Проверте интернет подключение!",
+                    BaseTransientBottomBar.LENGTH_INDEFINITE
+                )
+                snackbar.setAction("Повторить") {
+                    mViewModel.restart()
+                    snackbar.dismiss()
+                }
+                snackbar.show()
+            }
+            ERROR -> {
+                finish()
+            }
+        }
     }
 
-    override fun getActivityComponent(): ActivityComponent  =
-        (application as MovieApplication).commonAppComponent.getActivityComponent(ActivityModule(this@SplashScreen))
+    override fun getActivityComponent(): ActivityComponent =
+        (application as MovieApplication).commonAppComponent.getActivityComponent(
+            ActivityModule(
+                this@SplashScreen
+            )
+        )
 }

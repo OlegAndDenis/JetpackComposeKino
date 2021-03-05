@@ -1,4 +1,6 @@
 package com.example.kino.network
+import android.app.Application
+import android.content.Context
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.google.gson.Gson
@@ -37,8 +39,10 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideApiProvider(api: Api, dbRepository: DatabaseRepository): NetworkRepository {
-        return NetworkRepositoryImpl(api, dbRepository)
+    fun provideApiProvider(application: Application,
+                           api: Api,
+                           dbRepository: DatabaseRepository): NetworkRepository {
+        return NetworkRepositoryImpl(application,api, dbRepository)
     }
 
     @Provides
