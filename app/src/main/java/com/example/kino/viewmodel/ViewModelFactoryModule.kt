@@ -31,8 +31,10 @@ class ViewModelFactoryModule {
 
     @Provides
     @ApplicationScope
-    fun provideViewModelFactory(providerMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): ViewModelFactory =
-        ViewModelFactory(providerMap)
+    fun provideViewModelFactory(providerMap: Map<Class<out ViewModel>,
+            @JvmSuppressWildcards Provider<ViewModel>>,
+    @NonNull application: Application): ViewModelFactory =
+        ViewModelFactory(providerMap, application)
 
     @Provides
     @IntoMap
