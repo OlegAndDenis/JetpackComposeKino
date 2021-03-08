@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.SplashViewModel
+import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.moviefragment.MovieViewModel
 import com.example.kino.screncontainer.ContainerViewModel
 import dagger.MapKey
 import dagger.Module
@@ -44,4 +46,12 @@ class ViewModelFactoryModule {
     fun provideSplashViewModel(@NonNull application: Application,
                                @NonNull networkRepository: NetworkRepository): ViewModel =
         SplashViewModel(application, networkRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(MovieViewModel::class)
+    fun provideMovieViewModel(@NonNull application: Application,
+                               @NonNull networkRepository: NetworkRepository,
+    @NonNull databaseRepository: DatabaseRepository): ViewModel =
+        MovieViewModel(application, networkRepository, databaseRepository)
 }

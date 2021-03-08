@@ -3,10 +3,11 @@ package com.example.kino.db
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.GenresApi
+import io.reactivex.Single
 
 class DatabaseRepositoryImpl(private val dataBase: DataBase) : DatabaseRepository {
 
-    override fun isNotEmptyGenresAll(): CheckColumnDB {
+    override fun isNotEmptyGenresAll(): Single<CheckColumnDB> {
         return dataBase.movieDao().isNotEmptyGenresAll()
     }
 

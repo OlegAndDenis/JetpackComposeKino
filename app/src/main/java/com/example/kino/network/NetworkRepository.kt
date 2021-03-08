@@ -5,9 +5,6 @@ interface NetworkRepository {
 
     fun getListItems()
 
-    fun isNotEmptyDB() : Boolean
-
-
     interface ResultSuccess {
         fun setSuccess(result: String)
     }

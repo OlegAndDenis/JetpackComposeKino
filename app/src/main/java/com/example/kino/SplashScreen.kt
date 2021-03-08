@@ -2,6 +2,7 @@ package com.example.kino
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.WorkManager.*
 import com.example.kino.applicationm.MovieApplication
@@ -38,6 +39,7 @@ class SplashScreen : Base() {
 
 
     private fun startIntent(s: String) {
+        Log.i("OLEG", "$s")
         when (s) {
             START_RESULT -> {
                 startActivity(Intent(this@SplashScreen, ContainerFragment::class.java))

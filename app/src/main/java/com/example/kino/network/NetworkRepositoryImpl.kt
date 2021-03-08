@@ -11,6 +11,7 @@ import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.GenresList
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
@@ -25,21 +26,32 @@ class NetworkRepositoryImpl(private val context: Context,
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
 
     override fun isDownloadGenres(result: ResultSuccess) {
-        when {
-            isOnline() -> {
+        when(isOnline()) {
+             true -> {
                 downloadGenresAll(result)
             }
-            isNotEmptyDB() -> {
-                result.setSuccess(START_RESULT)
-            }
-            else -> {
-                result.setSuccess(NO_CONNECTION_NETWORK)
+            false -> {
+                isNotEmptyDB(result)
             }
         }
     }
 
-    override fun isNotEmptyDB(): Boolean =
-        databaseRepository.isNotEmptyGenresAll().isNotEmpty
+    @SuppressLint("CheckResult")
+    fun isNotEmptyDB(result: ResultSuccess) {
+        databaseRepository.isNotEmptyGenresAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                if (it.isNotEmpty) {
+                    result.setSuccess(START_RESULT)
+                } else {
+                    result.setSuccess(NO_CONNECTION_NETWORK)
+                }
+            }, {
+                result.setSuccess(ERROR)
+                Timber.e(it)
+            })
+    }
 
     override fun getListItems() {
         TODO("Not yet implemented")

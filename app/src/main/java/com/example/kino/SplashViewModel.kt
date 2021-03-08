@@ -1,6 +1,7 @@
 package com.example.kino
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,7 +21,7 @@ class SplashViewModel(
     private val resultLiveData: MutableLiveData<String> = MutableLiveData()
     val attachObservable: LiveData<String> = resultLiveData
 
-    private val START_RESULT: String = "START"
+    private val START_RESULT: String = "INIT"
 
     init {
         resultLiveData.postValue(START_RESULT)

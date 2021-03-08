@@ -3,11 +3,12 @@ package com.example.kino.db
 import androidx.room.*
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
+import io.reactivex.Single
 
 @Dao
 interface MovieDao {
     @Query("select count() > 0 as isNotEmpty from genres")
-    fun isNotEmptyGenresAll(): CheckColumnDB
+    fun isNotEmptyGenresAll(): Single<CheckColumnDB>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGenres(genres: Genres)
