@@ -17,7 +17,9 @@ interface MovieDao {
         lestGenres.forEach {
             if (searchIdGenres(it.idGenres)) {
                 val genres: Genres = getGenresById(it.idGenres)
-                updateGenres("${genres.type}, ${it.type}", it.idGenres)
+                if (!genres.type.contains(it.type, ignoreCase = true)) {
+                    updateGenres("${genres.type}, ${it.type}", it.idGenres)
+                }
             } else {
                 insertGenres(it)
             }

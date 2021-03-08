@@ -1,6 +1,7 @@
 package com.example.kino.applicationm
 
 import android.app.Application
+import android.content.Context
 import com.example.kino.di.components.AppComponent
 import com.example.kino.di.components.DaggerAppComponent
 import com.example.kino.di.moduls.AppModule

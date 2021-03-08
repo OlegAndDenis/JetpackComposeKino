@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository.*
@@ -46,7 +47,6 @@ class NetworkRepositoryImpl(private val context: Context,
 
     @SuppressLint("CheckResult")
     private fun downloadGenresAll(resultSuccess: ResultSuccess) {
-
         val movie: Single<GenresList> = api.getGenres("movie", API_KEY, MovieApplication.language)
         val serial: Single<GenresList> = api.getGenres("tv", API_KEY, MovieApplication.language)
 
