@@ -38,5 +38,5 @@ interface MovieDao {
 
     //    %tv%
     @Query("select * from genres where genres.type like :type")
-    fun getAllGenresType(type: String): List<Genres>
+    fun getAllGenresType(type: String): Single<List<Genres>>
 }

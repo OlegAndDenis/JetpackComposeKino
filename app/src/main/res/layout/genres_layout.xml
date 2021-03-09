@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:adjustViewBounds="true"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/grad"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/gradient"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/title_genres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:adjustViewBounds="true"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="@id/grad"
+        app:layout_constraintTop_toTopOf="@id/grad"
+        app:layout_constraintEnd_toEndOf="@id/grad"
+        app:layout_constraintBottom_toBottomOf="@id/grad"
+        android:elevation="40dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

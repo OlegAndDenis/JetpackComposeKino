@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:adjustViewBounds="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/baner_image"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -16,13 +17,12 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/baner_image"
-        app:layout_constraintTop_toBottomOf= "@id/baner_image"
-        />
+        android:textColor="@color/white"
+        android:layout_gravity="left"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="@id/baner_image"
+        app:layout_constraintBottom_toBottomOf="@id/baner_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,8 @@
 package com.example.kino.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import com.bumptech.glide.Glide
 import com.example.kino.R
 import com.example.kino.adapter.holder.BindHolder
@@ -21,9 +19,8 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
 
     override fun bind(item: MovieResult, position: Int) {
         Glide.with(itemView)
-            .load("https://image.tmdb.org/t/p/original/${item.backdropPath}")
+            .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
             .into(mBinding.banerImage)
         mBinding.title.text = item.title
-
     }
 }

@@ -20,4 +20,8 @@ class DatabaseRepositoryImpl(private val dataBase: DataBase) : DatabaseRepositor
         }
         dataBase.movieDao().insertAll(listGenresDb)
     }
+
+    override fun getGenres(type: String): Single<List<Genres>> {
+        return dataBase.movieDao().getAllGenresType(type)
+    }
 }

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kino.adapter.holder.BindHolder
 
 
-class CommonAdapter<T>(holderCreator: HolderCreator<T>): RecyclerView.Adapter<BindHolder<T>>() {
+open class CommonAdapter<T>(holderCreator: HolderCreator<T>): RecyclerView.Adapter<BindHolder<T>>() {
 
     private var mTList: MutableList<T> = mutableListOf()
     private val holderCreat: HolderCreator<T> = holderCreator

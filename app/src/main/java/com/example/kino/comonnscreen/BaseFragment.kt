@@ -5,34 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.di.components.FragmentComponent
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(){
 
-    protected lateinit var binding : MovieAndSerialsFragmentBinding
+    abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
-    protected lateinit var mPopularityRecycler: RecyclerView
-    protected lateinit var mGenresRecycler: RecyclerView
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = MovieAndSerialsFragmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mPopularityRecycler = binding.popularity
-        mPopularityRecycler.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        mGenresRecycler = binding.genres
-    }
+    abstract override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 
     abstract fun getFragmentComponent() : FragmentComponent
 }
