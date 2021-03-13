@@ -1,14 +1,13 @@
 package com.example.kino.screen.moviefragment
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkRepository
-import com.example.kino.network.model.Movie
+import com.example.kino.network.model.movie.Movie
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
@@ -33,7 +32,7 @@ class MovieViewModel(
     }
 
     private fun getPopulate(page: Int) {
-        mNetworkRepository.getMovie(page, TYPE)
+        mNetworkRepository.getFilm(page)
             .subscribeOn(Schedulers.io())
             .subscribe(resultMovie::postValue, Timber::e)
     }

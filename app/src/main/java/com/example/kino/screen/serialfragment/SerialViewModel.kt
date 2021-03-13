@@ -1,14 +1,14 @@
 package com.example.kino.screen.serialfragment
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkRepository
-import com.example.kino.network.model.Movie
+import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.serial.Serials
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
@@ -21,8 +21,8 @@ class SerialViewModel(
 
     private val TYPE = "tv"
 
-    private val resultMovie: MutableLiveData<Movie> = MutableLiveData()
-    val responseMovie: LiveData<Movie> = resultMovie
+    private val resultMovie: MutableLiveData<Serials> = MutableLiveData()
+    val responseMovie: LiveData<Serials> = resultMovie
 
     private val resultGenres: MutableLiveData<List<Genres>> = MutableLiveData()
     val responseGenres: LiveData<List<Genres>> = resultGenres
@@ -33,7 +33,7 @@ class SerialViewModel(
     }
 
     private fun getPopulate(page: Int) {
-        mNetworkRepository.getMovie(page, TYPE)
+        mNetworkRepository.getSerials(page)
             .subscribeOn(Schedulers.io())
             .subscribe(resultMovie::postValue, Timber::e)
     }

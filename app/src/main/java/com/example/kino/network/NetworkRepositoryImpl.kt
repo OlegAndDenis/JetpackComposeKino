@@ -2,15 +2,12 @@ package com.example.kino.network
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import android.util.Log
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.GenresList
-import com.example.kino.network.model.Movie
+import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +23,7 @@ class NetworkRepositoryImpl(
     private val NO_CONNECTION_NETWORK = "NO_CONNECTION"
     private val ERROR = "ERROR"
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
-    private val typeMovie: String = "movie"
+    private val typeFilm: String = "movie"
     private val typeTv: String = "tv"
 
     override fun isDownloadGenres(result: ResultSuccess) {
@@ -61,19 +58,23 @@ class NetworkRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getMovie(page: Int, type: String): Single<Movie> {
-        return api.getMovie(type, buildParam(page))
+    override fun getFilm(page: Int): Single<Movie> {
+        return api.getFilm(buildParamFilm(page))
+    }
+
+    override fun getSerials(page: Int): Single<Serials> {
+        return api.getSerials(buildParamSerials(page))
     }
 
     @SuppressLint("CheckResult")
     private fun downloadGenresAll(resultSuccess: ResultSuccess) {
-        val movie: Single<GenresList> = api.getGenres(typeMovie, API_KEY, MovieApplication.language)
+        val movie: Single<GenresList> = api.getGenres(typeFilm, API_KEY, MovieApplication.language)
         val serial: Single<GenresList> = api.getGenres(typeTv, API_KEY, MovieApplication.language)
 
         Single.zip(movie, serial, { movies, serials -> Pair(movies, serials) })
             .subscribeOn(Schedulers.io())
             .subscribe({
-                databaseRepository.insertGenres(it.first.genres, typeMovie)
+                databaseRepository.insertGenres(it.first.genres, typeFilm)
                 databaseRepository.insertGenres(it.second.genres, typeTv)
                 resultSuccess.setSuccess(START_RESULT)
             }, {
@@ -84,11 +85,21 @@ class NetworkRepositoryImpl(
 
     override fun isOnline(): Boolean = ConnectionCheck.isOnline(context)
 
-    private fun buildParam(page: Int): MutableMap<String, String> {
+    private fun buildParamFilm(page: Int): MutableMap<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
         map["api_key"] = API_KEY
         map["language"] = MovieApplication.language
         map["sort_by"] = "popularity.desc"
+        map["page"] = page.toString()
+        return map
+    }
+
+    private fun buildParamSerials(page: Int): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = API_KEY
+        map["language"] = MovieApplication.language
+        map["sort_by"] = "popularity.desc"
+        map["timezone"] = "popularity.desc"
         map["page"] = page.toString()
         return map
     }

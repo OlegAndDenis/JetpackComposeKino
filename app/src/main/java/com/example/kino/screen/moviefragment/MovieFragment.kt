@@ -18,8 +18,8 @@ import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.di.components.FragmentComponent
-import com.example.kino.network.model.Movie
-import com.example.kino.network.model.MovieResult
+import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screncontainer.ContainerFragment
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject

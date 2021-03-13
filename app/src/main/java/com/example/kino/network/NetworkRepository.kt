@@ -1,6 +1,7 @@
 package com.example.kino.network
 
-import com.example.kino.network.model.Movie
+import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
 
 interface NetworkRepository {
@@ -8,7 +9,9 @@ interface NetworkRepository {
 
     fun getListItems()
 
-    fun getMovie(page: Int, type: String): Single<Movie>
+    fun getFilm(page: Int): Single<Movie>
+
+    fun getSerials(page: Int): Single<Serials>
 
     fun isOnline(): Boolean
 

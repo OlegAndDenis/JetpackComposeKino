@@ -1,4 +1,4 @@
-package com.example.kino.adapter
+package com.example.kino.adapter.holder
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +8,9 @@ import com.example.kino.R
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.PopularityViewBinding
 import com.example.kino.network.model.movie.MovieResult
+import com.example.kino.network.model.serial.SerialsResult
 
-class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResult>(itemView) {
+class SerialsViewHolder private constructor(itemView: View) : BindHolder<SerialsResult>(itemView) {
 
     private var mBinding: PopularityViewBinding = PopularityViewBinding.bind(itemView)
 
@@ -17,10 +18,10 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
         LayoutInflater.from(parent.context)
         .inflate(R.layout.popularity_view, parent, false))
 
-    override fun bind(item: MovieResult, position: Int) {
+    override fun bind(item: SerialsResult, position: Int) {
         Glide.with(itemView)
             .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
             .into(mBinding.banerImage)
-        mBinding.title.text = item.title
+        mBinding.title.text = item.name
     }
 }

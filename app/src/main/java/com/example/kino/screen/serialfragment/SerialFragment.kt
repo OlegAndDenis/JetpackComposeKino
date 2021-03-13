@@ -14,12 +14,15 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.GenresViewHolder
 import com.example.kino.adapter.MovieViewHolder
 import com.example.kino.adapter.holder.BindHolder
+import com.example.kino.adapter.holder.SerialsViewHolder
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.di.components.FragmentComponent
-import com.example.kino.network.model.Movie
-import com.example.kino.network.model.MovieResult
+import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.movie.MovieResult
+import com.example.kino.network.model.serial.Serials
+import com.example.kino.network.model.serial.SerialsResult
 import com.example.kino.screncontainer.ContainerFragment
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject
@@ -32,9 +35,9 @@ class SerialFragment : BaseFragment() {
 
     private lateinit var mBinding: MovieAndSerialsFragmentBinding
 
-    private val mPopAdapter: CommonAdapter<MovieResult> = CommonAdapter(object : HolderCreator<MovieResult> {
-        override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return MovieViewHolder(parent)
+    private val mPopAdapter: CommonAdapter<SerialsResult> = CommonAdapter(object : HolderCreator<SerialsResult> {
+        override fun create(parent: ViewGroup, viewType: Int): BindHolder<SerialsResult> {
+            return SerialsViewHolder(parent)
         }
     })
 
@@ -79,8 +82,8 @@ class SerialFragment : BaseFragment() {
         }
     }
 
-    private fun setMovie(movie: Movie) {
-        mPopAdapter.setTList(movie.result)
+    private fun setMovie(serial: Serials) {
+        mPopAdapter.setTList(serial.result)
     }
 
     private fun setGenres(genres: List<Genres>) {
