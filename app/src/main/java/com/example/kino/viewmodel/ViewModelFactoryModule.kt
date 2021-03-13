@@ -9,7 +9,7 @@ import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.moviefragment.MovieViewModel
 import com.example.kino.screen.serialfragment.SerialViewModel
-import com.example.kino.screncontainer.ContainerViewModel
+import com.example.kino.screen.screncontainer.ContainerViewModel
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

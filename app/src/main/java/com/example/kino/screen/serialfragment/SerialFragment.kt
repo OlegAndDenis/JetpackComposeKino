@@ -19,7 +19,7 @@ import com.example.kino.db.model.Genres
 import com.example.kino.di.components.FragmentComponent
 import com.example.kino.network.model.serial.Serials
 import com.example.kino.network.model.serial.SerialsResult
-import com.example.kino.screncontainer.ContainerFragment
+import com.example.kino.screen.screncontainer.ContainerFragment
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject
 

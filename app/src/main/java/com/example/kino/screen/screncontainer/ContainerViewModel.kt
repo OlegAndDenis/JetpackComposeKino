@@ -1,7 +1,6 @@
-package com.example.kino.screncontainer
+package com.example.kino.screen.screncontainer
 
 import android.app.Application
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction

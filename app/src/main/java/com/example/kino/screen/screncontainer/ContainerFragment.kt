@@ -1,4 +1,4 @@
-package com.example.kino.screncontainer
+package com.example.kino.screen.screncontainer
 
 import android.os.Bundle
 import android.view.MenuItem

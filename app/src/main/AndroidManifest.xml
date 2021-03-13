@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screncontainer.ContainerFragment">
+            android:name="com.example.kino.screen.screncontainer.ContainerFragment">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
