@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.splash
 
 import android.app.Application
 import android.util.Log

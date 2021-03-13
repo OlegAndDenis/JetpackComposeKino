@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.common
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

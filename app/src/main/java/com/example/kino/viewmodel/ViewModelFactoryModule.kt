@@ -3,7 +3,7 @@ package com.example.kino.viewmodel
 import android.app.Application
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
-import com.example.kino.SplashViewModel
+import com.example.kino.screen.splash.SplashViewModel
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository

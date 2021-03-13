@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.splash
 
 import android.content.Intent
 import android.os.Bundle

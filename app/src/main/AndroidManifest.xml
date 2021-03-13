@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Kino">
         <activity
             android:noHistory="true"
-            android:name=".SplashScreen">
+            android:name=".screen.splash.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
