@@ -1,4 +1,4 @@
-package com.example.kino.adapter.holder
+package com.example.kino.screen.serialfragment
 
 import android.view.LayoutInflater
 import android.view.View

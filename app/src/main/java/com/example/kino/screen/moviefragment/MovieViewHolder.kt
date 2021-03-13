@@ -1,4 +1,4 @@
-package com.example.kino.adapter
+package com.example.kino.screen.moviefragment
 
 import android.view.LayoutInflater
 import android.view.View

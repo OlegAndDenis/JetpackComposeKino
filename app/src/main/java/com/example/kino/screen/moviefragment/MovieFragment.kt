@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.*
 import com.example.kino.screen.common.ZoomOutPageTransformer
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
-import com.example.kino.adapter.GenresViewHolder
-import com.example.kino.adapter.MovieViewHolder
+import com.example.kino.screen.common.GenresViewHolder
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
