@@ -30,6 +30,9 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.SearchableInfo"
+                android:resource="@xml/searchable"/>
         </activity>
     </application>
 
