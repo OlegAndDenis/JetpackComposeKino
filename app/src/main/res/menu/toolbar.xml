@@ -2,7 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Поиск"
+    <item
+        android:id="@+id/menu_search"
+        android:title="Поиск"
         android:icon="@drawable/icon_search"
         app:actionViewClass="android.widget.SearchView"
         app:showAsAction="always"/>
