@@ -10,6 +10,8 @@ interface NetworkRepository {
 
     fun getMovie(page: Int, type: String): Single<Movie>
 
+    fun isOnline(): Boolean
+
     interface ResultSuccess {
         fun setSuccess(result: String)
     }
