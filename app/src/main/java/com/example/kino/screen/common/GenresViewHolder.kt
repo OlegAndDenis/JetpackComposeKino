@@ -1,5 +1,6 @@
 package com.example.kino.screen.common
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,5 +19,9 @@ class GenresViewHolder private constructor(itemView: View): BindHolder<Genres>(i
 
     override fun bind(item: Genres, position: Int) {
         mBinding.titleGenres.text = item.name
+    }
+
+
+    override fun onClick(v: View?) {
     }
 }

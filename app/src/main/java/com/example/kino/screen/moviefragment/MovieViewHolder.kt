@@ -1,5 +1,6 @@
 package com.example.kino.screen.moviefragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,5 +23,9 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
             .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
             .into(mBinding.banerImage)
         mBinding.title.text = item.title
+    }
+
+    override fun onClick(v: View?) {
+        Log.i("OELG", "++++++++");
     }
 }

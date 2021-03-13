@@ -1,5 +1,6 @@
 package com.example.kino.screen.serialfragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,5 +24,9 @@ class SerialsViewHolder private constructor(itemView: View) : BindHolder<Serials
             .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
             .into(mBinding.banerImage)
         mBinding.title.text = item.name
+    }
+
+    override fun onClick(v: View?) {
+        Log.i("OELG", "++++++++");
     }
 }
