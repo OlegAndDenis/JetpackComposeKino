@@ -1,4 +1,4 @@
-package com.example.kino.screen.moviefragment
+package com.example.kino.screen.serialfragment
 
 import android.content.Context
 import android.os.Bundle
@@ -24,11 +24,11 @@ import com.example.kino.screncontainer.ContainerFragment
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject
 
-class MovieFragment : BaseFragment() {
+class SerialFragment : BaseFragment() {
 
     @Inject
     lateinit var mFactory: ViewModelFactory
-    private lateinit var mViewModel: MovieViewModel
+    private lateinit var mViewModel: SerialViewModel
 
     private lateinit var mBinding: MovieAndSerialsFragmentBinding
 
@@ -46,10 +46,10 @@ class MovieFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        getFragmentComponent().inject(this@MovieFragment)
-        mViewModel = ViewModelProvider(this@MovieFragment, mFactory).get(MovieViewModel::class.java)
-        mViewModel.responseMovie.observe(this@MovieFragment, this::setMovie)
-        mViewModel.responseGenres.observe(this@MovieFragment, this::setGenres)
+        getFragmentComponent().inject(this@SerialFragment)
+        mViewModel = ViewModelProvider(this@SerialFragment, mFactory).get(SerialViewModel::class.java)
+        mViewModel.responseMovie.observe(this@SerialFragment, this::setMovie)
+        mViewModel.responseGenres.observe(this@SerialFragment, this::setGenres)
     }
 
     override fun onCreateView(

@@ -8,6 +8,7 @@ import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.moviefragment.MovieViewModel
+import com.example.kino.screen.serialfragment.SerialViewModel
 import com.example.kino.screncontainer.ContainerViewModel
 import dagger.MapKey
 import dagger.Module
@@ -56,4 +57,12 @@ class ViewModelFactoryModule {
                                @NonNull networkRepository: NetworkRepository,
     @NonNull databaseRepository: DatabaseRepository): ViewModel =
         MovieViewModel(application, networkRepository, databaseRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(SerialViewModel::class)
+    fun provideSerialsViewModel(@NonNull application: Application,
+                              @NonNull networkRepository: NetworkRepository,
+                              @NonNull databaseRepository: DatabaseRepository): ViewModel =
+        SerialViewModel(application, networkRepository, databaseRepository)
 }

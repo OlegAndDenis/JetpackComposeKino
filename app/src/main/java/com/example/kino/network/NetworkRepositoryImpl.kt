@@ -61,8 +61,8 @@ class NetworkRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getMovie(page: Int): Single<Movie> {
-        return api.getMovie(typeMovie, buildParam(page))
+    override fun getMovie(page: Int, type: String): Single<Movie> {
+        return api.getMovie(type, buildParam(page))
     }
 
     @SuppressLint("CheckResult")

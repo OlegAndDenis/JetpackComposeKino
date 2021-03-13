@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kino</string>
+    <string name="popularity_title">Популярные</string>
+    <string name="title_genres">Жанры</string>
 </resources>

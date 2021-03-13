@@ -8,7 +8,7 @@ interface NetworkRepository {
 
     fun getListItems()
 
-    fun getMovie(page: Int): Single<Movie>
+    fun getMovie(page: Int, type: String): Single<Movie>
 
     interface ResultSuccess {
         fun setSuccess(result: String)

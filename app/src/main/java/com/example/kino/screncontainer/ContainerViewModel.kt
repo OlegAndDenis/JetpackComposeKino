@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.AndroidViewModel
 import com.example.kino.R
 import com.example.kino.screen.moviefragment.MovieFragment
+import com.example.kino.screen.serialfragment.SerialFragment
 
 class ContainerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -17,7 +18,6 @@ class ContainerViewModel(application: Application) : AndroidViewModel(applicatio
     private val TAG_SERIAL = "serial"
 
     fun pressTheButtonNavigator(id: Int, manager: FragmentManager) {
-        Log.i("OLEG", "$id")
         when (id) {
             R.id.butt_film -> {
                 transitionOnOtherFragment(
@@ -41,13 +41,13 @@ class ContainerViewModel(application: Application) : AndroidViewModel(applicatio
 //                )
 //                mPressPos.setValue(3)
 //            }
-//            R.id.butt_serial -> {
-//                transitionOnOtherFragment(
-//                    TAG_SERIAL,
-//                    FavoriteFragment(),
-//                    manager
-//                )
-//            }
+            R.id.butt_serial -> {
+                transitionOnOtherFragment(
+                    TAG_SERIAL,
+                    SerialFragment(),
+                    manager
+                )
+            }
         }
     }
 
@@ -63,6 +63,8 @@ class ContainerViewModel(application: Application) : AndroidViewModel(applicatio
         }
         val mTranslationTree: FragmentTransaction = manager
             .beginTransaction()
+            .addToBackStack(null)
+            .setCustomAnimations(R.anim.to_left_in, R.anim.to_right_out)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         if (fragment != null) {
             mTranslationTree.replace(R.id.frame_layout, fragment, TAG)

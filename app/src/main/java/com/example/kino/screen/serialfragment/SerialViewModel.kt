@@ -1,4 +1,4 @@
-package com.example.kino.screen.moviefragment
+package com.example.kino.screen.serialfragment
 
 import android.app.Application
 import android.util.Log
@@ -13,13 +13,13 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 
-class MovieViewModel(
+class SerialViewModel(
     application: Application,
     private val mNetworkRepository: NetworkRepository,
     private val mDatabaseRepository: DatabaseRepository
 ) : AndroidViewModel(application) {
 
-    private val TYPE = "movie"
+    private val TYPE = "tv"
 
     private val resultMovie: MutableLiveData<Movie> = MutableLiveData()
     val responseMovie: LiveData<Movie> = resultMovie
