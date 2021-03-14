@@ -1,8 +1,7 @@
 package com.example.kino.screen.screncontainer
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import com.example.kino.comonnscreen.Base
@@ -36,7 +35,13 @@ class ContainerFragment : Base() {
 
     private fun pressTheButtonNavigator(item: MenuItem): Boolean {
         mViewModel.pressTheButtonNavigator(item.itemId, supportFragmentManager)
-        supportActionBar!!.title = item.title
+        if (item.itemId != R.id.butt_search) {
+            supportActionBar!!.title = item.title
+            binding.toolbar.tag = "no"
+        } else {
+            binding.toolbar.tag = "search"
+        }
+        invalidateOptionsMenu()
         return true
     }
 
@@ -53,7 +58,16 @@ class ContainerFragment : Base() {
             val searchMenu = it.findItem(R.id.menu_search)
             val search: SearchView = searchMenu.actionView as SearchView
             search.isIconifiedByDefault = false
+            search.queryHint = "search: movie, serial"
+            search.isSubmitButtonEnabled = true
+            search.gravity = Gravity.CENTER
+            searchMenu.isVisible = binding.toolbar.tag == "search"
         }
         return true
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
     }
 }

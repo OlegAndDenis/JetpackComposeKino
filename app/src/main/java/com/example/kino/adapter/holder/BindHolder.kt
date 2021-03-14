@@ -3,13 +3,13 @@ package com.example.kino.adapter.holder
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BindHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+abstract class BindHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     init {
-        itemView.setOnClickListener(this@BindHolder)
+        itemView.setOnClickListener { onClick(it) }
     }
 
     abstract fun bind(item: T, position: Int)
 
-    abstract override fun onClick(v: View?)
+    abstract fun onClick(v: View?)
 }

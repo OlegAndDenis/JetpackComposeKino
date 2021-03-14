@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.AndroidViewModel
 import com.example.kino.R
 import com.example.kino.screen.moviefragment.MovieFragment
+import com.example.kino.screen.search.SearchScreen
 import com.example.kino.screen.serialfragment.SerialFragment
 
 class ContainerViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,13 +26,13 @@ class ContainerViewModel(application: Application) : AndroidViewModel(applicatio
                     manager
                 )
             }
-//            R.id.butt_search -> {
-//                transitionOnOtherFragment(
-//                    TAG_SEARCH,
-//                    MapsFragment(),
-//                    manager
-//                )
-//            }
+            R.id.butt_search -> {
+                transitionOnOtherFragment(
+                    TAG_SEARCH,
+                    SearchScreen(),
+                    manager
+                )
+            }
 //            R.id.butt_favorite -> {
 //                transitionOnOtherFragment(
 //                    TAG_FAVORITE,
