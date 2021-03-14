@@ -1,5 +1,6 @@
 package com.example.kino.network.model.serial
 
+import com.example.kino.network.model.common.NetworkItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -47,4 +48,4 @@ data class SerialsResult(
     @Expose
     val originalLanguage: String = "no",
     val isEmpty: Boolean = false
-)
+): NetworkItem

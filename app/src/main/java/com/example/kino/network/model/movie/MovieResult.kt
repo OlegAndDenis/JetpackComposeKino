@@ -1,5 +1,6 @@
 package com.example.kino.network.model.movie
 
+import com.example.kino.network.model.common.NetworkItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -41,4 +42,4 @@ data class MovieResult(
     @Expose
     val voteCount: Long = 0L,
     val isEmpty: Boolean = false
-)
+): NetworkItem
