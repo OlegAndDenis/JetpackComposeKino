@@ -32,37 +32,48 @@ class ViewModelFactoryModule {
 
     @Provides
     @ApplicationScope
-    fun provideViewModelFactory(providerMap: Map<Class<out ViewModel>,
-            @JvmSuppressWildcards Provider<ViewModel>>,
-    @NonNull application: Application): ViewModelFactory =
+    fun provideViewModelFactory(
+        providerMap: Map<Class<out ViewModel>,
+                @JvmSuppressWildcards Provider<ViewModel>>,
+        @NonNull application: Application
+    ): ViewModelFactory =
         ViewModelFactory(providerMap, application)
 
     @Provides
     @IntoMap
     @ViewModelKey(ContainerViewModel::class)
-    fun provideContainerViewModel(@NonNull application: Application): ViewModel =
-        ContainerViewModel(application)
+    fun provideContainerViewModel(
+        @NonNull application: Application,
+        @NonNull networkRepository: NetworkRepository
+    ): ViewModel =
+        ContainerViewModel(application, networkRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
-    fun provideSplashViewModel(@NonNull application: Application,
-                               @NonNull networkRepository: NetworkRepository): ViewModel =
+    fun provideSplashViewModel(
+        @NonNull application: Application,
+        @NonNull networkRepository: NetworkRepository
+    ): ViewModel =
         SplashViewModel(application, networkRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
-    fun provideMovieViewModel(@NonNull application: Application,
-                               @NonNull networkRepository: NetworkRepository,
-    @NonNull databaseRepository: DatabaseRepository): ViewModel =
+    fun provideMovieViewModel(
+        @NonNull application: Application,
+        @NonNull networkRepository: NetworkRepository,
+        @NonNull databaseRepository: DatabaseRepository
+    ): ViewModel =
         MovieViewModel(application, networkRepository, databaseRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(SerialViewModel::class)
-    fun provideSerialsViewModel(@NonNull application: Application,
-                              @NonNull networkRepository: NetworkRepository,
-                              @NonNull databaseRepository: DatabaseRepository): ViewModel =
+    fun provideSerialsViewModel(
+        @NonNull application: Application,
+        @NonNull networkRepository: NetworkRepository,
+        @NonNull databaseRepository: DatabaseRepository
+    ): ViewModel =
         SerialViewModel(application, networkRepository, databaseRepository)
 }

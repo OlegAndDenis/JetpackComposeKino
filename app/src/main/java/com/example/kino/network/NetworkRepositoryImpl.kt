@@ -6,6 +6,7 @@ import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.GenresList
+import com.example.kino.network.model.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
@@ -66,6 +67,10 @@ class NetworkRepositoryImpl(
         return api.getSerials(buildParamSerials(page))
     }
 
+    override fun getSearch(query: String): Single<SearchResult> {
+        return api.getSearch(buildParamSearch(1, query))
+    }
+
     @SuppressLint("CheckResult")
     private fun downloadGenresAll(resultSuccess: ResultSuccess) {
         val movie: Single<GenresList> = api.getGenres(typeFilm, API_KEY, MovieApplication.language)
@@ -100,6 +105,15 @@ class NetworkRepositoryImpl(
         map["language"] = MovieApplication.language
         map["sort_by"] = "popularity.desc"
         map["timezone"] = "popularity.desc"
+        map["page"] = page.toString()
+        return map
+    }
+
+    private fun buildParamSearch(page: Int, query: String): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = API_KEY
+        map["language"] = MovieApplication.language
+        map["query"] = query
         map["page"] = page.toString()
         return map
     }

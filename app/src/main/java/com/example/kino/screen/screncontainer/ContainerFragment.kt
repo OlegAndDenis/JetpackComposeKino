@@ -13,7 +13,7 @@ import com.example.kino.di.moduls.ActivityModule
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject
 
-class ContainerFragment : Base() {
+class ContainerFragment : Base(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mViewModel: ContainerViewModel
@@ -61,6 +61,7 @@ class ContainerFragment : Base() {
             search.queryHint = "search: movie, serial"
             search.isSubmitButtonEnabled = true
             search.gravity = Gravity.CENTER
+            search.setOnQueryTextListener(this@ContainerFragment)
             searchMenu.isVisible = binding.toolbar.tag == "search"
         }
         return true
@@ -68,6 +69,14 @@ class ContainerFragment : Base() {
 
     override fun onRestart() {
         super.onRestart()
+    }
 
+    override fun onQueryTextSubmit(query: String?): Boolean {
+       return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        mViewModel.startSearch(newText)
+        return false
     }
 }

@@ -79,7 +79,8 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun setMovie(movie: Movie) {
-        mPopAdapter.setTList(movie.result)
+        val list = movie.result as List<MovieResult>
+        mPopAdapter.setTList(list)
     }
 
     private fun setGenres(genres: List<Genres>) {

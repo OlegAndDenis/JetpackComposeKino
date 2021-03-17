@@ -1,6 +1,7 @@
 package com.example.kino.network
 
 import com.example.kino.network.model.GenresList
+import com.example.kino.network.model.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
@@ -19,4 +20,7 @@ interface Api {
 
     @GET("discover/tv")
     fun getSerials(@QueryMap param: MutableMap<String, String>): Single<Serials>
+
+    @GET("search/multi")
+    fun getSearch(@QueryMap param: MutableMap<String, String>): Single<SearchResult>
 }
