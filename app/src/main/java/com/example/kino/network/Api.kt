@@ -1,6 +1,6 @@
 package com.example.kino.network
 
-import com.example.kino.network.model.GenresList
+import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.serial.Serials
