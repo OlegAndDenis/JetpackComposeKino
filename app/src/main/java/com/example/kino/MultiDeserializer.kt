@@ -1,6 +1,6 @@
 package com.example.kino
 
-import com.example.kino.network.model.PersonResult
+import com.example.kino.network.model.person.PersonResult
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.network.model.serial.SerialsResult

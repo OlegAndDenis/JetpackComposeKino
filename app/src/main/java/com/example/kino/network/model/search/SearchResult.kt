@@ -1,4 +1,4 @@
-package com.example.kino.network.model
+package com.example.kino.network.model.search
 
 import com.example.kino.MultiDeserializer
 import com.example.kino.network.model.common.NetworkItem

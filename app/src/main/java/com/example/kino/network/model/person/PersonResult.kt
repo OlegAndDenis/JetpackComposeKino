@@ -1,4 +1,4 @@
-package com.example.kino.network.model
+package com.example.kino.network.model.person
 
 import com.example.kino.network.model.common.NetworkItem
 import com.google.gson.annotations.Expose

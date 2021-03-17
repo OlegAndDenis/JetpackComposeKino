@@ -1,7 +1,6 @@
 package com.example.kino.screen.screncontainer
 
 import android.app.Application
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -10,8 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.kino.R
 import com.example.kino.network.NetworkRepository
-import com.example.kino.network.model.SearchResult
-import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.search.SearchResult
 import com.example.kino.screen.moviefragment.MovieFragment
 import com.example.kino.screen.search.SearchScreen
 import com.example.kino.screen.serialfragment.SerialFragment
