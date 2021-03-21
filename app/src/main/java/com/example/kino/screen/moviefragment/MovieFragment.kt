@@ -17,6 +17,7 @@ import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.di.components.FragmentComponent
+import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.SingleActivity
@@ -32,8 +33,8 @@ class MovieFragment : BaseFragment() {
 
     private lateinit var mBinding: MovieAndSerialsFragmentBinding
 
-    private val mPopAdapter: CommonAdapter<MovieResult> = CommonAdapter(object : HolderCreator<MovieResult> {
-        override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
+    private val mPopAdapter: CommonAdapter<NetworkItem> = CommonAdapter(object : HolderCreator<NetworkItem> {
+        override fun create(parent: ViewGroup, viewType: Int): BindHolder<NetworkItem> {
             return MovieViewHolder(parent)
         }
     })
@@ -80,8 +81,7 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun setMovie(movie: Movie) {
-        val list = movie.result as List<MovieResult>
-        mPopAdapter.setTList(list)
+        mPopAdapter.setTList(movie.result)
     }
 
     private fun setGenres(genres: List<Genres>) {

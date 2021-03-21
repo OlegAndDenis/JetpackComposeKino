@@ -3,7 +3,6 @@ package com.example.kino.screen.screncontainer
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import androidx.lifecycle.ViewModelProvider
 import com.example.kino.R
 import com.example.kino.comonnscreen.BaseFragment
@@ -30,7 +29,7 @@ class ContainerFragment : BaseFragment(), SearchView.OnQueryTextListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         (activity as SingleActivity).setSupportActionBar(binding.toolbar)
         mViewModel =
-            ViewModelProvider(this@ContainerFragment, mFactory).get(ContainerViewModel::class.java)
+            ViewModelProvider(activity!!, mFactory).get(ContainerViewModel::class.java)
         binding.bottomNavigation.setOnNavigationItemSelectedListener { pressTheButtonNavigator(it) }
         binding.bottomNavigation.selectedItemId = R.id.butt_film
         return binding.root

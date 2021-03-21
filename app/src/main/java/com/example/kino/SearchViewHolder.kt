@@ -16,7 +16,6 @@ class SearchViewHolder  private constructor(itemView: View) : BindHolder<Network
             .inflate(R.layout.search_result, parent, false))
 
     override fun onClick(v: View?) {
-        TODO("Not yet implemented")
     }
 
     override fun bind(item: NetworkItem, position: Int) {

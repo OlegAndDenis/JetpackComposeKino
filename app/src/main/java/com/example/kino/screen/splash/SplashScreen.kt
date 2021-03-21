@@ -1,21 +1,15 @@
 package com.example.kino.screen.splash
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.WorkManager.*
-import com.example.kino.applicationm.MovieApplication
-import com.example.kino.comonnscreen.Base
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.SplashScreenBinding
-import com.example.kino.di.components.ActivityComponent
 import com.example.kino.di.components.FragmentComponent
-import com.example.kino.di.moduls.ActivityModule
 import com.example.kino.screen.common.SingleActivity
 import com.example.kino.screen.common.ViewModelTransaction
 import com.example.kino.screen.screncontainer.ContainerFragment
@@ -60,7 +54,6 @@ class SplashScreen : BaseFragment() {
 
     override fun getFragmentComponent(): FragmentComponent =
         (activity as SingleActivity).getActivityComponent().getFragmentComponent()
-
 
 
     private fun startIntent(s: String) {

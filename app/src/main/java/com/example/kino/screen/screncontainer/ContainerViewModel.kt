@@ -11,7 +11,7 @@ import com.example.kino.R
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.screen.moviefragment.MovieFragment
-import com.example.kino.screen.search.SearchScreen
+import com.example.kino.screen.search.SearchFragment
 import com.example.kino.screen.serialfragment.SerialFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -40,7 +40,7 @@ private val networkRepository: NetworkRepository) : AndroidViewModel(application
             R.id.butt_search -> {
                 transitionOnOtherFragment(
                     TAG_SEARCH,
-                    SearchScreen(),
+                    SearchFragment(),
                     manager
                 )
             }
@@ -87,7 +87,6 @@ private val networkRepository: NetworkRepository) : AndroidViewModel(application
         query?.let {
             networkRepository.getSearch(it)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(resultMovie::postValue, Timber::e)
         }
     }

@@ -5,7 +5,6 @@ import com.example.kino.di.moduls.ActivityModule
 import com.example.kino.di.scope.ActivityScope
 import com.example.kino.screen.common.SingleActivity
 import com.example.kino.screen.screncontainer.ContainerFragment
-import com.example.kino.screen.search.SearchScreen
 import dagger.Subcomponent
 
 @ActivityScope

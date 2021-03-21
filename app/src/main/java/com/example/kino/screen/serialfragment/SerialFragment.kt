@@ -17,6 +17,7 @@ import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.di.components.FragmentComponent
+import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.serial.Serials
 import com.example.kino.network.model.serial.SerialsResult
 import com.example.kino.screen.common.SingleActivity
@@ -32,8 +33,8 @@ class SerialFragment : BaseFragment() {
 
     private lateinit var mBinding: MovieAndSerialsFragmentBinding
 
-    private val mPopAdapter: CommonAdapter<SerialsResult> = CommonAdapter(object : HolderCreator<SerialsResult> {
-        override fun create(parent: ViewGroup, viewType: Int): BindHolder<SerialsResult> {
+    private val mPopAdapter: CommonAdapter<NetworkItem> = CommonAdapter(object : HolderCreator<NetworkItem> {
+        override fun create(parent: ViewGroup, viewType: Int): BindHolder<NetworkItem> {
             return SerialsViewHolder(parent)
         }
     })
