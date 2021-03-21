@@ -10,17 +10,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kino.DataDiffUtils
-import com.example.kino.SearchAdapter
-import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
-import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.SearchScreenBinding
 import com.example.kino.di.components.FragmentComponent
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.screen.common.SingleActivity
-import com.example.kino.screen.moviefragment.MovieViewHolder
 import com.example.kino.screen.screncontainer.ContainerViewModel
 import com.example.kino.viewmodel.ViewModelFactory
 import javax.inject.Inject
@@ -53,6 +49,7 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        adapterSearch.setType("search")
         binding.recyclerSearch.apply {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false).also { this.layoutManager = it }
             adapter = adapterSearch

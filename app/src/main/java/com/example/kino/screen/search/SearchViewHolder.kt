@@ -1,8 +1,9 @@
-package com.example.kino
+package com.example.kino.screen.search
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.kino.R
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.SearchResultBinding
 import com.example.kino.network.model.common.NetworkItem
