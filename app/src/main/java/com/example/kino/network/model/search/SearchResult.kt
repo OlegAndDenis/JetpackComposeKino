@@ -21,5 +21,4 @@ data class SearchResult(
     @Expose
     val totalResults: Int = 0,
     val isEmpty: Boolean = false
-) {
-}
+)

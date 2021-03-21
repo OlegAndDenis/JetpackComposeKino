@@ -10,6 +10,7 @@ import com.example.kino.comonnscreen.Base
 import com.example.kino.databinding.SplashScreenBinding
 import com.example.kino.di.components.ActivityComponent
 import com.example.kino.di.moduls.ActivityModule
+import com.example.kino.screen.common.SingleActivity
 import com.example.kino.screen.screncontainer.ContainerFragment
 import com.example.kino.viewmodel.ViewModelFactory
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -39,10 +40,9 @@ class SplashScreen : Base() {
 
 
     private fun startIntent(s: String) {
-        Log.i("OLEG", "$s")
         when (s) {
             START_RESULT -> {
-                startActivity(Intent(this@SplashScreen, ContainerFragment::class.java))
+                startActivity(Intent(this@SplashScreen, SingleActivity::class.java))
                 finish()
             }
             NO_CONNECTION_NETWORK -> {
