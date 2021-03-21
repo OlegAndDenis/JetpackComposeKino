@@ -59,7 +59,7 @@ class SingleActivity : Base() {
     private fun removeScreen() {
         val oldScreen = supportFragmentManager.findFragmentByTag("splashScreen")
         if (oldScreen != null) {
-            supportFragmentManager.beginTransaction().remove(oldScreen).commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().remove(oldScreen).commit()
         }
     }
 
