@@ -6,6 +6,7 @@ import com.example.kino.screen.screncontainer.ContainerFragment
 import com.example.kino.screen.search.SearchScreen
 import com.example.kino.screen.serialfragment.SerialFragment
 import com.example.kino.screen.serialfragment.SerialViewModel
+import com.example.kino.screen.splash.SplashScreen
 import dagger.Subcomponent
 
 @FragmentScope
@@ -15,4 +16,5 @@ interface FragmentComponent {
     fun inject(serialFragment: SerialFragment)
     fun inject(searchScreen: SearchScreen)
     fun inject(containerFragment: ContainerFragment)
+    fun inject(splashScreen: SplashScreen)
 }

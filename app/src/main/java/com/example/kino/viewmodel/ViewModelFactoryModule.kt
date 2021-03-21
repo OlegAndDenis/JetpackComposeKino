@@ -7,6 +7,7 @@ import com.example.kino.screen.splash.SplashViewModel
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.common.ViewModelTransaction
 import com.example.kino.screen.moviefragment.MovieViewModel
 import com.example.kino.screen.serialfragment.SerialViewModel
 import com.example.kino.screen.screncontainer.ContainerViewModel
@@ -76,4 +77,12 @@ class ViewModelFactoryModule {
         @NonNull databaseRepository: DatabaseRepository
     ): ViewModel =
         SerialViewModel(application, networkRepository, databaseRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(ViewModelTransaction::class)
+    fun provideViewModelTransaction(
+        @NonNull application: Application
+    ): ViewModel =
+        ViewModelTransaction(application)
 }
