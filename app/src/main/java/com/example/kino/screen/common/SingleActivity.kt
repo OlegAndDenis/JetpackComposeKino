@@ -52,6 +52,18 @@ class SingleActivity : Base() {
             "splashScreen" -> SplashScreen()
             else -> SplashScreen()
         }
+        removeScreen()
+        transaction(TAG, fragmentCreate)
+    }
+
+    private fun removeScreen() {
+        val oldScreen = supportFragmentManager.findFragmentByTag("splashScreen")
+        if (oldScreen != null) {
+            supportFragmentManager.beginTransaction().remove(oldScreen).commitAllowingStateLoss()
+        }
+    }
+
+    private fun transaction(TAG: String, fragmentCreate: Fragment) {
         val fragment: Fragment? = if (supportFragmentManager.findFragmentByTag(TAG) != null) {
             supportFragmentManager.findFragmentByTag(TAG)
         } else {
