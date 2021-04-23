@@ -1,7 +1,6 @@
 package com.example.kino.applicationm
 
 import android.app.Application
-import android.content.Context
 import com.example.kino.di.components.AppComponent
 import com.example.kino.di.components.DaggerAppComponent
 import com.example.kino.di.moduls.AppModule
@@ -18,7 +17,7 @@ class MovieApplication : Application() {
     }
 
     companion object {
-        private var instance: MovieApplication? = null
+        var instance: MovieApplication? = null
         var language : String = ""
     }
 

@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.*
+import com.example.kino.CommonFactory
 import com.example.kino.screen.common.ZoomOutPageTransformer
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
@@ -16,20 +17,13 @@ import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.MovieAndSerialsFragmentBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.di.components.FragmentComponent
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.serial.Serials
-import com.example.kino.network.model.serial.SerialsResult
 import com.example.kino.screen.common.SingleActivity
-import com.example.kino.screen.screncontainer.ContainerFragment
-import com.example.kino.viewmodel.ViewModelFactory
-import javax.inject.Inject
 
 class SerialFragment : BaseFragment() {
 
-    @Inject
-    lateinit var mFactory: ViewModelFactory
-    private lateinit var mViewModel: SerialViewModel
+    private val mViewModel: SerialViewModel by viewModels { CommonFactory }
 
     private lateinit var mBinding: MovieAndSerialsFragmentBinding
 
@@ -47,8 +41,6 @@ class SerialFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        getFragmentComponent().inject(this@SerialFragment)
-        mViewModel = ViewModelProvider(this@SerialFragment, mFactory).get(SerialViewModel::class.java)
         mViewModel.responseMovie.observe(this@SerialFragment, this::setMovie)
         mViewModel.responseGenres.observe(this@SerialFragment, this::setGenres)
     }
@@ -87,7 +79,4 @@ class SerialFragment : BaseFragment() {
     private fun setGenres(genres: List<Genres>) {
         mGenAdapter.setTList(genres)
     }
-
-    override fun getFragmentComponent(): FragmentComponent =
-        (activity as SingleActivity).getActivityComponent().getFragmentComponent()
 }

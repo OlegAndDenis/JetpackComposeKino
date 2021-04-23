@@ -10,24 +10,28 @@ import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
-class MultiDeserializer : JsonDeserializer<List<NetworkItem>> {
+class MultiDeserializer : JsonDeserializer<Map<NetworkItem, List<NetworkItem>>> {
 
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): List<NetworkItem> {
+    ): Map<NetworkItem, List<NetworkItem>> {
         val gson = Gson()
-        val list = mutableListOf<NetworkItem>()
-        if (json != null) {
-            for (cObject in json.asJsonArray) {
-                when (cObject.asJsonObject.get("media_type").asString) {
-                    "movie" -> list.add(gson.fromJson(cObject, MovieResult::class.java))
-                    "tv" -> list.add(gson.fromJson(cObject, SerialsResult::class.java))
-                    "person" -> list.add(gson.fromJson(cObject, PersonResult::class.java))
-                }
+        val movie = mutableListOf<NetworkItem>()
+        val serials = mutableListOf<NetworkItem>()
+        val persons = mutableListOf<NetworkItem>()
+        json?.asJsonArray?.forEach { cObject ->
+            when (cObject.asJsonObject.get("media_type").asString) {
+                "movie" -> movie.add(gson.fromJson(cObject, MovieResult::class.java))
+                "tv" -> serials.add(gson.fromJson(cObject, SerialsResult::class.java))
+                "person" -> persons.add(gson.fromJson(cObject, PersonResult::class.java))
             }
         }
-        return list
+        val map = mutableMapOf<NetworkItem, List<NetworkItem>>()
+        map[TitleInRecycler("Фильмы", movie.size)] = movie
+        map[TitleInRecycler("Сериалы", serials.size)] = serials
+        map[TitleInRecycler("Актер", persons.size)] = persons
+        return map
     }
 }

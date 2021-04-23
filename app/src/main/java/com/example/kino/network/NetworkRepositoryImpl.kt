@@ -67,8 +67,8 @@ class NetworkRepositoryImpl(
         return api.getSerials(buildParamSerials(page))
     }
 
-    override fun getSearch(query: String): Single<SearchResult> {
-        return api.getSearch(buildParamSearch(1, query))
+    override fun getSearch(query: String, page: Int): Single<SearchResult> {
+        return api.getSearch(buildParamSearch(page, query))
     }
 
     @SuppressLint("CheckResult")

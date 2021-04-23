@@ -48,4 +48,8 @@ data class SerialsResult(
     @Expose
     val originalLanguage: String = "no",
     val isEmpty: Boolean = false
-): NetworkItem
+): NetworkItem {
+    override fun toString(): String {
+        return "SerialsResult [$id, $name]"
+    }
+}

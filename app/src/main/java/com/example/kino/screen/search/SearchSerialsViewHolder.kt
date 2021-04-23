@@ -23,7 +23,6 @@ class SearchSerialsViewHolder private constructor(itemView: View) : BindHolder<N
 
     override fun bind(item: NetworkItem, position: Int) {
         item as SerialsResult
-        mBinding.title.text = "Сериалы"
         Glide.with(itemView)
             .load("https://image.tmdb.org/t/p/w500/${item.posterPath}")
             .thumbnail(0.5f)

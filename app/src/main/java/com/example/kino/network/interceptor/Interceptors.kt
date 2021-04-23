@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
 
 class Interceptors {
     companion object {
-        private val MAX_AGE = 120
-        private val MAX_STALE: Long = 86400
+        private const val MAX_AGE = 120
+        private const val MAX_STALE: Long = 86400
 
         fun offlineCacheInterceptor(context: Context): Interceptor {
             return Interceptor {

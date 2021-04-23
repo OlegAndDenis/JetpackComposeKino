@@ -42,4 +42,8 @@ data class MovieResult(
     @Expose
     val voteCount: Long = 0L,
     val isEmpty: Boolean = false
-): NetworkItem
+): NetworkItem {
+    override fun toString(): String {
+        return "MovieResult [$id, $originalTitle]"
+    }
+}

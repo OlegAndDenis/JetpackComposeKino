@@ -1,32 +1,31 @@
 package com.example.kino.screen.screncontainer
 
-import android.app.Application
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.kino.R
 import com.example.kino.network.NetworkRepository
-import com.example.kino.network.model.search.SearchResult
+import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.moviefragment.MovieFragment
 import com.example.kino.screen.search.SearchFragment
 import com.example.kino.screen.serialfragment.SerialFragment
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class ContainerViewModel(application: Application,
-private val networkRepository: NetworkRepository) : AndroidViewModel(application) {
+class ContainerViewModel(
+    private val networkRepository: NetworkRepository
+) : ViewModel() {
 
     private val TAG_MOVIE = "movie"
     private val TAG_SEARCH = "search"
     private val TAG_FAVORITE = "favorite"
     private val TAG_SERIAL = "serial"
 
-    private val resultMovie: MutableLiveData<SearchResult> = MutableLiveData()
-    val responseSearch: LiveData<SearchResult> = resultMovie
+    private val _search: MutableLiveData<Map<NetworkItem, List<NetworkItem>>> = MutableLiveData()
+    val search: LiveData<Map<NetworkItem, List<NetworkItem>>> = _search
 
     fun pressTheButtonNavigator(id: Int, manager: FragmentManager) {
         when (id) {
@@ -83,11 +82,20 @@ private val networkRepository: NetworkRepository) : AndroidViewModel(application
         }
     }
 
-    fun startSearch(query: String?) {
+    fun startSearch(query: String?, page: Int) {
         query?.let {
-            networkRepository.getSearch(it)
+            networkRepository.getSearch(it, page)
                 .subscribeOn(Schedulers.io())
-                .subscribe(resultMovie::postValue, Timber::e)
+                .observeOn(Schedulers.io())
+                .subscribe({result -> _search.postValue(result.result)},
+                    Timber::e
+                )
         }
+    }
+
+    private fun revertList(list: List<NetworkItem>) {
+    }
+
+    fun clearResult() {
     }
 }

@@ -5,7 +5,6 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.screen.splash.SplashViewModel
 import com.example.kino.db.DatabaseRepository
-import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.common.ViewModelTransaction
 import com.example.kino.screen.moviefragment.MovieViewModel
@@ -19,11 +18,10 @@ import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import java.lang.annotation.Target
-import javax.inject.Provider
 import kotlin.reflect.KClass
 
 @Module
-class ViewModelFactoryModule {
+class ViewModelModule {
 
     @Suppress("DEPRECATED_JAVA_ANNOTATION")
     @Target(ElementType.METHOD)
@@ -32,57 +30,42 @@ class ViewModelFactoryModule {
     internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
     @Provides
-    @ApplicationScope
-    fun provideViewModelFactory(
-        providerMap: Map<Class<out ViewModel>,
-                @JvmSuppressWildcards Provider<ViewModel>>,
-        @NonNull application: Application
-    ): ViewModelFactory =
-        ViewModelFactory(providerMap, application)
-
-    @Provides
     @IntoMap
     @ViewModelKey(ContainerViewModel::class)
     fun provideContainerViewModel(
-        @NonNull application: Application,
         @NonNull networkRepository: NetworkRepository
     ): ViewModel =
-        ContainerViewModel(application, networkRepository)
+        ContainerViewModel(networkRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     fun provideSplashViewModel(
-        @NonNull application: Application,
         @NonNull networkRepository: NetworkRepository
     ): ViewModel =
-        SplashViewModel(application, networkRepository)
+        SplashViewModel(networkRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
     fun provideMovieViewModel(
-        @NonNull application: Application,
         @NonNull networkRepository: NetworkRepository,
         @NonNull databaseRepository: DatabaseRepository
     ): ViewModel =
-        MovieViewModel(application, networkRepository, databaseRepository)
+        MovieViewModel(networkRepository, databaseRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(SerialViewModel::class)
     fun provideSerialsViewModel(
-        @NonNull application: Application,
         @NonNull networkRepository: NetworkRepository,
         @NonNull databaseRepository: DatabaseRepository
     ): ViewModel =
-        SerialViewModel(application, networkRepository, databaseRepository)
+        SerialViewModel(networkRepository, databaseRepository)
 
     @Provides
     @IntoMap
     @ViewModelKey(ViewModelTransaction::class)
-    fun provideViewModelTransaction(
-        @NonNull application: Application
-    ): ViewModel =
-        ViewModelTransaction(application)
+    fun provideViewModelTransaction(): ViewModel =
+        ViewModelTransaction()
 }

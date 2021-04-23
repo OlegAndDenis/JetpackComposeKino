@@ -19,7 +19,7 @@ data class PersonResult(
     @SerializedName("known_for")
     @Expose
     @JsonAdapter(nullSafe = true, value = MultiDeserializer::class)
-    val knownFor: List<NetworkItem>,
+    val knownFor: Map<NetworkItem, List<NetworkItem>>,
     @SerializedName("known_for_department")
     @Expose
     val knownForDepartment: String = "",
@@ -35,4 +35,8 @@ data class PersonResult(
     @SerializedName("profile_path")
     @Expose
     val profilePath: String = ""
-): NetworkItem
+): NetworkItem {
+    override fun toString(): String {
+        return "PersonResult [$id, $name]"
+    }
+}

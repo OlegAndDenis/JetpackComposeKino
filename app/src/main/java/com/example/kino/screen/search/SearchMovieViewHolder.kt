@@ -22,7 +22,6 @@ class SearchMovieViewHolder private constructor(itemView: View) : BindHolder<Net
 
     override fun bind(item: NetworkItem, position: Int) {
         item as MovieResult
-        mBinding.title.text = "Фильмы"
         Glide.with(itemView)
             .load("https://image.tmdb.org/t/p/w500/${item.posterPath}")
             .thumbnail(0.5f)

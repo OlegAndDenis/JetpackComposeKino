@@ -2,57 +2,42 @@ package com.example.kino.screen.common
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.SearchView
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProvider
+import com.example.kino.CommonFactory
 import com.example.kino.R
-import com.example.kino.applicationm.MovieApplication
 import com.example.kino.comonnscreen.Base
 import com.example.kino.databinding.SingleFragmentBinding
-import com.example.kino.di.components.ActivityComponent
-import com.example.kino.di.moduls.ActivityModule
 import com.example.kino.screen.screncontainer.ContainerFragment
-import com.example.kino.screen.screncontainer.ContainerViewModel
 import com.example.kino.screen.splash.SplashScreen
-import com.example.kino.viewmodel.ViewModelFactory
-import javax.inject.Inject
+import timber.log.Timber
 
 class SingleActivity : Base() {
 
     private lateinit var binding: SingleFragmentBinding
 
-    @Inject
-    lateinit var mFactory: ViewModelFactory
+    private val viewModel: ViewModelTransaction by viewModels { CommonFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getActivityComponent().inject(this@SingleActivity)
-        val viewModel = ViewModelProvider(this@SingleActivity, mFactory).get(ViewModelTransaction::class.java)
         binding = SingleFragmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel.attachObservable.observe(this@SingleActivity, this::transitionOnOtherFragment)
         viewModel.transaction("splashScreen")
+        Timber.i("++++")
     }
 
-    override fun getActivityComponent(): ActivityComponent =
-        (application as MovieApplication).commonAppComponent.getActivityComponent(
-            ActivityModule(
-                this@SingleActivity
-            )
-        )
 
     private fun transitionOnOtherFragment(
         TAG: String) {
+        removeScreen()
         val fragmentCreate = when(TAG) {
             "globalMenu" -> ContainerFragment()
             "splashScreen" -> SplashScreen()
             else -> SplashScreen()
         }
-        removeScreen()
+        Timber.i(TAG)
         transaction(TAG, fragmentCreate)
     }
 

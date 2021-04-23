@@ -1,46 +1,38 @@
 package com.example.kino.screen.screncontainer
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import com.example.kino.CommonFactory
 import com.example.kino.R
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.ActivityMainBinding
-import com.example.kino.di.components.FragmentComponent
 import com.example.kino.screen.common.SingleActivity
-import com.example.kino.viewmodel.ViewModelFactory
-import javax.inject.Inject
+import timber.log.Timber
 
 class ContainerFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mViewModel: ContainerViewModel
-
-    @Inject
-    lateinit var mFactory: ViewModelFactory
+    private val mViewModel: ContainerViewModel by viewModels { CommonFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        getFragmentComponent().inject(this@ContainerFragment)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        (activity as SingleActivity).setSupportActionBar(binding.toolbar)
-        mViewModel =
-            ViewModelProvider(activity!!, mFactory).get(ContainerViewModel::class.java)
-        binding.bottomNavigation.setOnNavigationItemSelectedListener { pressTheButtonNavigator(it) }
-        binding.bottomNavigation.selectedItemId = R.id.butt_film
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Timber.i("++++")
+        (activity as SingleActivity).setSupportActionBar(binding.toolbar)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { pressTheButtonNavigator(it) }
+        binding.bottomNavigation.selectedItemId = R.id.butt_film
         setHasOptionsMenu(true)
     }
-
-    override fun getFragmentComponent(): FragmentComponent =
-        (activity as SingleActivity).getActivityComponent().getFragmentComponent()
 
 
     private fun pressTheButtonNavigator(item: MenuItem): Boolean {
@@ -76,11 +68,18 @@ class ContainerFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        mViewModel.clearResult()
+        if (query!!.length >= 3) {
+            mViewModel.startSearch(query, 1)
+        }
        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        mViewModel.startSearch(newText)
+        mViewModel.clearResult()
+        if (newText!!.length > 2) {
+            mViewModel.startSearch(newText, 1)
+        }
         return false
     }
 }

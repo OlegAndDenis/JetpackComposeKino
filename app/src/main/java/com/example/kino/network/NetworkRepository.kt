@@ -14,7 +14,7 @@ interface NetworkRepository {
 
     fun getSerials(page: Int): Single<Serials>
 
-    fun getSearch(query: String): Single<SearchResult>
+    fun getSearch(query: String, page: Int): Single<SearchResult>
 
     fun isOnline(): Boolean
 

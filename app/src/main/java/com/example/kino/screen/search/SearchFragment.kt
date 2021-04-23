@@ -5,38 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.kino.DataDiffUtils
+import androidx.fragment.app.viewModels
+import com.example.kino.CommonFactory
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.SearchScreenBinding
-import com.example.kino.di.components.FragmentComponent
 import com.example.kino.network.model.common.NetworkItem
-import com.example.kino.network.model.search.SearchResult
 import com.example.kino.screen.common.SingleActivity
 import com.example.kino.screen.screncontainer.ContainerViewModel
-import com.example.kino.viewmodel.ViewModelFactory
-import javax.inject.Inject
 
 class SearchFragment : BaseFragment() {
 
     private lateinit var binding: SearchScreenBinding
 
-    @Inject
-    lateinit var mFactory: ViewModelFactory
+    private val mViewModel: ContainerViewModel by viewModels { CommonFactory }
 
-    private lateinit var mViewModel: ContainerViewModel
-
-    private val adapterSearch = SearchAdapter()
+    private val adapterSearch = ExpandableAdapter()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        getFragmentComponent().inject(this@SearchFragment)
-        mViewModel = ViewModelProvider(activity!!, mFactory).get(ContainerViewModel::class.java)
-        mViewModel.responseSearch.observe(this@SearchFragment, this::setMovie)
+        mViewModel.search.observe(this@SearchFragment, this::setMovie)
     }
 
     override fun onCreateView(
@@ -49,25 +37,19 @@ class SearchFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapterSearch.setType("search")
-        binding.recyclerSearch.apply {
-            LinearLayoutManager(context, RecyclerView.VERTICAL, false).also { this.layoutManager = it }
-            adapter = adapterSearch
-        }
+//        adapterSearch.setType("search")
+        binding.expandableList.setAdapter(adapterSearch)
     }
 
-    private fun setMovie(searchResult: SearchResult) {
-        diffUtils(adapterSearch.getTList(), searchResult.result)
+    private fun setMovie(map: Map<NetworkItem, List<NetworkItem>>) {
+        adapterSearch.setMap(map)
+//        diffUtils(adapterSearch.getTList(), searchResult.result)
     }
-
-    private fun diffUtils(oldItems: List<NetworkItem>, nextItems: List<NetworkItem>) {
-        val tDiffUtil: DataDiffUtils<NetworkItem> = DataDiffUtils(oldItems, nextItems)
-        val result = DiffUtil.calculateDiff(tDiffUtil)
-        adapterSearch.setTList(nextItems)
-        result.dispatchUpdatesTo(adapterSearch)
-    }
-
-    override fun getFragmentComponent(): FragmentComponent =
-        (activity as SingleActivity).getActivityComponent().getFragmentComponent()
-
+//
+//    private fun diffUtils(oldItems: List<NetworkItem>, nextItems: List<NetworkItem>) {
+//        val tDiffUtil: DataDiffUtils<NetworkItem> = DataDiffUtils(oldItems, nextItems)
+//        val result = DiffUtil.calculateDiff(tDiffUtil)
+//        adapterSearch.setTList(nextItems)
+//        result.dispatchUpdatesTo(adapterSearch)
+//    }
 }

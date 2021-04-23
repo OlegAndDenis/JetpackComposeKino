@@ -5,38 +5,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.work.WorkManager.*
+import com.example.kino.CommonFactory
 import com.example.kino.comonnscreen.BaseFragment
 import com.example.kino.databinding.SplashScreenBinding
-import com.example.kino.di.components.FragmentComponent
 import com.example.kino.screen.common.SingleActivity
 import com.example.kino.screen.common.ViewModelTransaction
-import com.example.kino.screen.screncontainer.ContainerFragment
-import com.example.kino.viewmodel.ViewModelFactory
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import timber.log.Timber
 
 class SplashScreen : BaseFragment() {
 
-    private lateinit var mViewModel: SplashViewModel
+    private val mViewModel: SplashViewModel by viewModels { CommonFactory }
     private val START_RESULT: String = "START"
     private val NO_CONNECTION_NETWORK = "NO_CONNECTION"
     private val ERROR = "ERROR"
 
-    @Inject
-    lateinit var mFactory: ViewModelFactory
-
-    lateinit var binding: SplashScreenBinding
-    lateinit var transaction: ViewModelTransaction
+    private var _binding: SplashScreenBinding? = null
+    private val binding get() =  _binding!!
+    val transaction: ViewModelTransaction by viewModels { CommonFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        getFragmentComponent().inject(this@SplashScreen)
-        mViewModel = ViewModelProvider(this@SplashScreen, mFactory).get(SplashViewModel::class.java)
-        transaction = ViewModelProvider(activity!!, mFactory).get(ViewModelTransaction::class.java)
-        mViewModel.attachObservable.observe(this@SplashScreen, { startIntent(it) })
+        activity?.let { mViewModel.attachObservable.observe(it, this::startIntent) }
     }
 
     override fun onCreateView(
@@ -44,7 +37,7 @@ class SplashScreen : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = SplashScreenBinding.inflate(layoutInflater)
+        _binding = SplashScreenBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -52,14 +45,12 @@ class SplashScreen : BaseFragment() {
 
     }
 
-    override fun getFragmentComponent(): FragmentComponent =
-        (activity as SingleActivity).getActivityComponent().getFragmentComponent()
-
 
     private fun startIntent(s: String) {
         when (s) {
             START_RESULT -> {
-               transaction.transaction("globalMenu")
+                Timber.i("++++")
+                transaction.transaction("globalMenu")
                 onDestroy()
             }
             NO_CONNECTION_NETWORK -> {
@@ -78,5 +69,10 @@ class SplashScreen : BaseFragment() {
                 (activity as SingleActivity).finish()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

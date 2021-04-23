@@ -13,7 +13,7 @@ data class SearchResult(
     @SerializedName("results")
     @Expose
     @JsonAdapter(nullSafe = true, value = MultiDeserializer::class)
-    val result: List<NetworkItem>,
+    val result: Map<NetworkItem, List<NetworkItem>>,
     @SerializedName("total_pages")
     @Expose
     val totalPages: Int = 0,
