@@ -3,4 +3,8 @@
     <declare-styleable name="BottomNavigationParam">
         <attr name="itemText" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="CommonParam">
+        <attr name="colorBackground" format="color" />
+    </declare-styleable>
 </resources>

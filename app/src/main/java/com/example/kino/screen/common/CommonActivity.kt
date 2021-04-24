@@ -56,4 +56,9 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
             mTranslationTree.commit()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _bindin = null
+    }
 }

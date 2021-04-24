@@ -3,25 +3,24 @@ package com.example.kino
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkRepository
+import com.example.kino.network.NetworkRepository.ResultSuccess
 
 class SplashViewModel(
     private val mNetworkRepository: NetworkRepository
 ) : ViewModel() {
 
-    private val resultLiveData: MutableLiveData<String> = MutableLiveData()
-    val attachObservable: LiveData<String> = resultLiveData
-
-    private val START_RESULT: String = "INIT"
+    private val resultLiveData: MutableLiveData<NetworkEnum> = MutableLiveData()
+    val attachObservable: LiveData<NetworkEnum> = resultLiveData
 
     init {
-        resultLiveData.postValue(START_RESULT)
         startNetwork()
     }
 
     private fun startNetwork() {
-        mNetworkRepository.isDownloadGenres(object : NetworkRepository.ResultSuccess {
-            override fun setSuccess(result: String) {
+        mNetworkRepository.isDownloadGenres(object : ResultSuccess {
+            override fun setSuccess(result: NetworkEnum) {
                 resultLiveData.postValue(result)
             }
         })

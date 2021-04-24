@@ -4,13 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
+import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
@@ -20,9 +20,6 @@ class NetworkRepositoryImpl(
     private val databaseRepository: DatabaseRepository,
 ) : NetworkRepository {
 
-    private val START_RESULT: String = "START"
-    private val NO_CONNECTION_NETWORK = "NO_CONNECTION"
-    private val ERROR = "ERROR"
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
     private val typeFilm: String = "movie"
     private val typeTv: String = "tv"
@@ -41,9 +38,9 @@ class NetworkRepositoryImpl(
             .subscribeOn(Schedulers.io())
             .subscribe({
                 if (it.isNotEmpty) {
-                    result.setSuccess(START_RESULT)
+                    result.setSuccess(OK)
                 } else {
-                    result.setSuccess(NO_CONNECTION_NETWORK)
+                    result.setSuccess(NO_CONNECTION)
                 }
             }, {
                 result.setSuccess(ERROR)
@@ -79,7 +76,7 @@ class NetworkRepositoryImpl(
             .subscribe({
                 databaseRepository.insertGenres(it.first.genres, typeFilm)
                 databaseRepository.insertGenres(it.second.genres, typeTv)
-                resultSuccess.setSuccess(START_RESULT)
+                resultSuccess.setSuccess(OK)
             }, {
                 resultSuccess.setSuccess(ERROR)
                 Timber.e(it)

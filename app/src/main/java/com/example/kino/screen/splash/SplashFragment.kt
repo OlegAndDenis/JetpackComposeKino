@@ -8,15 +8,13 @@ import androidx.fragment.app.viewModels
 import com.example.kino.CommonFactory
 import com.example.kino.SplashViewModel
 import com.example.kino.databinding.SplashLayoutBinding
+import com.example.kino.network.NetworkEnum
+import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
 import com.example.kino.screen.common.ScreenEnum
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-
-private const val START_RESULT: String = "START"
-private const val NO_CONNECTION_NETWORK = "NO_CONNECTION"
-private const val ERROR = "ERROR"
 
 class SplashFragment : BaseFragment() {
 
@@ -31,7 +29,7 @@ class SplashFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = SplashLayoutBinding.inflate(inflater)
         return binding.root
@@ -39,26 +37,25 @@ class SplashFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity.let { _navigation = it as CommonNavigation }
-        viewModel.attachObservable.observe(viewLifecycleOwner, this::startIntent)
+        viewModel.attachObservable.observe(viewLifecycleOwner, this::statusNetwork)
     }
 
-    private fun startIntent(s: String) {
-        when (s) {
-            START_RESULT -> navigation.openScreen(ScreenEnum.COMMONVIEW)
-            NO_CONNECTION_NETWORK -> {
-                val snackbar: Snackbar = Snackbar.make(
-                    binding.root,
-                    "Проверте интернет подключение!",
-                    BaseTransientBottomBar.LENGTH_INDEFINITE
-                )
-                snackbar.setAction("Повторить") {
-                    viewModel.restart()
-                    snackbar.dismiss()
-                }
-                snackbar.show()
-            }
+    private fun statusNetwork(status: NetworkEnum) {
+        when (status) {
+            OK -> navigation.openScreen(ScreenEnum.COMMONVIEW)
+            NO_CONNECTION -> noConnection()
             ERROR -> requireActivity().finish()
         }
+    }
+
+    private fun noConnection() {
+        Snackbar.make(
+            binding.root,
+            "Проверте интернет подключение!",
+            BaseTransientBottomBar.LENGTH_INDEFINITE
+        ).setAction("Повторить") {
+            viewModel.restart()
+        }.show()
     }
 
     override fun onDestroy() {
