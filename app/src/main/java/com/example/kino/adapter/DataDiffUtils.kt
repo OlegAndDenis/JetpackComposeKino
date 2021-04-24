@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 

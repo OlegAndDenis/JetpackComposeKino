@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.splash
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

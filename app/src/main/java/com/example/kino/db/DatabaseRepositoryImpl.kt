@@ -1,6 +1,6 @@
 package com.example.kino.db
 
-import com.example.kino.TypeEnum
+import com.example.kino.screen.common.TypeEnum
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.common.GenresApi

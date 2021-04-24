@@ -7,6 +7,6 @@
         android:title="Поиск"
         android:icon="@drawable/icon_search"
         app:actionViewClass="android.widget.SearchView"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
 </menu>

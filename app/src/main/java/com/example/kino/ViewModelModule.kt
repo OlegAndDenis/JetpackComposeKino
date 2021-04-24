@@ -3,6 +3,7 @@ package com.example.kino
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.splash.SplashViewModel
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

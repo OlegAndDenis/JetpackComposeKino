@@ -1,6 +1,6 @@
 package com.example.kino.network.model.person
 
-import com.example.kino.MultiDeserializer
+import com.example.kino.network.MultiDeserializer
 import com.example.kino.network.model.common.NetworkItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.JsonAdapter

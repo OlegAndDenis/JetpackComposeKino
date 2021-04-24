@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.kino.CommonFactory
-import com.example.kino.SplashViewModel
 import com.example.kino.databinding.SplashLayoutBinding
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
+import com.example.kino.screen.common.ContainerId
+import com.example.kino.screen.common.ContainerId.*
 import com.example.kino.screen.common.ScreenEnum
+import com.example.kino.screen.common.ScreenEnum.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
@@ -42,7 +44,7 @@ class SplashFragment : BaseFragment() {
 
     private fun statusNetwork(status: NetworkEnum) {
         when (status) {
-            OK -> navigation.openScreen(ScreenEnum.COMMONVIEW)
+            OK -> navigation.openScreen(COMMONVIEW, GLOBAL_FRAME)
             NO_CONNECTION -> noConnection()
             ERROR -> requireActivity().finish()
         }

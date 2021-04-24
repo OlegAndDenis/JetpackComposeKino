@@ -2,7 +2,7 @@ package com.example.kino.network
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.example.kino.TypeEnum.*
+import com.example.kino.screen.common.TypeEnum.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkEnum.*
