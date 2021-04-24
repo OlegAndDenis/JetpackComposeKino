@@ -1,4 +1,4 @@
-package com.example.kino.comonnscreen
+package com.example.kino.screen.common
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -17,7 +17,7 @@ import timber.log.Timber
 class NetworkRepositoryImpl(
     private val context: Context,
     private val api: Api,
-    private val databaseRepository: DatabaseRepository
+    private val databaseRepository: DatabaseRepository,
 ) : NetworkRepository {
 
     private val START_RESULT: String = "START"
@@ -29,20 +29,16 @@ class NetworkRepositoryImpl(
 
     override fun isDownloadGenres(result: ResultSuccess) {
         when (isOnline()) {
-            true -> {
-                downloadGenresAll(result)
-            }
-            false -> {
-                isNotEmptyDB(result)
-            }
+            true -> downloadGenresAll(result)
+            false -> isNotEmptyDB(result)
         }
     }
 
     @SuppressLint("CheckResult")
     fun isNotEmptyDB(result: ResultSuccess) {
         databaseRepository.isNotEmptyGenresAll()
+            .retry(3)
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 if (it.isNotEmpty) {
                     result.setSuccess(START_RESULT)
@@ -73,8 +69,10 @@ class NetworkRepositoryImpl(
 
     @SuppressLint("CheckResult")
     private fun downloadGenresAll(resultSuccess: ResultSuccess) {
-        val movie: Single<GenresList> = api.getGenres(typeFilm, API_KEY, MovieApplication.language)
-        val serial: Single<GenresList> = api.getGenres(typeTv, API_KEY, MovieApplication.language)
+        val movie: Single<GenresList> =
+            api.getGenres(typeFilm, API_KEY, MovieApplication.language).retry(3)
+        val serial: Single<GenresList> =
+            api.getGenres(typeTv, API_KEY, MovieApplication.language).retry(3)
 
         Single.zip(movie, serial, { movies, serials -> Pair(movies, serials) })
             .subscribeOn(Schedulers.io())

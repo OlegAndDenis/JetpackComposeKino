@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        app:showAsAction="ifRoom"
         android:id="@+id/butt_film"
         android:icon="@drawable/ic_baseline_local_movies_24"
+        android:enabled="true"
         android:title="Фильмы" />
     <item
+        app:showAsAction="ifRoom"
+        android:enabled="true"
         android:id="@+id/butt_serial"
         android:icon="@drawable/ic_baseline_serial_24"
         android:title="Сериалы" />
     <item
+        android:enabled="true"
         android:id="@+id/butt_search"
         android:icon="@drawable/icon_search"
+        app:showAsAction="ifRoom"
         android:title="Поиск" />
     <item
+        android:enabled="true"
+        app:showAsAction="ifRoom"
         android:id="@+id/butt_favorite"
         android:icon="@drawable/ic_baseline_favorite_24"
         android:title="Избранное" />
