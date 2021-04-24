@@ -1,5 +1,6 @@
 package com.example.kino.db
 
+import com.example.kino.TypeEnum
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.common.GenresApi
@@ -11,17 +12,17 @@ class DatabaseRepositoryImpl(private val dataBase: DataBase) : DatabaseRepositor
         return dataBase.movieDao().isNotEmptyGenresAll()
     }
 
-    override fun insertGenres(listGenres: List<GenresApi>, type: String) {
+    override fun insertGenres(listGenres: List<GenresApi>, type: TypeEnum) {
         val listGenresDb = mutableListOf<Genres>()
         listGenres.forEach { list ->
             list.let {
-                listGenresDb.add(Genres(idGenres = it.id, name = it.name, type = type))
+                listGenresDb.add(Genres(idGenres = it.id, name = it.name, type = type.type))
             }
         }
         dataBase.movieDao().insertAll(listGenresDb)
     }
 
-    override fun getGenres(type: String): Single<List<Genres>> {
-        return dataBase.movieDao().getAllGenresType(type)
+    override fun getGenres(type: TypeEnum): Single<List<Genres>> {
+        return dataBase.movieDao().getAllGenresType(type.type)
     }
 }

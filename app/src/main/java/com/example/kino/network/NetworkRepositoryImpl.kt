@@ -2,6 +2,7 @@ package com.example.kino.network
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.example.kino.TypeEnum.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkEnum.*
@@ -21,8 +22,6 @@ class NetworkRepositoryImpl(
 ) : NetworkRepository {
 
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
-    private val typeFilm: String = "movie"
-    private val typeTv: String = "tv"
 
     override fun isDownloadGenres(result: ResultSuccess) {
         when (isOnline()) {
@@ -32,18 +31,37 @@ class NetworkRepositoryImpl(
     }
 
     @SuppressLint("CheckResult")
+    private fun downloadGenresAll(resultSuccess: ResultSuccess) {
+        val movie: Single<GenresList> =
+            api.getGenres(MOVIE.type, API_KEY, MovieApplication.language).retry(3)
+        val serial: Single<GenresList> =
+            api.getGenres(TV.type, API_KEY, MovieApplication.language).retry(3)
+
+        Single.zip(movie, serial, { movies, serials -> Pair(movies, serials) })
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                databaseRepository.insertGenres(it.first.genres, MOVIE)
+                databaseRepository.insertGenres(it.second.genres, TV)
+                resultSuccess.success(OK)
+            }, {
+                resultSuccess.success(ERROR)
+                Timber.e(it)
+            })
+    }
+
+    @SuppressLint("CheckResult")
     fun isNotEmptyDB(result: ResultSuccess) {
         databaseRepository.isNotEmptyGenresAll()
             .retry(3)
             .subscribeOn(Schedulers.io())
             .subscribe({
                 if (it.isNotEmpty) {
-                    result.setSuccess(OK)
+                    result.success(OK)
                 } else {
-                    result.setSuccess(NO_CONNECTION)
+                    result.success(NO_CONNECTION)
                 }
             }, {
-                result.setSuccess(ERROR)
+                result.success(ERROR)
                 Timber.e(it)
             })
     }
@@ -62,25 +80,6 @@ class NetworkRepositoryImpl(
 
     override fun getSearch(query: String, page: Int): Single<SearchResult> {
         return api.getSearch(buildParamSearch(page, query))
-    }
-
-    @SuppressLint("CheckResult")
-    private fun downloadGenresAll(resultSuccess: ResultSuccess) {
-        val movie: Single<GenresList> =
-            api.getGenres(typeFilm, API_KEY, MovieApplication.language).retry(3)
-        val serial: Single<GenresList> =
-            api.getGenres(typeTv, API_KEY, MovieApplication.language).retry(3)
-
-        Single.zip(movie, serial, { movies, serials -> Pair(movies, serials) })
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                databaseRepository.insertGenres(it.first.genres, typeFilm)
-                databaseRepository.insertGenres(it.second.genres, typeTv)
-                resultSuccess.setSuccess(OK)
-            }, {
-                resultSuccess.setSuccess(ERROR)
-                Timber.e(it)
-            })
     }
 
     override fun isOnline(): Boolean = ConnectionCheck.isOnline(context)

@@ -20,7 +20,7 @@ class SplashViewModel(
 
     private fun startNetwork() {
         mNetworkRepository.isDownloadGenres(object : ResultSuccess {
-            override fun setSuccess(result: NetworkEnum) {
+            override fun success(result: NetworkEnum) {
                 resultLiveData.postValue(result)
             }
         })

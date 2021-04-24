@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.kino.R
 import com.example.kino.databinding.CommonLayoutBinding
+import com.example.kino.screen.common.ScreenEnum.*
 import com.example.kino.screen.containerfragment.CommonContainer
 import com.example.kino.screen.splash.SplashFragment
 
@@ -18,25 +19,19 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
         super.onCreate(savedInstanceState)
         _bindin = CommonLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openScreen(ScreenEnum.SPLASH)
+        openScreen(COMMONVIEW)
     }
 
     override fun openScreen(screenEnum: ScreenEnum) {
         when (screenEnum) {
-            ScreenEnum.MOVIE -> {
-            }
-            ScreenEnum.SEARCH -> {
-            }
-            ScreenEnum.SERIAL -> {
-            }
-            ScreenEnum.SPLASH -> transaction(screenEnum.transactionTag, SplashFragment())
-            ScreenEnum.NONE -> {
-            }
-            ScreenEnum.FAVORITE -> {
-            }
-            ScreenEnum.COMMONVIEW -> transaction(screenEnum.transactionTag, CommonContainer())
-            else -> {
-            }
+            MOVIE -> { }
+            SEARCH -> { }
+            SERIAL -> { }
+            SPLASH -> transaction(screenEnum.transactionTag, SplashFragment())
+            FAVORITE -> { }
+            COMMONVIEW -> transaction(screenEnum.transactionTag, CommonContainer())
+            NONE -> { }
+            else -> { }
         }
     }
 
@@ -55,6 +50,10 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
             mTranslationTree.replace(binding.commonFrame.id, fragment, TAG)
             mTranslationTree.commit()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
     override fun onDestroy() {

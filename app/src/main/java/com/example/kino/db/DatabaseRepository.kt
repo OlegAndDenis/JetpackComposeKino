@@ -1,5 +1,6 @@
 package com.example.kino.db
 
+import com.example.kino.TypeEnum
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.common.GenresApi
@@ -9,7 +10,7 @@ interface DatabaseRepository {
 
     fun isNotEmptyGenresAll() : Single<CheckColumnDB>
 
-    fun insertGenres(listGenres : List<GenresApi>, type : String)
+    fun insertGenres(listGenres : List<GenresApi>, type : TypeEnum)
 
-    fun getGenres(type: String): Single<List<Genres>>
+    fun getGenres(type: TypeEnum): Single<List<Genres>>
 }

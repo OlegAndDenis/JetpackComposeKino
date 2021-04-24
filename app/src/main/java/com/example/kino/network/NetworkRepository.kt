@@ -19,6 +19,6 @@ interface NetworkRepository {
     fun isOnline(): Boolean
 
     interface ResultSuccess {
-        fun setSuccess(result: NetworkEnum)
+        fun success(result: NetworkEnum)
     }
 }
