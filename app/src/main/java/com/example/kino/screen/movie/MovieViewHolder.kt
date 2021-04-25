@@ -20,7 +20,7 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
             .inflate(R.layout.movie_view_holder_layout, parent, false))
 
     override fun bind(item: MovieResult, position: Int) {
-        if (item.title == "no") {
+        if (item.title == "all top") {
             Glide.with(itemView).loadResources(binding.moviePopularity)
         } else {
             Glide.with(itemView)

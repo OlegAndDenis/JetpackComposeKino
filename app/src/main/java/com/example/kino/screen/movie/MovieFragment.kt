@@ -67,7 +67,7 @@ class MovieFragment : BaseFragment() {
 
     private fun setTopFive(movie: List<MovieResult>) {
         val list = movie.toMutableList()
-        list.add(MovieResult(backdropPath = "file:///android_asset/img/ic_launcher_round.png"))
+        list.add(MovieResult(title = "all top"))
         topFiveAdapter.setTList(list)
         binding.movieTopFive.scrollToPosition(2)
     }
