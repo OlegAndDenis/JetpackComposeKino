@@ -60,8 +60,8 @@ class SplashFragment : BaseFragment() {
         }.show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _navigation = null
         _binding = null
     }

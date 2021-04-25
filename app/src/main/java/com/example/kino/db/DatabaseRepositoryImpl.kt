@@ -23,6 +23,6 @@ class DatabaseRepositoryImpl(private val dataBase: DataBase) : DatabaseRepositor
     }
 
     override fun getGenres(type: TypeEnum): Single<List<Genres>> {
-        return dataBase.movieDao().getAllGenresType(type.type)
+        return dataBase.movieDao().getAllGenresType("%${type.type}%")
     }
 }

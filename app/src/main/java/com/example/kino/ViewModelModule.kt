@@ -2,7 +2,9 @@ package com.example.kino
 
 import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
+import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.movie.MovieViewModel
 import com.example.kino.screen.splash.SplashViewModel
 import dagger.MapKey
 import dagger.Module
@@ -38,16 +40,16 @@ class ViewModelModule {
         @NonNull networkRepository: NetworkRepository
     ): ViewModel =
         SplashViewModel(networkRepository)
-//
-//    @Provides
-//    @IntoMap
-//    @ViewModelKey(MovieViewModel::class)
-//    fun provideMovieViewModel(
-//        @NonNull networkRepository: NetworkRepository,
-//        @NonNull databaseRepository: DatabaseRepository
-//    ): ViewModel =
-//        MovieViewModel(networkRepository, databaseRepository)
-//
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(MovieViewModel::class)
+    fun provideMovieViewModel(
+        @NonNull networkRepository: NetworkRepository,
+        @NonNull databaseRepository: DatabaseRepository
+    ): ViewModel =
+        MovieViewModel(networkRepository, databaseRepository)
+
 //    @Provides
 //    @IntoMap
 //    @ViewModelKey(SerialViewModel::class)

@@ -1,18 +1,21 @@
 package com.example.kino.screen.common
 
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.kino.R
 import com.example.kino.databinding.CommonLayoutBinding
 import com.example.kino.network.model.movie.Movie
-import com.example.kino.screen.common.ContainerId.*
+import com.example.kino.screen.common.ContainerId.GLOBAL_FRAME
 import com.example.kino.screen.common.ScreenEnum.*
 import com.example.kino.screen.containerfragment.CommonContainer
 import com.example.kino.screen.movie.MovieFragment
 import com.example.kino.screen.splash.SplashFragment
+import timber.log.Timber
 
 class CommonActivity : AppCompatActivity(), CommonNavigation {
 
@@ -23,19 +26,25 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
         super.onCreate(savedInstanceState)
         _bindin = CommonLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        openScreen(COMMONVIEW, GLOBAL_FRAME)
+        openScreen(SPLASH, GLOBAL_FRAME)
     }
 
     override fun openScreen(screenEnum: ScreenEnum, containerId: ContainerId) {
+        binding.root.tag = screenEnum
         when (screenEnum) {
             MOVIE -> transaction(screenEnum.transactionTag, MovieFragment(), containerId.id)
-            SEARCH -> { }
-            SERIAL -> { }
+            SEARCH -> {
+            }
+            SERIAL -> {
+            }
             SPLASH -> transaction(screenEnum.transactionTag, SplashFragment(), containerId.id)
-            FAVORITE -> { }
+            FAVORITE -> {
+            }
             COMMONVIEW -> transaction(screenEnum.transactionTag, CommonContainer(), containerId.id)
-            NONE -> { }
-            else -> { }
+            NONE -> {
+            }
+            else -> {
+            }
         }
     }
 
@@ -57,7 +66,20 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        val count = supportFragmentManager.backStackEntryCount
+        val screenEnum = binding.root.tag as ScreenEnum
+        when {
+            screenEnum == MOVIE -> {
+                supportFragmentManager.popBackStackImmediate()
+                finish()
+            }
+            count != 0 -> {
+                supportFragmentManager.popBackStack()
+            }
+            else -> {
+                super.onBackPressed()
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -44,6 +44,6 @@ data class MovieResult(
     val isEmpty: Boolean = false
 ): NetworkItem {
     override fun toString(): String {
-        return "MovieResult [$id, $originalTitle]"
+        return "MovieResult [$id, $originalTitle, $voteCount]"
     }
 }
