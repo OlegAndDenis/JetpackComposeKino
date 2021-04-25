@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
+import com.example.kino.CreatePatchImage
 import com.example.kino.R
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieViewHolderLayoutBinding
@@ -24,7 +25,7 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
                 .into(mBinding.moviePopularity)
         } else {
             Glide.with(itemView)
-                .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
+                .load(CreatePatchImage.createPatch(item.backdropPath))
                 .into(mBinding.moviePopularity)
         }
         mBinding.movieTitle.text = item.title
