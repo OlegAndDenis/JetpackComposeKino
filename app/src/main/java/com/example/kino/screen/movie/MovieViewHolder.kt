@@ -18,9 +18,15 @@ class MovieViewHolder private constructor(itemView: View) : BindHolder<MovieResu
             .inflate(R.layout.movie_view_holder_layout, parent, false))
 
     override fun bind(item: MovieResult, position: Int) {
-        Glide.with(itemView)
-            .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
-            .into(mBinding.moviePopularity)
+        if (item.title == "no") {
+            Glide.with(itemView)
+                .load(item.backdropPath)
+                .into(mBinding.moviePopularity)
+        } else {
+            Glide.with(itemView)
+                .load("https://image.tmdb.org/t/p/w500/${item.backdropPath}")
+                .into(mBinding.moviePopularity)
+        }
         mBinding.movieTitle.text = item.title
     }
 

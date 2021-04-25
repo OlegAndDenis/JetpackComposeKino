@@ -13,13 +13,11 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.GenresViewHolder
 import com.example.kino.screen.IndicatorDecoration
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
-import java.util.*
 
 class MovieFragment : BaseFragment() {
 
@@ -67,12 +65,10 @@ class MovieFragment : BaseFragment() {
         viewModel.responseGenres.observe(viewLifecycleOwner, this::setGenres)
     }
 
-    private fun setTopFive(movie: Movie) {
-        val list = movie.result.toMutableList()
-        list.sortByDescending { it.voteCount }
-        val topFiv = list.take( 5).toMutableList()
-        Collections.rotate(topFiv, -3)
-        topFiveAdapter.setTList(topFiv)
+    private fun setTopFive(movie: List<MovieResult>) {
+        val list = movie.toMutableList()
+        list.add(MovieResult(backdropPath = "file:///android_asset/img/ic_launcher_round.png"))
+        topFiveAdapter.setTList(list)
         binding.movieTopFive.scrollToPosition(2)
     }
 
