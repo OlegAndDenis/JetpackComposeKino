@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ThemeRoot" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorBackground">@color/white</item>
+    </style>
+
+    <style name="bottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="showAsAction">ifRoom</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="ToolbarLight" parent="Widget.AppCompat.Toolbar">
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/black</item>
+        <item name="titleTextColor">#FFFFFF</item>
+        <item name="titleMarginStart">0dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="searchIcon">@drawable/icon_search</item>
+    </style>
+</resources>

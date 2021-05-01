@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomNavigationParam">
+        <attr name="itemText" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="CommonParam">
+        <attr name="colorBackground" format="color" />
+    </declare-styleable>
+</resources>
