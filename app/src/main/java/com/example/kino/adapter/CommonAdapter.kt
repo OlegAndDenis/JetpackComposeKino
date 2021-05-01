@@ -42,7 +42,6 @@ open class CommonAdapter<T>(holderCreator: HolderCreator<T>): RecyclerView.Adapt
     }
 
     interface HolderCreator<T> {
-        @NonNull
         fun create(parent: ViewGroup, viewType: Int): BindHolder<T>
     }
 }

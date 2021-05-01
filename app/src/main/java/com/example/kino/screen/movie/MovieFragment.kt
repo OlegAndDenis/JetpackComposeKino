@@ -12,6 +12,7 @@ import com.example.kino.CommonFactory
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
+import com.example.kino.adapter.holder.ClickItem
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.movie.MovieResult
@@ -31,7 +32,10 @@ class MovieFragment : BaseFragment() {
 
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return if (viewType == 1) MovieAllViewHolder(parent) else MovieViewHolder(parent)
+            return if (viewType == 1) MovieAllViewHolder(parent) {
+                this@MovieFragment.selectedItem(it)
+            }
+            else MovieViewHolder(parent) { this@MovieFragment.selectedItem(it) }
         }
     })
 
@@ -79,5 +83,9 @@ class MovieFragment : BaseFragment() {
         super.onDestroyView()
         _binding = null
         navigation = null
+    }
+
+    private fun selectedItem(position: Int) {
+        viewModel.getMovieClick(position)
     }
 }

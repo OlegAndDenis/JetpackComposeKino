@@ -1,5 +1,6 @@
 package com.example.kino.screen.movie
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,6 +37,10 @@ class MovieViewModel(
     init {
         getPopulate(1)
         getGenres()
+    }
+
+    fun getMovieClick(position: Int) {
+        Log.i("OLEG", "${resultMovie.value?.get(position)?.id}")
     }
 
     private fun getPopulate(page: Int) {
