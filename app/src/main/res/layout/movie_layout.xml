@@ -25,9 +25,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_top_five"
             android:layout_width="match_parent"
-            android:layout_height="235dp"
+            android:layout_height="240dp"
             android:layout_gravity="center"
             android:orientation="horizontal"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <TextView

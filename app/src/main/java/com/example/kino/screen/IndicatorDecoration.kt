@@ -7,10 +7,10 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kino.R
-
 
 class IndicatorDecoration() : RecyclerView.ItemDecoration() {
 
@@ -20,27 +20,27 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
     private val DP = Resources.getSystem().displayMetrics.density
 
 
-    private val mIndicatorHeight = (DP * 16).toInt()
+    private val indicatorHeight = (DP * 16).toInt()
 
-    private val mIndicatorStrokeWidth = 5F
+    private val indicatorStrokeWidth = 5F
 
-    private val mIndicatorItemLength = DP * 16
+    private val indicatorItemLength = DP * 16
 
-    private val mIndicatorItemPadding = DP * 4
+    private val indicatorItemPadding = DP * 4
 
-    private val mInterpolator: AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
+    private val interpolator: AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
 
-    private val mPaint = Paint()
+    private val paint = Paint()
     private val activePaint = Paint()
 
     init {
-        mPaint.strokeCap = Paint.Cap.ROUND
-        mPaint.strokeWidth = mIndicatorStrokeWidth
-        mPaint.style = Paint.Style.STROKE
-        mPaint.isAntiAlias = true
+        paint.strokeCap = Paint.Cap.ROUND
+        paint.strokeWidth = indicatorStrokeWidth
+        paint.style = Paint.Style.STROKE
+        paint.isAntiAlias = true
 
         activePaint.strokeCap = Paint.Cap.ROUND
-        activePaint.strokeWidth = mIndicatorStrokeWidth
+        activePaint.strokeWidth = indicatorStrokeWidth
         activePaint.style = Paint.Style.FILL
         activePaint.isAntiAlias = true
     }
@@ -55,12 +55,12 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
                 adapter.itemCount
             }
 
-            val totalLength = mIndicatorItemLength * itemCount
-            val paddingBetweenItems = (itemCount - 1).coerceAtLeast(0) * mIndicatorItemPadding
+            val totalLength = indicatorItemLength * itemCount
+            val paddingBetweenItems = (itemCount - 1).coerceAtLeast(0) * indicatorItemPadding
             val indicatorTotalWidth = totalLength + paddingBetweenItems - 50F
             val indicatorStartX = (parent.width - indicatorTotalWidth) / 2F
 
-            val indicatorPosY = parent.height - mIndicatorHeight / 2f
+            val indicatorPosY = parent.height - indicatorHeight / 2f
 
             val layoutManager = parent.layoutManager as LinearLayoutManager
             val activePosition = layoutManager.findFirstVisibleItemPosition()
@@ -70,11 +70,12 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
             if (activePosition == itemCount) {
                 return
             }
+
             val activeChild = layoutManager.findViewByPosition(activePosition)
-            val left = activeChild!!.left
+            val left = activeChild!!.left - activeChild.marginStart
             val width = activeChild.width
 
-            val progress: Float = mInterpolator.getInterpolation(left * -1 / width.toFloat())
+            val progress: Float = interpolator.getInterpolation(left * -1 / width.toFloat())
             drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress, itemCount)
         }
     }
@@ -84,44 +85,39 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
         c: Canvas, indicatorStartX: Float, indicatorPosY: Float,
         highlightPosition: Int, progress: Float, itemCount: Int,
     ) {
-        drawInactive(c, indicatorStartX, indicatorPosY, highlightPosition, itemCount)
+        drawInactive(c, indicatorStartX, indicatorPosY, highlightPosition, itemCount, progress)
 
         activePaint.color = colorActive
-        val itemWidth = mIndicatorItemLength + mIndicatorItemPadding
+        val itemWidth = indicatorItemLength + indicatorItemPadding
         if (progress == 0f) {
             val highlightStart = indicatorStartX + itemWidth * highlightPosition
+
             c.drawCircle(highlightStart, indicatorPosY,
                 10F, activePaint)
         } else {
-            var highlightStart = indicatorStartX + itemWidth * highlightPosition
-            val partialLength = mIndicatorItemLength * progress
+            val highlightStart = indicatorStartX + itemWidth * highlightPosition
+            val partialLength = indicatorItemLength * progress
 
             c.drawCircle(highlightStart + partialLength, indicatorPosY,
-                10F, activePaint)
-
-            if (highlightPosition < itemCount - 1) {
-                highlightStart += itemWidth
-                c.drawCircle(highlightStart, indicatorPosY,
-                    10F, activePaint)
-            }
+                7F, activePaint)
         }
     }
 
     @SuppressLint("ResourceAsColor")
     private fun drawInactive(
         c: Canvas, indicatorStartX: Float, indicatorPosY: Float,
-        highlightPosition: Int, itemCount: Int,
+        highlightPosition: Int, itemCount: Int, progress: Float,
     ) {
-        mPaint.color = colorInactive
+        paint.color = colorInactive
 
-        val itemWidth2 = mIndicatorItemLength + mIndicatorItemPadding
+        val itemWidth2 = indicatorItemLength + indicatorItemPadding
         var start = indicatorStartX
         for (i in 0 until itemCount) {
-            start += if (i != highlightPosition) {
-                c.drawCircle(start, indicatorPosY, 3F, mPaint)
+            start += if (i == highlightPosition && progress == 0F) {
+                c.drawCircle(start, indicatorPosY, 10F, paint)
                 itemWidth2
             } else {
-                c.drawCircle(start, indicatorPosY, 10F, mPaint)
+                c.drawCircle(start, indicatorPosY, 3F, paint)
                 itemWidth2
             }
         }
@@ -134,6 +130,6 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
         state: RecyclerView.State,
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = mIndicatorHeight
+        outRect.bottom = indicatorHeight
     }
 }
