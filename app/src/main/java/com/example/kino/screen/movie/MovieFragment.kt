@@ -18,6 +18,9 @@ import com.example.kino.screen.IndicatorDecoration
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
 
+private const val SCROLL_TO_POSITION = 2
+private const val MOVIE_ALL_TYPE = 1
+
 class MovieFragment : BaseFragment() {
 
     private val viewModel: MovieViewModel by viewModels { CommonFactory }
@@ -29,7 +32,7 @@ class MovieFragment : BaseFragment() {
 
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return if (viewType == 1) MovieAllViewHolder(parent) {
+            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent) {
                 this@MovieFragment.selectedItem(it)
             }
             else MovieViewHolder(parent) { this@MovieFragment.selectedItem(it) }
@@ -68,7 +71,7 @@ class MovieFragment : BaseFragment() {
 
     private fun setTopFive(movie: List<MovieResult>) {
         topFiveAdapter.setTList(movie)
-        binding.movieTopFive.scrollToPosition(2)
+        binding.movieTopFive.scrollToPosition(SCROLL_TO_POSITION)
     }
 
     private fun setGenres(genres: List<Genres>) {
