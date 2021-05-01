@@ -18,15 +18,16 @@
         <TextView
             android:id="@+id/movie_top_5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Топ 5"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/movie_top_five"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="235dp"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <TextView

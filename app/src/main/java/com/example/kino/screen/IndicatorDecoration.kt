@@ -22,11 +22,11 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
 
     private val mIndicatorHeight = (DP * 16).toInt()
 
-    private val mIndicatorStrokeWidth = DP * 2
+    private val mIndicatorStrokeWidth = 5F
 
     private val mIndicatorItemLength = DP * 16
 
-    private val mIndicatorItemPadding = DP * 6
+    private val mIndicatorItemPadding = DP * 4
 
     private val mInterpolator: AccelerateDecelerateInterpolator = AccelerateDecelerateInterpolator()
 
@@ -57,8 +57,8 @@ class IndicatorDecoration() : RecyclerView.ItemDecoration() {
 
             val totalLength = mIndicatorItemLength * itemCount
             val paddingBetweenItems = (itemCount - 1).coerceAtLeast(0) * mIndicatorItemPadding
-            val indicatorTotalWidth = totalLength + paddingBetweenItems
-            val indicatorStartX = (parent.width - indicatorTotalWidth) / 2f
+            val indicatorTotalWidth = totalLength + paddingBetweenItems - 50F
+            val indicatorStartX = (parent.width - indicatorTotalWidth) / 2F
 
             val indicatorPosY = parent.height - mIndicatorHeight / 2f
 
