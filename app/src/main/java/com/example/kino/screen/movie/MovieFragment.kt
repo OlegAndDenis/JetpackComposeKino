@@ -2,6 +2,7 @@ package com.example.kino.screen.movie
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +31,7 @@ class MovieFragment : BaseFragment() {
 
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return MovieViewHolder(parent)
+            return if (viewType == 1) MovieAllViewHolder(parent) else MovieViewHolder(parent)
         }
     })
 
@@ -66,9 +67,7 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun setTopFive(movie: List<MovieResult>) {
-        val list = movie.toMutableList()
-        list.add(MovieResult(title = "all top"))
-        topFiveAdapter.setTList(list)
+        topFiveAdapter.setTList(movie)
         binding.movieTopFive.scrollToPosition(2)
     }
 

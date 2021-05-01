@@ -41,9 +41,12 @@ data class MovieResult(
     @SerializedName("vote_count")
     @Expose
     val voteCount: Long = 0L,
-    val isEmpty: Boolean = false
+
+    //System
+    val isEmpty: Boolean = false,
+    val paths: List<String> = emptyList()
 ): NetworkItem {
     override fun toString(): String {
-        return "MovieResult [$id, $originalTitle, $voteCount]"
+        return "MovieResult [$id, $originalTitle, $voteCount, paths $paths]"
     }
 }

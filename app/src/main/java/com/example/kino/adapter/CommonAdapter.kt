@@ -33,6 +33,14 @@ open class CommonAdapter<T>(holderCreator: HolderCreator<T>): RecyclerView.Adapt
         notifyDataSetChanged()
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (position == 5) {
+            1
+        } else {
+            0
+        }
+    }
+
     interface HolderCreator<T> {
         @NonNull
         fun create(parent: ViewGroup, viewType: Int): BindHolder<T>

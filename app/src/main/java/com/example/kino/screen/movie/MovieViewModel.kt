@@ -13,6 +13,12 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.*
+import kotlin.random.Random
+
+private const val ALL_MOVIE_COUNT = 13
+private const val ZERO = 0
+private const val TOP_FIVE = 5
+private const val SHIFT_LIST = -3
 
 class MovieViewModel(
     private val mNetworkRepository: NetworkRepository,
@@ -35,16 +41,34 @@ class MovieViewModel(
     private fun getPopulate(page: Int) {
         disposable += mNetworkRepository.getFilm(page)
             .subscribeOn(Schedulers.io())
-            .map {selectedTopFive(it.result)}
+            .map { selectedTopFive(it.result) }
             .subscribe(resultMovie::postValue, Timber::e)
     }
 
     private fun selectedTopFive(list: List<MovieResult>): List<MovieResult> {
         val editList = list.toMutableList()
         editList.sortByDescending { it.voteCount }
-        val topFiv = editList.take(5).toMutableList()
-        Collections.rotate(topFiv, -3)
-       return topFiv
+        val topFiv = editList.take(TOP_FIVE).toMutableList()
+        Collections.rotate(topFiv, SHIFT_LIST)
+        val paths = addLastElement(list)
+        topFiv.add(MovieResult(paths = paths))
+        return topFiv
+    }
+
+    private fun addLastElement(list: List<MovieResult>): List<String> {
+        val paths = mutableListOf<String>()
+        val randomCount = List(ALL_MOVIE_COUNT) { Random.nextInt(ZERO, list.size) }
+        repeat(randomCount.size) {
+            val path = createRandomPath(list, it)
+            paths.add(path)
+        }
+        return paths
+    }
+
+    private fun createRandomPath(list: List<MovieResult>, index: Int): String = when {
+        list[index].posterPath != "no" -> list[index].posterPath
+        list[index].backdropPath != "no" -> list[index].backdropPath
+        else -> "file:///android_asset/img/ic_launcher_round.png"
     }
 
     private fun getGenres() {
