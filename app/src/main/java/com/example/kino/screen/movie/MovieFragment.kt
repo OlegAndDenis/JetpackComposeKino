@@ -1,8 +1,6 @@
 package com.example.kino.screen.movie
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import com.example.kino.CommonFactory
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
-import com.example.kino.adapter.holder.ClickItem
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.movie.MovieResult
@@ -54,7 +51,6 @@ class MovieFragment : BaseFragment() {
         return binding.root
     }
 
-    @SuppressLint("ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { navigation = it as CommonNavigation }
         binding.movieTopFive.apply {
