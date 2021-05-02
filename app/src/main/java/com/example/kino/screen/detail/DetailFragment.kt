@@ -1,4 +1,4 @@
-package com.example.kino.screen
+package com.example.kino.screen.detail
 
 import android.os.Bundle
 import android.util.Log
