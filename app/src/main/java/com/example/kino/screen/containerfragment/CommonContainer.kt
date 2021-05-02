@@ -72,6 +72,9 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
         super.onDestroyView()
         (activity as AppCompatActivity).setSupportActionBar(null)
         binding.containerToolbar.tag = null
+        binding.containerBottomNavigation.setOnNavigationItemSelectedListener(null)
+        binding.root.removeAllViews()
+        onDestroyOptionsMenu()
         _binding = null
         navigation = null
     }
