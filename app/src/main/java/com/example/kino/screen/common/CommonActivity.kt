@@ -5,17 +5,16 @@ import android.util.Log
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import com.example.kino.R
 import com.example.kino.databinding.CommonLayoutBinding
-import com.example.kino.network.model.movie.Movie
+import com.example.kino.screen.DetailFragment
 import com.example.kino.screen.common.ContainerId.GLOBAL_FRAME
 import com.example.kino.screen.common.ScreenEnum.*
 import com.example.kino.screen.containerfragment.CommonContainer
 import com.example.kino.screen.movie.MovieFragment
 import com.example.kino.screen.splash.SplashFragment
-import timber.log.Timber
 
 class CommonActivity : AppCompatActivity(), CommonNavigation {
 
@@ -41,6 +40,7 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
             FAVORITE -> {
             }
             COMMONVIEW -> transaction(screenEnum.transactionTag, CommonContainer(), containerId.id)
+            DETAIL -> transaction(screenEnum.transactionTag, DetailFragment(), containerId.id)
             NONE -> {
             }
             else -> {
@@ -49,19 +49,12 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
     }
 
     private fun transaction(TAG: String, fragmentCreate: Fragment, @IdRes containerId: Int) {
-        val fragment: Fragment? = if (supportFragmentManager.findFragmentByTag(TAG) != null) {
-            supportFragmentManager.findFragmentByTag(TAG)
-        } else {
-            fragmentCreate
-        }
-        val mTranslationTree: FragmentTransaction = supportFragmentManager
-            .beginTransaction()
-            .addToBackStack(null)
-            .setCustomAnimations(R.anim.to_left_in, R.anim.to_right_out)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-        if (fragment != null) {
-            mTranslationTree.replace(containerId, fragment, TAG)
-            mTranslationTree.commit()
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            addToBackStack(null)
+            setCustomAnimations(R.anim.to_left_in, R.anim.to_right_out)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            replace(containerId, fragmentCreate)
         }
     }
 
@@ -69,6 +62,9 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
         val count = supportFragmentManager.backStackEntryCount
         val screenEnum = binding.root.tag as ScreenEnum
         when {
+            screenEnum == DETAIL -> {
+                openScreen(COMMONVIEW, GLOBAL_FRAME)
+            }
             screenEnum == MOVIE -> {
                 supportFragmentManager.popBackStackImmediate()
                 finish()
@@ -84,6 +80,7 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
 
     override fun onDestroy() {
         super.onDestroy()
+        binding.root.tag = null
         _bindin = null
     }
 }
