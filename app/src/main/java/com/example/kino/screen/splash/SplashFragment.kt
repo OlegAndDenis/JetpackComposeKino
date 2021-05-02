@@ -62,6 +62,7 @@ class SplashFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.root.removeAllViewsInLayout()
         _navigation = null
         _binding = null
     }

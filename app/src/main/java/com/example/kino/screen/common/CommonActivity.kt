@@ -62,9 +62,6 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
         val count = supportFragmentManager.backStackEntryCount
         val screenEnum = binding.root.tag as ScreenEnum
         when {
-            screenEnum == DETAIL -> {
-                openScreen(COMMONVIEW, GLOBAL_FRAME)
-            }
             screenEnum == MOVIE -> {
                 supportFragmentManager.popBackStackImmediate()
                 finish()
