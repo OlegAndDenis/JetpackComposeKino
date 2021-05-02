@@ -10,6 +10,7 @@ enum class ScreenEnum(val transactionTag: String) {
     FAVORITE("movie"),
     SPLASH("splash"),
     COMMONVIEW("common"),
+    DETAIL("detail"),
     NONE("none");
 
     companion object {

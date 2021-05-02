@@ -1,6 +1,5 @@
 package com.example.kino.screen.movie
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +31,9 @@ class MovieViewModel(
     private val resultGenres: MutableLiveData<List<Genres>> = MutableLiveData()
     val responseGenres: LiveData<List<Genres>> = resultGenres
 
+    private val resultId: MutableLiveData<String> = MutableLiveData()
+    val responseId: LiveData<String> = resultId
+
     private val disposable = CompositeDisposable()
 
     init {
@@ -40,7 +42,8 @@ class MovieViewModel(
     }
 
     fun getMovieClick(position: Int) {
-        Log.i("OLEG", "${resultMovie.value?.get(position)?.id}")
+        val movieId: String = resultMovie.value?.get(position)?.id.toString()
+        resultId.postValue(movieId)
     }
 
     private fun getPopulate(page: Int) {

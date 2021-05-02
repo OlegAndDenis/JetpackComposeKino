@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.kino.CommonFactory
@@ -15,8 +16,7 @@ import com.example.kino.db.model.Genres
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.GenresViewHolder
 import com.example.kino.screen.IndicatorDecoration
-import com.example.kino.screen.common.BaseFragment
-import com.example.kino.screen.common.CommonNavigation
+import com.example.kino.screen.common.*
 
 private const val SCROLL_TO_POSITION = 2
 private const val MOVIE_ALL_TYPE = 1
@@ -24,6 +24,7 @@ private const val MOVIE_ALL_TYPE = 1
 class MovieFragment : BaseFragment() {
 
     private val viewModel: MovieViewModel by viewModels { CommonFactory }
+    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
     private var _binding: MovieLayoutBinding? = null
     private val binding get() = _binding!!
@@ -32,10 +33,9 @@ class MovieFragment : BaseFragment() {
 
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent) {
-                this@MovieFragment.selectedItem(it)
-            }
-            else MovieViewHolder(parent) { this@MovieFragment.selectedItem(it) }
+            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent,
+                viewModel::getMovieClick)
+            else MovieViewHolder(parent, viewModel::getMovieClick)
         }
     })
 
@@ -67,6 +67,14 @@ class MovieFragment : BaseFragment() {
         }
         viewModel.responseMovie.observe(viewLifecycleOwner, this::setTopFive)
         viewModel.responseGenres.observe(viewLifecycleOwner, this::setGenres)
+        viewModel.responseId.observe(viewLifecycleOwner, this::openMovie)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.scrollView.removeAllViews()
+        _binding = null
+        navigation = null
     }
 
     private fun setTopFive(movie: List<MovieResult>) {
@@ -78,13 +86,8 @@ class MovieFragment : BaseFragment() {
         genresAdapter.setTList(genres)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        navigation = null
-    }
-
-    private fun selectedItem(position: Int) {
-        viewModel.getMovieClick(position)
+    private fun openMovie(id: String) {
+        navigation?.openScreen(ScreenEnum.DETAIL, ContainerId.GLOBAL_FRAME)
+        viewModelTransaction.callId(id)
     }
 }

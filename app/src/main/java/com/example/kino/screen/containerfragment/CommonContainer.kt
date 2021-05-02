@@ -1,6 +1,7 @@
 package com.example.kino.screen.containerfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,7 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
 
     private var _binding: ContainerLayoutBinding? = null
     private val binding get() = _binding!!
-    private lateinit var navigation: CommonNavigation
+    private var navigation: CommonNavigation? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +58,7 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        navigation.openScreen(ScreenEnum.findById(item.itemId), BOTTOM_NAVIGATION_FRAME)
+        navigation?.openScreen(ScreenEnum.findById(item.itemId), BOTTOM_NAVIGATION_FRAME)
         binding.containerToolbar.title = item.title
         if (item.itemId == R.id.butt_search) {
             binding.containerToolbar.title = ""
@@ -69,7 +70,10 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (activity as AppCompatActivity).setSupportActionBar(null)
+        binding.containerToolbar.tag = null
         _binding = null
+        navigation = null
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

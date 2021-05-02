@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.common.TransactionViewModel
 import com.example.kino.screen.movie.MovieViewModel
 import com.example.kino.screen.splash.SplashViewModel
 import dagger.MapKey
@@ -49,6 +50,12 @@ class ViewModelModule {
         @NonNull databaseRepository: DatabaseRepository
     ): ViewModel =
         MovieViewModel(networkRepository, databaseRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(TransactionViewModel::class)
+    fun provideTransactionViewModel(): ViewModel =
+       TransactionViewModel()
 
 //    @Provides
 //    @IntoMap
