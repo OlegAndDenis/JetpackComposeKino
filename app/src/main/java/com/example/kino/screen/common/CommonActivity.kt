@@ -1,7 +1,6 @@
 package com.example.kino.screen.common
 
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -9,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.kino.R
 import com.example.kino.databinding.CommonLayoutBinding
-import com.example.kino.screen.DetailFragment
+import com.example.kino.screen.detail.DetailFragment
 import com.example.kino.screen.common.ContainerId.GLOBAL_FRAME
 import com.example.kino.screen.common.ScreenEnum.*
 import com.example.kino.screen.containerfragment.CommonContainer
