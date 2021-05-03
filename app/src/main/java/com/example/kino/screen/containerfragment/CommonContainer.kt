@@ -35,7 +35,6 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
         binding.containerBottomNavigation.setOnNavigationItemSelectedListener(this)
         binding.containerBottomNavigation.selectedItemId = R.id.butt_film
         (activity as AppCompatActivity).setSupportActionBar(binding.containerToolbar)
-        Timber.i("Common")
         setHasOptionsMenu(true)
     }
 

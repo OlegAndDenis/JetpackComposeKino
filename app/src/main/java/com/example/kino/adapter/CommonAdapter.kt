@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kino.adapter.holder.BindHolder
 
 
-open class CommonAdapter<T>(holderCreator: HolderCreator<T>): RecyclerView.Adapter<BindHolder<T>>() {
+open class CommonAdapter<T>(private val holderCreator: HolderCreator<T>) :
+    RecyclerView.Adapter<BindHolder<T>>() {
 
     private var mTList: MutableList<T> = mutableListOf()
-    private val holderCreat: HolderCreator<T> = holderCreator
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindHolder<T> {
-        return holderCreat.create(parent, viewType)
+        return holderCreator.create(parent, viewType)
     }
 
     override fun onBindViewHolder(@NonNull holder: BindHolder<T>, position: Int) {

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
+import com.example.kino.screen.allmovie.AllMovieViewModel
 import com.example.kino.screen.common.TransactionViewModel
 import com.example.kino.screen.movie.MovieViewModel
 import com.example.kino.screen.splash.SplashViewModel
@@ -25,7 +26,8 @@ class ViewModelModule {
     @Retention(RetentionPolicy.RUNTIME)
     @MapKey
     internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
-//
+
+    //
 //    @Provides
 //    @IntoMap
 //    @ViewModelKey(ContainerViewModel::class)
@@ -38,7 +40,7 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     fun provideSplashViewModel(
-        @NonNull networkRepository: NetworkRepository
+        @NonNull networkRepository: NetworkRepository,
     ): ViewModel =
         SplashViewModel(networkRepository)
 
@@ -47,7 +49,7 @@ class ViewModelModule {
     @ViewModelKey(MovieViewModel::class)
     fun provideMovieViewModel(
         @NonNull networkRepository: NetworkRepository,
-        @NonNull databaseRepository: DatabaseRepository
+        @NonNull databaseRepository: DatabaseRepository,
     ): ViewModel =
         MovieViewModel(networkRepository, databaseRepository)
 
@@ -55,7 +57,16 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(TransactionViewModel::class)
     fun provideTransactionViewModel(): ViewModel =
-       TransactionViewModel()
+        TransactionViewModel()
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(AllMovieViewModel::class)
+    fun provideAllMovieViewModel(
+        @NonNull networkRepository: NetworkRepository,
+        @NonNull databaseRepository: DatabaseRepository,
+    ): ViewModel =
+        AllMovieViewModel(networkRepository, databaseRepository)
 
 //    @Provides
 //    @IntoMap

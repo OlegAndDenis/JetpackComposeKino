@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.kino.R
 import com.example.kino.databinding.CommonLayoutBinding
+import com.example.kino.screen.allmovie.AllMovie
 import com.example.kino.screen.detail.DetailFragment
 import com.example.kino.screen.common.ContainerId.GLOBAL_FRAME
 import com.example.kino.screen.common.ScreenEnum.*
@@ -40,6 +41,7 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
             }
             COMMONVIEW -> transaction(screenEnum.transactionTag, CommonContainer(), containerId.id)
             DETAIL -> transaction(screenEnum.transactionTag, DetailFragment(), containerId.id)
+            ALL -> transaction(screenEnum.transactionTag, AllMovie(), containerId.id)
             NONE -> {
             }
             else -> {

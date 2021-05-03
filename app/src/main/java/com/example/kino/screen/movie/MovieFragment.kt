@@ -17,6 +17,8 @@ import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.GenresViewHolder
 import com.example.kino.screen.IndicatorDecoration
 import com.example.kino.screen.common.*
+import com.example.kino.screen.common.ContainerId.*
+import com.example.kino.screen.common.ScreenEnum.*
 
 private const val SCROLL_TO_POSITION = 2
 private const val MOVIE_ALL_TYPE = 1
@@ -33,8 +35,7 @@ class MovieFragment : BaseFragment() {
 
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent,
-                this@MovieFragment::allTop)
+            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent) { allTop() }
             else MovieViewHolder(parent, viewModel::getMovieClick)
         }
     })
@@ -87,11 +88,12 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openMovie(id: String) {
-        navigation?.openScreen(ScreenEnum.DETAIL, ContainerId.GLOBAL_FRAME)
+        navigation?.openScreen(DETAIL, GLOBAL_FRAME)
         viewModelTransaction.callId(id)
     }
 
-    private fun allTop(position: Int) {
-
+    private fun allTop() {
+        navigation?.openScreen(ALL, GLOBAL_FRAME)
+        viewModelTransaction.callTop()
     }
 }
