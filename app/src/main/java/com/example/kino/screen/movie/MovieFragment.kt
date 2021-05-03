@@ -42,7 +42,7 @@ class MovieFragment : BaseFragment() {
 
     private val genresAdapter = CommonAdapter(object : HolderCreator<Genres> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<Genres> {
-            return GenresViewHolder(parent) { openGenres() }
+            return GenresViewHolder(parent, viewModel::getGenresByPosition)
         }
     })
 
@@ -69,6 +69,7 @@ class MovieFragment : BaseFragment() {
         viewModel.responseMovie.observe(viewLifecycleOwner, this::setTopFive)
         viewModel.responseGenres.observe(viewLifecycleOwner, this::setGenres)
         viewModel.responseId.observe(viewLifecycleOwner, this::openMovie)
+        viewModel.responseGenresByPosition.observeView(this::openGenres)
     }
 
     override fun onDestroyView() {
@@ -97,8 +98,8 @@ class MovieFragment : BaseFragment() {
         viewModelTransaction.callTop()
     }
 
-    private fun openGenres() {
+    private fun openGenres(genres: Genres) {
         navigation?.openScreen(ALL, GLOBAL_FRAME)
-        viewModelTransaction.callGenres()
+        viewModelTransaction.callGenres(genres)
     }
 }

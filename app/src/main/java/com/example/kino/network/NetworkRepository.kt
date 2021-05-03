@@ -12,7 +12,7 @@ interface NetworkRepository {
 
     fun getListItems()
 
-    fun getFilm(page: Int): Single<Movie>
+    fun getFilm(page: Int, genres: String): Single<Movie>
 
     fun getSerials(page: Int): Single<Serials>
 

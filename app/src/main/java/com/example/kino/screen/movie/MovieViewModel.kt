@@ -1,5 +1,6 @@
 package com.example.kino.screen.movie
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +35,9 @@ class MovieViewModel(
     private val resultId: MutableLiveData<String> = MutableLiveData()
     val responseId: LiveData<String> = resultId
 
+    private val resultGenresByPosition: MutableLiveData<Genres> = MutableLiveData()
+    val responseGenresByPosition: LiveData<Genres> = resultGenresByPosition
+
     private val disposable = CompositeDisposable()
 
     init {
@@ -46,8 +50,15 @@ class MovieViewModel(
         resultId.postValue(movieId)
     }
 
+    fun getGenresByPosition(position: Int) {
+        val genres: Genres? = resultGenres.value?.get(position)
+        if (genres != null) {
+            resultGenresByPosition.postValue(genres)
+        }
+    }
+
     private fun getPopulate(page: Int) {
-        disposable += mNetworkRepository.getFilm(page)
+        disposable += mNetworkRepository.getFilm(page, "")
             .subscribeOn(Schedulers.io())
             .map { selectedTopFive(it.result) }
             .subscribe(resultMovie::postValue, Timber::e)

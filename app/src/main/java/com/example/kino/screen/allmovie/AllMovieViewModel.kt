@@ -25,19 +25,27 @@ class AllMovieViewModel(
     private val resultMoveResult: MutableLiveData<OldAndNewList> = MutableLiveData()
     val responseMovieResult: LiveData<OldAndNewList> get() = resultMoveResult
 
-    fun newTopPage() {
+    private val genres: MutableLiveData<String> = MutableLiveData()
+
+    fun setGenres(id: String) {
+        genres.value = id
+    }
+
+    fun newPage() {
         if (resultMove.value != null) {
             val page = resultMove.value?.page?.plus(1) ?: -1
             if (page != -1 && page != resultMove.value?.totalPages) {
-                getPopularity(page)
+                getMovieByGenres(page)
             }
         } else {
-            getPopularity(1)
+            getMovieByGenres(1)
         }
     }
 
-    private fun getPopularity(page: Int) {
-        disposable += networkRepository.getFilm(page)
+    private fun getMovieByGenres(page: Int) {
+        val value = genres.value
+        val genresId: String = if (value != null && value != "-1") value.toString() else ""
+        disposable += networkRepository.getFilm(page, genresId)
             .subscribeOn(Schedulers.io())
             .subscribe({
                 resultMove.postValue(it)

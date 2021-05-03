@@ -5,6 +5,7 @@ import android.content.Context
 import com.example.kino.screen.common.TypeEnum.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
+import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.common.GenresList
@@ -75,8 +76,8 @@ class NetworkRepositoryImpl(
         return api.getMovie(id, buildParamMovie())
     }
 
-    override fun getFilm(page: Int): Single<Movie> {
-        return api.getFilm(buildParamFilm(page))
+    override fun getFilm(page: Int, genres: String): Single<Movie> {
+        return api.getFilm(buildParamFilm(page, genres))
     }
 
     override fun getSerials(page: Int): Single<Serials> {
@@ -89,10 +90,11 @@ class NetworkRepositoryImpl(
 
     override fun isOnline(): Boolean = ConnectionCheck.isOnline(context)
 
-    private fun buildParamFilm(page: Int): MutableMap<String, String> {
+    private fun buildParamFilm(page: Int, genres: String): MutableMap<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
         map["api_key"] = API_KEY
         map["language"] = MovieApplication.language
+        map["with_genres"] = genres
         map["sort_by"] = "popularity.desc"
         map["page"] = page.toString()
         return map

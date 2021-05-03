@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,9 +19,8 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.DataDiffUtils
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.AllMovieLayoutBinding
+import com.example.kino.db.model.Genres
 import com.example.kino.network.model.common.NetworkItem
-import com.example.kino.network.model.movie.Movie
-import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
 import com.example.kino.screen.common.TransactionViewModel
@@ -55,7 +53,8 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
         activity?.let { navigation = it as CommonNavigation }
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModelTransaction.responseTop.observeView { showTop() }
-        viewModelTransaction.responseGenres.observeView { showGenres() }
+        viewModelTransaction.responseGenres.observeView(this::showGenres)
+        viewModel.responseMovieResult.observeView(this::setPopularity)
         binding.recyclerView.apply {
             adapter = this@AllMovie.adapter
             LinearSnapHelper().attachToRecyclerView(this)
@@ -64,13 +63,14 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     private fun showTop() {
-        viewModel.responseMovieResult.observeView(this::setPopularity)
         binding.toolbar.title = "Популярные"
-        viewModel.newTopPage()
+        viewModel.newPage()
     }
 
-    private fun showGenres() {
-        Log.i("OLEG","this")
+    private fun showGenres(genres: Genres) {
+        viewModel.setGenres(genres.idGenres.toString())
+        binding.toolbar.title = genres.name
+        viewModel.newPage()
     }
 
     private fun setPopularity(oldAndNewList: OldAndNewList) {
@@ -92,7 +92,7 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     override fun onScrolledToBottom() {
-        viewModel.newTopPage()
+        viewModel.newPage()
     }
 
     override fun onScrolledUp() {
