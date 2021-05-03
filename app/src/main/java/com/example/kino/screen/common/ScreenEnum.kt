@@ -11,6 +11,7 @@ enum class ScreenEnum(val transactionTag: String) {
     SPLASH("splash"),
     COMMONVIEW("common"),
     DETAIL("detail"),
+    ALL("all"),
     NONE("none");
 
     companion object {
