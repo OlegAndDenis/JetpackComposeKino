@@ -34,7 +34,7 @@ class MovieFragment : BaseFragment() {
     private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
             return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent,
-                viewModel::getMovieClick)
+                this@MovieFragment::allTop)
             else MovieViewHolder(parent, viewModel::getMovieClick)
         }
     })
@@ -89,5 +89,9 @@ class MovieFragment : BaseFragment() {
     private fun openMovie(id: String) {
         navigation?.openScreen(ScreenEnum.DETAIL, ContainerId.GLOBAL_FRAME)
         viewModelTransaction.callId(id)
+    }
+
+    private fun allTop(position: Int) {
+
     }
 }
