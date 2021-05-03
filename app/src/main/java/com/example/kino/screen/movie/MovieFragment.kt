@@ -42,7 +42,7 @@ class MovieFragment : BaseFragment() {
 
     private val genresAdapter = CommonAdapter(object : HolderCreator<Genres> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<Genres> {
-            return GenresViewHolder(parent)
+            return GenresViewHolder(parent) { openGenres() }
         }
     })
 
@@ -95,5 +95,10 @@ class MovieFragment : BaseFragment() {
     private fun allTop() {
         navigation?.openScreen(ALL, GLOBAL_FRAME)
         viewModelTransaction.callTop()
+    }
+
+    private fun openGenres() {
+        navigation?.openScreen(ALL, GLOBAL_FRAME)
+        viewModelTransaction.callGenres()
     }
 }

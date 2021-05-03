@@ -53,8 +53,7 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             addToBackStack(null)
-            setCustomAnimations(R.anim.to_left_in, R.anim.to_right_out)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit)
             replace(containerId, fragmentCreate)
         }
     }

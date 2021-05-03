@@ -10,6 +10,7 @@ import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -70,6 +71,10 @@ class NetworkRepositoryImpl(
         TODO("Not yet implemented")
     }
 
+    override fun getMovie(id: String): Single<MovieResult> {
+        return api.getMovie(id, buildParamMovie())
+    }
+
     override fun getFilm(page: Int): Single<Movie> {
         return api.getFilm(buildParamFilm(page))
     }
@@ -90,6 +95,13 @@ class NetworkRepositoryImpl(
         map["language"] = MovieApplication.language
         map["sort_by"] = "popularity.desc"
         map["page"] = page.toString()
+        return map
+    }
+
+    private fun buildParamMovie(): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = API_KEY
+        map["language"] = MovieApplication.language
         return map
     }
 

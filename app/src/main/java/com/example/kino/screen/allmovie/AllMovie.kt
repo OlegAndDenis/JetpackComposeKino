@@ -1,9 +1,11 @@
 package com.example.kino.screen.allmovie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -53,7 +55,7 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
         activity?.let { navigation = it as CommonNavigation }
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModelTransaction.responseTop.observeView { showTop() }
-        viewModel.responseMovieResult.observeView(this::setPopularity)
+        viewModelTransaction.responseGenres.observeView { showGenres() }
         binding.recyclerView.apply {
             adapter = this@AllMovie.adapter
             LinearSnapHelper().attachToRecyclerView(this)
@@ -62,8 +64,13 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     private fun showTop() {
+        viewModel.responseMovieResult.observeView(this::setPopularity)
         binding.toolbar.title = "Популярные"
         viewModel.newTopPage()
+    }
+
+    private fun showGenres() {
+        Log.i("OLEG","this")
     }
 
     private fun setPopularity(oldAndNewList: OldAndNewList) {

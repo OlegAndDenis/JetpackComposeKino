@@ -6,6 +6,7 @@ import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.allmovie.AllMovieViewModel
 import com.example.kino.screen.common.TransactionViewModel
+import com.example.kino.screen.detail.DetailViewModel
 import com.example.kino.screen.movie.MovieViewModel
 import com.example.kino.screen.splash.SplashViewModel
 import dagger.MapKey
@@ -67,6 +68,15 @@ class ViewModelModule {
         @NonNull databaseRepository: DatabaseRepository,
     ): ViewModel =
         AllMovieViewModel(networkRepository, databaseRepository)
+
+    @Provides
+    @IntoMap
+    @ViewModelKey(DetailViewModel::class)
+    fun provideDetailViewModel(
+        @NonNull networkRepository: NetworkRepository,
+        @NonNull databaseRepository: DatabaseRepository,
+    ): ViewModel =
+        DetailViewModel(networkRepository, databaseRepository)
 
 //    @Provides
 //    @IntoMap

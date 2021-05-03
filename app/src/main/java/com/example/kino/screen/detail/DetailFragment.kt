@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.kino.CommonFactory
 import com.example.kino.databinding.DetailLayoutBinding
+import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.TransactionViewModel
 
 class DetailFragment : BaseFragment() {
 
     private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
+    private val viewModel: DetailViewModel by viewModels { CommonFactory }
 
     private var _binding: DetailLayoutBinding? = null
     private val binding get() = _binding!!
@@ -27,11 +30,12 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModelTransaction.responseId.observe(viewLifecycleOwner, this::setId)
+        viewModelTransaction.responseId.observeView(viewModel::requestId)
+        viewModel.responseMovie.observeView { setId(it) }
     }
 
-    private fun setId(string: String) {
-        binding.text.text = string
+    private fun setId(movie: MovieResult) {
+        binding.text.text = movie.title
     }
 
     override fun onDestroyView() {

@@ -3,6 +3,7 @@ package com.example.kino.network
 import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
 import retrofit2.http.GET
@@ -12,8 +13,10 @@ import retrofit2.http.QueryMap
 
 interface Api {
     @GET("genre/{type}/list?")
-    fun getGenres(@Path("type") type : String, @Query("api_key") api_key: String,
-                  @Query("language") language: String) : Single<GenresList>
+    fun getGenres(
+        @Path("type") type: String, @Query("api_key") api_key: String,
+        @Query("language") language: String,
+    ): Single<GenresList>
 
     @GET("discover/movie")
     fun getFilm(@QueryMap param: MutableMap<String, String>): Single<Movie>
@@ -23,4 +26,10 @@ interface Api {
 
     @GET("search/multi")
     fun getSearch(@QueryMap param: MutableMap<String, String>): Single<SearchResult>
+
+    @GET("movie/{movie_id}")
+    fun getMovie(
+        @Path("movie_id") id: String,
+        @QueryMap param: MutableMap<String, String>,
+    ): Single<MovieResult>
 }
