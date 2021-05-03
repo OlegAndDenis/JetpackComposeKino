@@ -1,7 +1,6 @@
 package com.example.kino.screen.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +31,6 @@ class DetailFragment : BaseFragment() {
     }
 
     private fun setId(string: String) {
-        Log.i("OLEG", string)
         binding.text.text = string
     }
 
