@@ -29,6 +29,7 @@ class CommonActivity : AppCompatActivity(), CommonNavigation {
     }
 
     override fun openScreen(screenEnum: ScreenEnum, containerId: ContainerId) {
+        if (binding.root.tag == screenEnum) return
         binding.root.tag = screenEnum
         when (screenEnum) {
             MOVIE -> transaction(screenEnum.transactionTag, MovieFragment(), containerId.id)
