@@ -1,8 +1,10 @@
 package com.example.kino.network
 
 import com.example.kino.network.model.common.GenresList
+import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
+import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
@@ -21,15 +23,30 @@ interface Api {
     @GET("discover/movie")
     fun getFilm(@QueryMap param: MutableMap<String, String>): Single<Movie>
 
+    @GET("movie/popular")
+    fun getPopularity(@QueryMap param: MutableMap<String, String>): Single<Movie>
+
+    @GET("movie/top_rated")
+    fun getRotate(@QueryMap param: MutableMap<String, String>): Single<Movie>
+
+    @GET("movie/now_playing")
+    fun getNewPlaying(@QueryMap param: MutableMap<String, String>): Single<Movie>
+
     @GET("discover/tv")
     fun getSerials(@QueryMap param: MutableMap<String, String>): Single<Serials>
 
     @GET("search/multi")
     fun getSearch(@QueryMap param: MutableMap<String, String>): Single<SearchResult>
 
+    @GET("movie/{idMovie}/credits")
+    fun getActor(
+        @Path("idMovie") idMovie: String,
+        @QueryMap param: MutableMap<String, String>,
+    ): Single<Actors>
+
     @GET("movie/{movie_id}")
     fun getMovie(
         @Path("movie_id") id: String,
         @QueryMap param: MutableMap<String, String>,
-    ): Single<MovieResult>
+    ): Single<MovieDetail>
 }

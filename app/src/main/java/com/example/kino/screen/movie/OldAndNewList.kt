@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.movie
 
 import com.example.kino.network.model.movie.MovieResult
 

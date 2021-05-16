@@ -3,6 +3,7 @@ package com.example.kino.adapter
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kino.VerticalViewHolder
 import com.example.kino.adapter.holder.BindHolder
 
 
@@ -38,6 +39,13 @@ open class CommonAdapter<T>(private val holderCreator: HolderCreator<T>) :
             1
         } else {
             0
+        }
+    }
+
+    override fun onViewRecycled(holder: BindHolder<T>) {
+        super.onViewRecycled(holder)
+        if (holder is VerticalViewHolder) {
+            holder.isRecycled()
         }
     }
 

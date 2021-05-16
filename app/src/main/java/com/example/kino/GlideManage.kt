@@ -32,6 +32,25 @@ class GlideManage private constructor(private val requestManager: RequestManager
         }
     }
 
+    fun loadImage(paths: List<String>, imageView: ImageView) {
+        paths.forEachIndexed { _, path ->
+            requestManager
+                .load(createPath(path))
+                .centerCrop()
+                .into(imageView)
+        }
+    }
+
+    fun loadPoster(path: String, imageView: ImageView) {
+        requestManager
+            .load(createPoster(path))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .into(imageView)
+    }
+
+    private fun createPoster(path: String): Uri =
+        Uri.parse("https://image.tmdb.org/t/p/w92/$path")
+
     private fun createPath(path: String): Uri =
         Uri.parse("https://image.tmdb.org/t/p/w500/$path")
 }

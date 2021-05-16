@@ -1,4 +1,4 @@
-package com.example.kino
+package com.example.kino.screen.common
 
 interface OnVerticalScrollListener {
     fun onScrolledToTop()

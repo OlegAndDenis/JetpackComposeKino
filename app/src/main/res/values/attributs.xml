@@ -6,5 +6,12 @@
 
     <declare-styleable name="CommonParam">
         <attr name="colorBackground" format="color" />
+        <attr name="colorText" format="color"/>
+        <attr name="colorTint" format="color"/>
+        <attr name="colorCard" format="color"/>
+        <attr name="colorAssert" format="color"/>
+        <attr name="colorToolbar" format="color"/>
+        <attr name="colorStatusBar" format="color"/>
+        <attr name="bottomColorIcon" format="color"/>
     </declare-styleable>
 </resources>

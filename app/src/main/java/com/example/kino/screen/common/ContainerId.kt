@@ -5,5 +5,6 @@ import com.example.kino.R
 
 enum class ContainerId(@IdRes val id: Int) {
     GLOBAL_FRAME(R.id.common_frame),
-    BOTTOM_NAVIGATION_FRAME(R.id.container_frame)
+    BOTTOM_NAVIGATION_FRAME(R.id.container_frame),
+    TAB(R.id.tabs_info)
 }

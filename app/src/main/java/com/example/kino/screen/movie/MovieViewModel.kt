@@ -1,77 +1,69 @@
 package com.example.kino.screen.movie
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kino.SingleLiveEvent
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkRepository
+import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.plusAssign
+import com.example.kino.screen.GenresList
 import com.example.kino.screen.common.TypeEnum
+import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.*
 import kotlin.random.Random
 
 private const val ALL_MOVIE_COUNT = 13
 private const val ZERO = 0
 private const val TOP_FIVE = 5
-private const val SHIFT_LIST = -3
+private const val TOP_MORE = 7
 
 class MovieViewModel(
-    private val mNetworkRepository: NetworkRepository,
-    private val mDatabaseRepository: DatabaseRepository,
+    private val networkRepository: NetworkRepository,
+    private val databaseRepository: DatabaseRepository,
 ) : ViewModel() {
 
-    private val resultMovie: MutableLiveData<List<MovieResult>> = MutableLiveData()
-    val responseMovie: LiveData<List<MovieResult>> = resultMovie
-
-    private val resultGenres: MutableLiveData<List<Genres>> = MutableLiveData()
-    val responseGenres: LiveData<List<Genres>> = resultGenres
-
-    private val resultId: MutableLiveData<String> = MutableLiveData()
+    private val resultId: SingleLiveEvent<String> = SingleLiveEvent()
     val responseId: LiveData<String> = resultId
 
     private val resultGenresByPosition: MutableLiveData<Genres> = MutableLiveData()
     val responseGenresByPosition: LiveData<Genres> = resultGenresByPosition
 
+    private val _movieByGenres: SingleLiveEvent<List<GenresList>> = SingleLiveEvent()
+    val movieByGenres: LiveData<List<GenresList>> = _movieByGenres
+
     private val disposable = CompositeDisposable()
 
     init {
-        getPopulate(1)
         getGenres()
     }
 
-    fun getMovieClick(position: Int) {
-        val movieId: String = resultMovie.value?.get(position)?.id.toString()
-        resultId.postValue(movieId)
+    fun getMovieClick(id: String) {
+        resultId.postValue(id)
     }
 
-    fun getGenresByPosition(position: Int) {
-        val genres: Genres? = resultGenres.value?.get(position)
-        if (genres != null) {
-            resultGenresByPosition.postValue(genres)
-        }
-    }
-
-    private fun getPopulate(page: Int) {
-        disposable += mNetworkRepository.getFilm(page, "")
-            .subscribeOn(Schedulers.io())
-            .map { selectedTopFive(it.result) }
-            .subscribe(resultMovie::postValue, Timber::e)
-    }
-
-    private fun selectedTopFive(list: List<MovieResult>): List<MovieResult> {
+    private fun selectTopFive(list: List<MovieResult>): List<MovieResult> {
         val editList = list.toMutableList()
         editList.sortByDescending { it.voteCount }
         val topFiv = editList.take(TOP_FIVE).toMutableList()
-        Collections.rotate(topFiv, SHIFT_LIST)
         val paths = addLastElement(list)
         topFiv.add(MovieResult(paths = paths))
         return topFiv
+    }
+
+    private fun selectionTopMore(list: List<MovieResult>): List<MovieResult> {
+        val editList = list.toMutableList()
+        editList.sortByDescending { it.voteCount }
+        val topMore = editList.take(TOP_MORE).toMutableList()
+        val paths = addLastElement(list)
+        topMore.add(MovieResult(paths = paths))
+        return topMore
     }
 
     private fun addLastElement(list: List<MovieResult>): List<String> {
@@ -91,9 +83,45 @@ class MovieViewModel(
     }
 
     private fun getGenres() {
-        disposable += mDatabaseRepository.getGenres(TypeEnum.MOVIE)
+        disposable += databaseRepository.getGenres(TypeEnum.MOVIE)
+            .toObservable()
             .subscribeOn(Schedulers.io())
-            .subscribe(resultGenres::postValue, Timber::e)
+            .subscribe(this::getMovieByIdGenres, Timber::e)
+    }
+
+    private fun getMovieByIdGenres(genres: List<Genres>) {
+        val top: Single<Movie> = networkRepository.getPopularity(1)
+        val rotate: Single<Movie> = networkRepository.getRotate(1)
+        val genre: MutableList<Single<GenresList>> = mutableListOf()
+        genres.forEach {
+            val single = networkRepository.getFilm(1, it.idGenres.toString())
+                .map { movie ->
+                    GenresList(0,
+                        it.name,
+                        it.idGenres,
+                        selectionTopMore(movie.result))
+                }
+            genre.add(single)
+        }
+
+        disposable += Single.zip(genre, Function { anyList ->
+            val list = mutableListOf<GenresList>()
+            anyList.forEach {
+                list.add(it as GenresList)
+            }
+            return@Function list
+        }).subscribeOn(Schedulers.io())
+            .flatMap { list ->
+                Single.zip(rotate, top, ::Pair).map { Triple(it.first, it.second, list) }
+            }
+            .subscribe({
+                val rotateList: List<MovieResult> = selectTopFive(it.first.result)
+                val topList: List<MovieResult> = selectTopFive(it.second.result)
+                it.third.add(0, GenresList(-1, "Топ 5", -1, topList))
+                val int = Random.nextInt(2, it.third.size - 1)
+                it.third.add(int, GenresList(-1, "Топ по рейтингу", -2, rotateList))
+                _movieByGenres.postValue(it.third)
+            }, Timber::e)
     }
 
     override fun onCleared() {

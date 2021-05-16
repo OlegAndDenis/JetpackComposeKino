@@ -39,7 +39,7 @@ class SplashFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity.let { _navigation = it as CommonNavigation }
-        viewModel.attachObservable.observe(viewLifecycleOwner, this::statusNetwork)
+        viewModel.attachObservable.observeView(this::statusNetwork)
     }
 
     private fun statusNetwork(status: NetworkEnum) {

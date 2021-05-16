@@ -3,7 +3,8 @@ package com.example.kino.screen.allmovie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kino.OldAndNewList
+import com.example.kino.screen.movie.OldAndNewList
+import com.example.kino.SingleLiveEvent
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.model.movie.Movie
@@ -22,10 +23,25 @@ class AllMovieViewModel(
 
     private val resultMove: MutableLiveData<Movie> = MutableLiveData()
 
-    private val resultMoveResult: MutableLiveData<OldAndNewList> = MutableLiveData()
+    private val resultMoveResult: SingleLiveEvent<OldAndNewList> = SingleLiveEvent()
     val responseMovieResult: LiveData<OldAndNewList> get() = resultMoveResult
 
+    private val resultId: SingleLiveEvent<String> = SingleLiveEvent()
+    val responseId: LiveData<String> = resultId
+
     private val genres: MutableLiveData<String> = MutableLiveData()
+
+    private val _title: MutableLiveData<String> = MutableLiveData()
+    val title: LiveData<String> = _title
+
+
+    fun setTitle(title: String) {
+        _title.value = title
+    }
+
+    fun getMovieClick(id: Long) {
+        resultId.postValue(id.toString())
+    }
 
     fun setGenres(id: String) {
         genres.value = id
@@ -59,7 +75,7 @@ class AllMovieViewModel(
             old?.addAll(newMovies)
             resultMoveResult.postValue(OldAndNewList(old!!, newMovies))
         } else {
-            resultMoveResult.postValue(OldAndNewList(new = newMovies))
+            resultMoveResult.postValue(OldAndNewList(new = newMovies, old = newMovies))
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.kino.screen.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.kino.CommonFactory
+import com.example.kino.VerticalViewHolder
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.movie.MovieResult
-import com.example.kino.screen.GenresViewHolder
+import com.example.kino.screen.GenresList
 import com.example.kino.screen.IndicatorDecoration
 import com.example.kino.screen.common.*
 import com.example.kino.screen.common.ContainerId.*
@@ -33,16 +35,9 @@ class MovieFragment : BaseFragment() {
 
     private var navigation: CommonNavigation? = null
 
-    private val topFiveAdapter = CommonAdapter(object : HolderCreator<MovieResult> {
-        override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-            return if (viewType == MOVIE_ALL_TYPE) MovieAllViewHolder(parent) { allTop() }
-            else MovieViewHolder(parent, viewModel::getMovieClick)
-        }
-    })
-
-    private val genresAdapter = CommonAdapter(object : HolderCreator<Genres> {
-        override fun create(parent: ViewGroup, viewType: Int): BindHolder<Genres> {
-            return GenresViewHolder(parent, viewModel::getGenresByPosition)
+    private val adapter = CommonAdapter(object : HolderCreator<GenresList> {
+        override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {
+            return VerticalViewHolder(parent, viewModel::getMovieClick)
         }
     })
 
@@ -58,34 +53,23 @@ class MovieFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { navigation = it as CommonNavigation }
         binding.movieTopFive.apply {
-            adapter = topFiveAdapter
-            addItemDecoration(IndicatorDecoration())
-            PagerSnapHelper().attachToRecyclerView(this)
+            adapter = this@MovieFragment.adapter
         }
-        binding.movieGenres.apply {
-            adapter = genresAdapter
-            setHasFixedSize(true)
-        }
-        viewModel.responseMovie.observe(viewLifecycleOwner, this::setTopFive)
-        viewModel.responseGenres.observe(viewLifecycleOwner, this::setGenres)
+        viewModel.movieByGenres.observe(viewLifecycleOwner, this::setGenres)
         viewModel.responseId.observe(viewLifecycleOwner, this::openMovie)
         viewModel.responseGenresByPosition.observeView(this::openGenres)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.scrollView.removeAllViews()
+        binding.root.removeAllViews()
+        binding.movieTopFive.adapter = null
         _binding = null
         navigation = null
     }
 
-    private fun setTopFive(movie: List<MovieResult>) {
-        topFiveAdapter.setTList(movie)
-        binding.movieTopFive.scrollToPosition(SCROLL_TO_POSITION)
-    }
-
-    private fun setGenres(genres: List<Genres>) {
-        genresAdapter.setTList(genres)
+    private fun setGenres(genres: List<GenresList>) {
+        adapter.setTList(genres)
     }
 
     private fun openMovie(id: String) {

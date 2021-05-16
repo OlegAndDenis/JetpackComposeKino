@@ -2,8 +2,9 @@ package com.example.kino.adapter.holder
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
-abstract class BindHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+abstract class BindHolder<T>(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         itemView.setOnClickListener { onClick(it) }

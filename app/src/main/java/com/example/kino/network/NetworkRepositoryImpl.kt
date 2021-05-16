@@ -5,13 +5,13 @@ import android.content.Context
 import com.example.kino.screen.common.TypeEnum.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
-import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
 import com.example.kino.network.model.common.GenresList
+import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
-import com.example.kino.network.model.movie.MovieResult
+import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.serial.Serials
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -72,21 +72,26 @@ class NetworkRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getMovie(id: String): Single<MovieResult> {
-        return api.getMovie(id, buildParamMovie())
-    }
+    override fun getMovie(id: String): Single<MovieDetail> =
+        api.getMovie(id, buildParamMovie())
 
-    override fun getFilm(page: Int, genres: String): Single<Movie> {
-        return api.getFilm(buildParamFilm(page, genres))
-    }
+    override fun getFilm(page: Int, genres: String): Single<Movie> =
+        api.getFilm(buildParamFilm(page, genres))
 
-    override fun getSerials(page: Int): Single<Serials> {
-        return api.getSerials(buildParamSerials(page))
-    }
+    override fun getPopularity(page: Int): Single<Movie> =
+        api.getPopularity(buildParamPopularity(page))
 
-    override fun getSearch(query: String, page: Int): Single<SearchResult> {
-        return api.getSearch(buildParamSearch(page, query))
-    }
+    override fun getSerials(page: Int): Single<Serials> =
+        api.getSerials(buildParamSerials(page))
+
+    override fun getSearch(query: String, page: Int): Single<SearchResult> =
+        api.getSearch(buildParamSearch(page, query))
+
+    override fun getActors(idMovie: String): Single<Actors> =
+        api.getActor(idMovie, buildActor())
+
+    override fun getRotate(page: Int): Single<Movie> =
+        api.getRotate(buildParamPopularity(page))
 
     override fun isOnline(): Boolean = ConnectionCheck.isOnline(context)
 
@@ -100,10 +105,20 @@ class NetworkRepositoryImpl(
         return map
     }
 
+    private fun buildParamPopularity(page: Int): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = API_KEY
+        map["language"] = MovieApplication.language
+        map["page"] = page.toString()
+        return map
+    }
+
     private fun buildParamMovie(): MutableMap<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
         map["api_key"] = API_KEY
         map["language"] = MovieApplication.language
+        map["append_to_response"] = "videos,images"
+        map["include_image_language"] = "${MovieApplication.language},null"
         return map
     }
 
@@ -123,6 +138,13 @@ class NetworkRepositoryImpl(
         map["language"] = MovieApplication.language
         map["query"] = query
         map["page"] = page.toString()
+        return map
+    }
+
+    private fun buildActor(): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = API_KEY
+        map["language"] = MovieApplication.language
         return map
     }
 }
