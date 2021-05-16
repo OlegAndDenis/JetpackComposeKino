@@ -19,7 +19,7 @@ enum class ScreenEnum(val transactionTag: String) {
         fun findById(@IdRes id: Int): ScreenEnum =
             when (id) {
                 R.id.butt_search -> SEARCH
-                R.id.butt_film -> MOVIE
+                R.id.movieFragment -> MOVIE
                 R.id.butt_serial -> SERIAL
                 R.id.butt_favorite -> FAVORITE
                 else -> NONE

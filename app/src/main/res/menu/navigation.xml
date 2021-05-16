@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         app:showAsAction="ifRoom"
-        android:id="@+id/butt_film"
+        android:id="@+id/movie_navigation"
         android:icon="@drawable/ic_baseline_local_movies_24"
         android:enabled="true"
         android:title="Фильмы" />

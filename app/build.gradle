@@ -102,4 +102,15 @@ dependencies {
 
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+
+    def nav_version = "1.0.0-alpha05"
+
+    // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-fragment:$nav_version"
+    // use -ktx for Kotlin
+    implementation "android.arch.navigation:navigation-ui:$nav_version"
+
+    // optional - Test helpers
+    // use -ktx for Kotlin
+    androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 }

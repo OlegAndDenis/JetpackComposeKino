@@ -5,16 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.example.kino.CommonFactory
+import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
-import com.example.kino.screen.common.CommonNavigation
-import com.example.kino.screen.common.ContainerId
-import com.example.kino.screen.common.ContainerId.*
-import com.example.kino.screen.common.ScreenEnum
-import com.example.kino.screen.common.ScreenEnum.*
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 
@@ -24,9 +21,6 @@ class SplashFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SplashViewModel by viewModels { CommonFactory }
-
-    private var _navigation: CommonNavigation? = null
-    private val navigation get() = _navigation!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,13 +32,16 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity.let { _navigation = it as CommonNavigation }
         viewModel.attachObservable.observeView(this::statusNetwork)
     }
 
     private fun statusNetwork(status: NetworkEnum) {
         when (status) {
-            OK -> navigation.openScreen(COMMONVIEW, GLOBAL_FRAME)
+            OK -> {
+                Navigation
+                    .findNavController(requireActivity(), R.id.common_frame)
+                    .navigate(R.id.action_splashFragment_to_commonContainer2)
+            }
             NO_CONNECTION -> noConnection()
             ERROR -> requireActivity().finish()
         }
@@ -63,7 +60,6 @@ class SplashFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding.root.removeAllViewsInLayout()
-        _navigation = null
         _binding = null
     }
 }

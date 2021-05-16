@@ -1,25 +1,22 @@
 package com.example.kino.screen.containerfragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.ui.NavigationUI
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
 import com.example.kino.screen.common.BaseFragment
-import com.example.kino.screen.common.CommonNavigation
 import com.example.kino.screen.common.ContainerId.*
-import com.example.kino.screen.common.ScreenEnum
+import com.example.kino.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import timber.log.Timber
 
-class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    SearchView.OnQueryTextListener {
+class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
     private var _binding: ContainerLayoutBinding? = null
     private val binding get() = _binding!!
-    private var navigation: CommonNavigation? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +28,21 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { navigation = it as CommonNavigation }
-        binding.containerBottomNavigation.setOnNavigationItemSelectedListener(this)
-        binding.containerBottomNavigation.selectedItemId = R.id.butt_film
         (activity as AppCompatActivity).setSupportActionBar(binding.containerToolbar)
+
+        val navGraphIds = listOf(
+            R.navigation.movie_navigation,
+//            R.navigation.searials_navigation,
+//            R.navigation.search_navigation,
+//            R.navigation.favorite_navigation
+        )
+
+        binding.containerBottomNavigation.setupWithNavController(
+            navGraphIds,
+            childFragmentManager,
+            binding.containerFrame.id,
+            requireActivity().intent
+        ).observeView(this::onNavigationTitleSelected)
         setHasOptionsMenu(true)
     }
 
@@ -46,7 +54,7 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
             search.queryHint = "search: movie, serial"
             search.isSubmitButtonEnabled = true
             search.gravity = Gravity.CENTER
-            search.setOnQueryTextListener(this@CommonContainer)
+            search.setOnQueryTextListener(this@NavigationFragment)
             searchMenu.isVisible = binding.containerToolbar.tag == R.id.butt_search
         }
     }
@@ -56,15 +64,13 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        navigation?.openScreen(ScreenEnum.findById(item.itemId), BOTTOM_NAVIGATION_FRAME)
+    private fun onNavigationTitleSelected(item: MenuItem) {
         binding.containerToolbar.title = item.title
         if (item.itemId == R.id.butt_search) {
             binding.containerToolbar.title = ""
         }
         binding.containerToolbar.tag = item.itemId
         (activity as AppCompatActivity).invalidateOptionsMenu()
-        return true
     }
 
     override fun onDestroyView() {
@@ -75,7 +81,6 @@ class CommonContainer : BaseFragment(), BottomNavigationView.OnNavigationItemSel
         binding.root.removeAllViews()
         onDestroyOptionsMenu()
         _binding = null
-        navigation = null
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

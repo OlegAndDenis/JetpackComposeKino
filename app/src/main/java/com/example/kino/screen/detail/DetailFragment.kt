@@ -42,7 +42,6 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { navigation = it as CommonNavigation }
 
         viewModelTransaction.responseId.observeView(viewModel::requestId)
         viewModel.responseMovie.observeView { setId(it) }

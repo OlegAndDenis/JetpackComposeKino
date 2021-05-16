@@ -7,14 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.kino.CommonFactory
+import com.example.kino.R
 import com.example.kino.VerticalViewHolder
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
+import com.example.kino.findNavController
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.GenresList
 import com.example.kino.screen.IndicatorDecoration
@@ -33,7 +36,6 @@ class MovieFragment : BaseFragment() {
     private var _binding: MovieLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private var navigation: CommonNavigation? = null
 
     private val adapter = CommonAdapter(object : HolderCreator<GenresList> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {
@@ -51,13 +53,13 @@ class MovieFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { navigation = it as CommonNavigation }
         binding.movieTopFive.apply {
             adapter = this@MovieFragment.adapter
         }
         viewModel.movieByGenres.observe(viewLifecycleOwner, this::setGenres)
         viewModel.responseId.observe(viewLifecycleOwner, this::openMovie)
         viewModel.responseGenresByPosition.observeView(this::openGenres)
+
     }
 
     override fun onDestroyView() {
@@ -65,7 +67,6 @@ class MovieFragment : BaseFragment() {
         binding.root.removeAllViews()
         binding.movieTopFive.adapter = null
         _binding = null
-        navigation = null
     }
 
     private fun setGenres(genres: List<GenresList>) {
@@ -73,17 +74,18 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openMovie(id: String) {
-        navigation?.openScreen(DETAIL, GLOBAL_FRAME)
+        Navigation.findNavController(requireActivity(), R.id.common_frame)
+            .navigate(R.id.action__MovieFragment_to_DetailFragment)
         viewModelTransaction.callId(id)
     }
 
     private fun allTop() {
-        navigation?.openScreen(ALL, GLOBAL_FRAME)
+        Navigation.findNavController(requireActivity(), R.id.common_frame)
+            .navigate(R.id.open_MovieFragment_to_AllFragment)
         viewModelTransaction.callTop()
     }
 
     private fun openGenres(genres: Genres) {
-        navigation?.openScreen(ALL, GLOBAL_FRAME)
         viewModelTransaction.callGenres(genres)
     }
 }

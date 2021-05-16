@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_movie_navigation"
+    app:startDestination="@id/all_movie_navigation">
+
+    <fragment
+        android:id="@+id/all_movie_navigation"
+        android:name="com.example.kino.screen.detail.DetailFragment"
+        tools:layout="@layout/all_movie_layout"
+        android:label="AllMovie"/>
+</navigation>
