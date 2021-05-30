@@ -1,15 +1,15 @@
-package com.example.kino
+package com.example.kino.screen.pager
 
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.viewpager2.widget.ViewPager2
+import com.example.kino.CommonFactory
 import com.example.kino.databinding.TabHostLayoutBinding
+import com.example.kino.launchView
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.CommonNavigation
 import com.example.kino.screen.common.TransactionViewModel
@@ -24,8 +24,6 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
-    private var navigation: CommonNavigation? = null
-
     private lateinit var adapter: FragmentPager
 
     override fun onCreateView(
@@ -38,11 +36,11 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { navigation = it as CommonNavigation}
-        viewModelTransaction.mapFragment.onEach(this::setAdapter).launchView(viewLifecycleOwner)
         adapter = FragmentPager(childFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
         binding.viewPager.overScrollMode = View.OVER_SCROLL_NEVER
+
+        viewModelTransaction.mapFragment.onEach(this::setAdapter).launchView(viewLifecycleOwner)
     }
 
     private fun setAdapter(map: Map<Fragment, String>) {
@@ -65,7 +63,6 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        navigation = null
         binding.root.removeAllViews()
         _binding = null
     }

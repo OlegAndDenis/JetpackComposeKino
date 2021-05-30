@@ -39,14 +39,14 @@ interface Api {
     fun getSearch(@QueryMap param: MutableMap<String, String>): Single<SearchResult>
 
     @GET("movie/{idMovie}/credits")
-    fun getActor(
+    suspend fun getActor(
         @Path("idMovie") idMovie: String,
         @QueryMap param: MutableMap<String, String>,
-    ): Single<Actors>
+    ): Actors
 
     @GET("movie/{movie_id}")
-    fun getMovie(
+   suspend fun getMovie(
         @Path("movie_id") id: String,
         @QueryMap param: MutableMap<String, String>,
-    ): Single<MovieDetail>
+    ): MovieDetail
 }

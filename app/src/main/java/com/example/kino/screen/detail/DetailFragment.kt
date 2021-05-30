@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.kino.CommonFactory
+import com.example.kino.R
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
@@ -24,7 +27,6 @@ class DetailFragment : BaseFragment() {
 
     private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
     private val viewModel: DetailViewModel by viewModels { CommonFactory }
-    private var navigation: CommonNavigation? = null
 
     private var _binding: DetailLayoutBinding? = null
     private val binding get() = _binding!!
@@ -46,15 +48,16 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModelTransaction.responseId.onEach(viewModel::requestId).launchView(viewLifecycleOwner)
-        viewModel.responseMovie.observeView { setId(it) }
-        viewModel.mapFragment.observeView(viewModelTransaction::callFragment)
-        viewModel.overview.observeView(viewModelTransaction::callOverView)
+        viewModel.responseMovie.onEach { setId(it) }.launchView(viewLifecycleOwner)
+        viewModel.mapFragment.onEach(viewModelTransaction::callFragment).launchView(viewLifecycleOwner)
+        viewModel.overview.onEach(viewModelTransaction::callOverView).launchView(viewLifecycleOwner)
 
         binding.posterViews.apply {
             adapter = this@DetailFragment.adapter
             PagerSnapHelper().attachToRecyclerView(this)
         }
-        navigation?.openScreen(ScreenEnum.TABS, ContainerId.TAB)
+
+        createNavHost().navController.navigate(R.id.action_detailFragment_to_tabFragment)
     }
 
     private fun setId(movie: MovieDetail) {
@@ -77,9 +80,16 @@ class DetailFragment : BaseFragment() {
         adapter.setTList(paths)
     }
 
+    private fun createNavHost(): NavHostFragment {
+        val navHostFragment = NavHostFragment.create(R.navigation.detail_navigation)
+        childFragmentManager.beginTransaction()
+            .add(binding.tabsInfo.id, navHostFragment)
+            .commitNow()
+        return navHostFragment
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        navigation = null
         (activity as AppCompatActivity).setSupportActionBar(null)
         binding.root.removeAllViews()
         _binding = null

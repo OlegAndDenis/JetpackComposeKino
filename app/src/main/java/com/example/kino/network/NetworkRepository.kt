@@ -21,9 +21,9 @@ interface NetworkRepository {
 
     fun getSearch(query: String, page: Int): Single<SearchResult>
 
-    fun getMovie(id: String): Single<MovieDetail>
+    suspend fun getMovie(id: String): MovieDetail
 
-    fun getActors(idMovie: String): Single<Actors>
+    suspend fun getActors(idMovie: String): Actors
 
     suspend fun getRotate(page: Int): Movie
 

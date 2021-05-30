@@ -72,7 +72,7 @@ class NetworkRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override fun getMovie(id: String): Single<MovieDetail> =
+    override suspend fun getMovie(id: String): MovieDetail =
         api.getMovie(id, buildParamMovie())
 
     override suspend fun getFilm(page: Int, genres: String): Movie =
@@ -87,7 +87,7 @@ class NetworkRepositoryImpl(
     override fun getSearch(query: String, page: Int): Single<SearchResult> =
         api.getSearch(buildParamSearch(page, query))
 
-    override fun getActors(idMovie: String): Single<Actors> =
+    override suspend fun getActors(idMovie: String): Actors =
         api.getActor(idMovie, buildActor())
 
     override suspend fun getRotate(page: Int): Movie =

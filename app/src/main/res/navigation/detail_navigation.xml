@@ -7,5 +7,15 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.kino.screen.detail.DetailFragment"
-        android:label="DetailFragment"/>
+        android:label="DetailFragment">
+        <action
+            android:id="@+id/action_detailFragment_to_tabFragment"
+            app:destination="@id/tabFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tabFragment"
+        android:name="com.example.kino.screen.pager.TabFragment"
+        android:label="TabFragment" />
+
+
 </navigation>
