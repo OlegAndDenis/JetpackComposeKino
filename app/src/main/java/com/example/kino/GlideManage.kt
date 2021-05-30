@@ -48,8 +48,16 @@ class GlideManage private constructor(private val requestManager: RequestManager
             .into(imageView)
     }
 
+    fun loadRoundPoster(path: String, imageView: ImageView) {
+        requestManager
+            .load(createPoster(path))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .transform(RoundTransformation())
+            .into(imageView)
+    }
+
     private fun createPoster(path: String): Uri =
-        Uri.parse("https://image.tmdb.org/t/p/w92/$path")
+        Uri.parse("https://image.tmdb.org/t/p/w500/$path")
 
     private fun createPath(path: String): Uri =
         Uri.parse("https://image.tmdb.org/t/p/w500/$path")

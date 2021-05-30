@@ -25,11 +25,15 @@ class VerticalViewHolder private constructor(
 
     override fun bind(item: GenresList, position: Int) {
         binding.title.text = item.name
+        binding.horizontal.setHasFixedSize(true)
 
         val adapter = CommonAdapter(object : HolderCreator<MovieResult> {
             override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
-                return if (item.type == -1) MovieViewHolder(parent,
-                    onClick) else HorizontalViewHolder(parent, onClick)
+                return when (item.type) {
+                    -1 -> MovieViewHolder(parent,
+                        onClick)
+                    else -> HorizontalViewHolder(parent, onClick)
+                }
             }
         })
 

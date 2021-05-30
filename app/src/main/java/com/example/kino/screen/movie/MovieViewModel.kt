@@ -14,10 +14,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.random.Random
 
-private const val ALL_MOVIE_COUNT = 13
-private const val ZERO = 0
 private const val TOP_FIVE = 5
-private const val TOP_MORE = 7
+private const val TOP_MORE = 14
 
 class MovieViewModel(
     private val networkRepository: NetworkRepository,
@@ -49,38 +47,10 @@ class MovieViewModel(
         }
     }
 
-    private fun selectTopFive(list: List<MovieResult>): List<MovieResult> {
+    private fun selectionTopMore(list: List<MovieResult>, countElement: Int): List<MovieResult> {
         val editList = list.toMutableList()
         editList.sortByDescending { it.voteCount }
-        val topFiv = editList.take(TOP_FIVE).toMutableList()
-        val paths = addLastElement(list)
-        topFiv.add(MovieResult(paths = paths))
-        return topFiv
-    }
-
-    private fun selectionTopMore(list: List<MovieResult>): List<MovieResult> {
-        val editList = list.toMutableList()
-        editList.sortByDescending { it.voteCount }
-        val topMore = editList.take(TOP_MORE).toMutableList()
-        val paths = addLastElement(list)
-        topMore.add(MovieResult(paths = paths))
-        return topMore
-    }
-
-    private fun addLastElement(list: List<MovieResult>): List<String> {
-        val paths = mutableListOf<String>()
-        val randomCount = List(ALL_MOVIE_COUNT) { Random.nextInt(ZERO, list.size) }
-        repeat(randomCount.size) {
-            val path = createRandomPath(list, it)
-            paths.add(path)
-        }
-        return paths
-    }
-
-    private fun createRandomPath(list: List<MovieResult>, index: Int): String = when {
-        list[index].posterPath != "no" -> list[index].posterPath
-        list[index].backdropPath != "no" -> list[index].backdropPath
-        else -> "file:///android_asset/img/ic_launcher_round.png"
+        return editList.take(countElement).toMutableList()
     }
 
     private suspend fun getGenres() {
@@ -95,12 +65,12 @@ class MovieViewModel(
         genres.forEach {
             val networckGenres = networkRepository.getFilm(1, it.idGenres.toString())
             val genresList =
-                GenresList(0, it.name, it.idGenres, selectionTopMore(networckGenres.result))
+                GenresList(0, it.name, it.idGenres, selectionTopMore(networckGenres.result, TOP_MORE))
             genre.add(genresList)
         }
 
-        val rotateList: List<MovieResult> = selectTopFive(rotate.result)
-        val topList: List<MovieResult> = selectTopFive(top.result)
+        val rotateList: List<MovieResult> = selectionTopMore(rotate.result, TOP_FIVE)
+        val topList: List<MovieResult> = selectionTopMore(top.result, TOP_FIVE)
         genre.add(0, GenresList(-1, "Топ 5", -1, topList))
         val int = Random.nextInt(2, genre.size - 2)
         genre.add(int, GenresList(-1, "Топ по рейтингу", -2, rotateList))

@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="wrap_content"
     android:background="@color/black">
 
     <ImageView
         android:id="@+id/one"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/two"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -29,8 +29,8 @@
 
     <ImageView
         android:id="@+id/three"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -40,8 +40,8 @@
 
     <ImageView
         android:id="@+id/four"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -51,8 +51,8 @@
 
     <ImageView
         android:id="@+id/five"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -63,8 +63,8 @@
 
     <ImageView
         android:id="@+id/six"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -74,8 +74,8 @@
 
     <ImageView
         android:id="@+id/seven"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -85,8 +85,8 @@
 
     <ImageView
         android:id="@+id/eight"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -96,8 +96,8 @@
 
     <ImageView
         android:id="@+id/nine"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -107,8 +107,8 @@
 
     <ImageView
         android:id="@+id/ten"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -118,8 +118,8 @@
 
     <ImageView
         android:id="@+id/eleven"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -129,8 +129,8 @@
 
     <ImageView
         android:id="@+id/twelve"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintHeight_percent="0.3"
@@ -140,8 +140,8 @@
 
     <ImageView
         android:id="@+id/center"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

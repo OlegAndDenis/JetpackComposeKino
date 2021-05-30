@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,7 +20,8 @@
         android:id="@+id/movie_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="@id/movie_popularity"
         app:layout_constraintEnd_toEndOf="@id/movie_popularity"
         app:layout_constraintBottom_toBottomOf="@id/movie_popularity" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

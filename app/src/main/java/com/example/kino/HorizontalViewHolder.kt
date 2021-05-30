@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.HorizontalViewHolderBinding
-import com.example.kino.databinding.VerticalViewHolderBinding
 import com.example.kino.network.model.movie.MovieResult
 
 class HorizontalViewHolder private constructor(
@@ -21,7 +20,7 @@ class HorizontalViewHolder private constructor(
 
     override fun bind(item: MovieResult, position: Int) {
         if (item.posterPath != "no")
-            GlideManage.with(binding.poster).loadPoster(item.posterPath, binding.poster)
+            GlideManage.with(binding.poster).loadRoundPoster(item.posterPath, binding.poster)
         id = item.id.toString()
     }
 
