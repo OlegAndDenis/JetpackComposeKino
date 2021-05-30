@@ -13,9 +13,9 @@ interface NetworkRepository {
 
     fun getListItems()
 
-    fun getFilm(page: Int, genres: String): Single<Movie>
+    suspend fun getFilm(page: Int, genres: String): Movie
 
-    fun getPopularity(page: Int): Single<Movie>
+    suspend fun getPopularity(page: Int): Movie
 
     fun getSerials(page: Int): Single<Serials>
 
@@ -25,7 +25,7 @@ interface NetworkRepository {
 
     fun getActors(idMovie: String): Single<Actors>
 
-    fun getRotate(page: Int): Single<Movie>
+    suspend fun getRotate(page: Int): Movie
 
     fun isOnline(): Boolean
 

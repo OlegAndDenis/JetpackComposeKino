@@ -21,13 +21,13 @@ interface Api {
     ): Single<GenresList>
 
     @GET("discover/movie")
-    fun getFilm(@QueryMap param: MutableMap<String, String>): Single<Movie>
+    suspend fun getFilm(@QueryMap param: MutableMap<String, String>): Movie
 
     @GET("movie/popular")
-    fun getPopularity(@QueryMap param: MutableMap<String, String>): Single<Movie>
+    suspend fun getPopularity(@QueryMap param: MutableMap<String, String>): Movie
 
     @GET("movie/top_rated")
-    fun getRotate(@QueryMap param: MutableMap<String, String>): Single<Movie>
+    suspend fun getRotate(@QueryMap param: MutableMap<String, String>): Movie
 
     @GET("movie/now_playing")
     fun getNewPlaying(@QueryMap param: MutableMap<String, String>): Single<Movie>

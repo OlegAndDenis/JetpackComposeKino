@@ -59,14 +59,14 @@ class AllMovieViewModel(
     }
 
     private fun getMovieByGenres(page: Int) {
-        val value = genres.value
-        val genresId: String = if (value != null && value != "-1") value.toString() else ""
-        disposable += networkRepository.getFilm(page, genresId)
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                resultMove.postValue(it)
-                addMovie(it.result)
-            }, Timber::e)
+//        val value = genres.value
+//        val genresId: String = if (value != null && value != "-1") value.toString() else ""
+//        disposable += networkRepository.getFilm(page, genresId)
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                resultMove.postValue(it)
+//                addMovie(it.result)
+//            }, Timber::e)
     }
 
     private fun addMovie(newMovies: List<MovieResult>) {

@@ -75,10 +75,10 @@ class NetworkRepositoryImpl(
     override fun getMovie(id: String): Single<MovieDetail> =
         api.getMovie(id, buildParamMovie())
 
-    override fun getFilm(page: Int, genres: String): Single<Movie> =
+    override suspend fun getFilm(page: Int, genres: String): Movie =
         api.getFilm(buildParamFilm(page, genres))
 
-    override fun getPopularity(page: Int): Single<Movie> =
+    override suspend fun getPopularity(page: Int): Movie =
         api.getPopularity(buildParamPopularity(page))
 
     override fun getSerials(page: Int): Single<Serials> =
@@ -90,7 +90,7 @@ class NetworkRepositoryImpl(
     override fun getActors(idMovie: String): Single<Actors> =
         api.getActor(idMovie, buildActor())
 
-    override fun getRotate(page: Int): Single<Movie> =
+    override suspend fun getRotate(page: Int): Movie =
         api.getRotate(buildParamPopularity(page))
 
     override fun isOnline(): Boolean = ConnectionCheck.isOnline(context)

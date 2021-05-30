@@ -4,6 +4,7 @@ import androidx.room.*
 import com.example.kino.db.model.CheckColumnDB
 import com.example.kino.db.model.Genres
 import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
@@ -38,5 +39,5 @@ interface MovieDao {
 
     //    %tv%
     @Query("select * from genres where genres.type like :type")
-    fun getAllGenresType(type: String): Single<List<Genres>>
+    suspend fun getAllGenresType(type: String): List<Genres>
 }

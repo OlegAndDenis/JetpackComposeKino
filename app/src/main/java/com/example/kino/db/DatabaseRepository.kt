@@ -12,5 +12,5 @@ interface DatabaseRepository {
 
     fun insertGenres(listGenres : List<GenresApi>, type : TypeEnum)
 
-    fun getGenres(type: TypeEnum): Single<List<Genres>>
+    suspend fun getGenres(type: TypeEnum): List<Genres>
 }

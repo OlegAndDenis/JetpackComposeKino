@@ -1,14 +1,13 @@
 package com.example.kino.screen.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.kino.CommonFactory
 import com.example.kino.R
 import com.example.kino.VerticalViewHolder
@@ -17,16 +16,14 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.findNavController
-import com.example.kino.network.model.movie.MovieResult
+import com.example.kino.launchView
 import com.example.kino.screen.GenresList
-import com.example.kino.screen.IndicatorDecoration
 import com.example.kino.screen.common.*
 import com.example.kino.screen.common.ContainerId.*
 import com.example.kino.screen.common.ScreenEnum.*
-
-private const val SCROLL_TO_POSITION = 2
-private const val MOVIE_ALL_TYPE = 1
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
 
@@ -56,10 +53,10 @@ class MovieFragment : BaseFragment() {
         binding.movieTopFive.apply {
             adapter = this@MovieFragment.adapter
         }
-        viewModel.movieByGenres.observe(viewLifecycleOwner, this::setGenres)
-        viewModel.responseId.observe(viewLifecycleOwner, this::openMovie)
-        viewModel.responseGenresByPosition.observeView(this::openGenres)
 
+        viewModel.responseId.onEach(this::openMovie).launchView(viewLifecycleOwner)
+        viewModel.responseGenresByPosition.onEach(this::openGenres).launchView(viewLifecycleOwner)
+        viewModel.movieByGenres.onEach(this@MovieFragment::setGenres).launchView(viewLifecycleOwner)
     }
 
     override fun onDestroyView() {
@@ -70,6 +67,7 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun setGenres(genres: List<GenresList>) {
+        Timber.i("$genres")
         adapter.setTList(genres)
     }
 

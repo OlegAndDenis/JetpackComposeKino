@@ -57,10 +57,11 @@ fun BottomNavigationView.setupWithNavController(
     val titleReturn: SingleLiveEvent<MenuItem> = SingleLiveEvent()
 
     setOnNavigationItemSelectedListener { item ->
+        titleReturn.postValue(item)
+
         if (fragmentManager.isStateSaved) {
             false
         } else {
-            titleReturn.postValue(item)
             val newlySelectedItemTag = graphIdToTagMap[item.itemId]
             if (selectedItemTag != newlySelectedItemTag) {
 
