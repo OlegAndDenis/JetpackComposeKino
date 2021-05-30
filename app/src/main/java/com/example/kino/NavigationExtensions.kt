@@ -3,21 +3,30 @@ package com.example.kino
 import android.content.Intent
 import android.util.SparseArray
 import android.view.MenuItem
+import androidx.appcompat.view.menu.MenuItemImpl
 import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
     intent: Intent,
-): LiveData<MenuItem> {
+): StateFlow<MenuItem?> {
 
     val graphIdToTagMap = SparseArray<String>()
 
@@ -54,10 +63,10 @@ fun BottomNavigationView.setupWithNavController(
     var selectedItemTag = graphIdToTagMap[this.selectedItemId]
     val firstFragmentTag = graphIdToTagMap[firstFragmentGraphId]
     var isOnFirstFragment = selectedItemTag == firstFragmentTag
-    val titleReturn: SingleLiveEvent<MenuItem> = SingleLiveEvent()
+    val titleReturn: MutableStateFlow<MenuItem?> = MutableStateFlow(null)
 
     setOnNavigationItemSelectedListener { item ->
-        titleReturn.postValue(item)
+        titleReturn.value = item
 
         if (fragmentManager.isStateSaved) {
             false
@@ -142,7 +151,7 @@ private fun BottomNavigationView.setupDeepLinks(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
-    intent: Intent
+    intent: Intent,
 ) {
     navGraphIds.forEachIndexed { index, navGraphId ->
         val fragmentTag = getFragmentTag(index)
@@ -164,7 +173,7 @@ private fun BottomNavigationView.setupDeepLinks(
 
 private fun BottomNavigationView.setupItemReselected(
     graphIdToTagMap: SparseArray<String>,
-    fragmentManager: FragmentManager
+    fragmentManager: FragmentManager,
 ) {
     setOnNavigationItemReselectedListener { item ->
         val newlySelectedItemTag = graphIdToTagMap[item.itemId]
@@ -180,7 +189,7 @@ private fun BottomNavigationView.setupItemReselected(
 
 private fun detachNavHostFragment(
     fragmentManager: FragmentManager,
-    navHostFragment: NavHostFragment
+    navHostFragment: NavHostFragment,
 ) {
     fragmentManager.beginTransaction()
         .detach(navHostFragment)
@@ -190,7 +199,7 @@ private fun detachNavHostFragment(
 private fun attachNavHostFragment(
     fragmentManager: FragmentManager,
     navHostFragment: NavHostFragment,
-    isPrimaryNavFragment: Boolean
+    isPrimaryNavFragment: Boolean,
 ) {
     fragmentManager.beginTransaction()
         .attach(navHostFragment)
@@ -206,7 +215,7 @@ private fun obtainNavHostFragment(
     fragmentManager: FragmentManager,
     fragmentTag: String,
     navGraphId: Int,
-    containerId: Int
+    containerId: Int,
 ): NavHostFragment {
 
     val existingFragment = fragmentManager.findFragmentByTag(fragmentTag) as NavHostFragment?

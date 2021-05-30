@@ -8,10 +8,12 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.NavigationUI
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
+import com.example.kino.launchView
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.ContainerId.*
 import com.example.kino.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.onEach
 
 class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
 
@@ -42,7 +44,7 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
             childFragmentManager,
             binding.containerFrame.id,
             requireActivity().intent
-        ).observeView(this::onNavigationTitleSelected)
+        ).onEach(this::onNavigationTitleSelected).launchView(viewLifecycleOwner)
         setHasOptionsMenu(true)
     }
 
@@ -64,13 +66,15 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
         super.onPrepareOptionsMenu(menu)
     }
 
-    private fun onNavigationTitleSelected(item: MenuItem) {
-        binding.containerToolbar.title = item.title
-        if (item.itemId == R.id.butt_search) {
-            binding.containerToolbar.title = ""
+    private fun onNavigationTitleSelected(item: MenuItem?) {
+        item?.let {
+            binding.containerToolbar.title = item.title
+            if (item.itemId == R.id.butt_search) {
+                binding.containerToolbar.title = ""
+            }
+            binding.containerToolbar.tag = item.itemId
+            (activity as AppCompatActivity).invalidateOptionsMenu()
         }
-        binding.containerToolbar.tag = item.itemId
-        (activity as AppCompatActivity).invalidateOptionsMenu()
     }
 
     override fun onDestroyView() {
