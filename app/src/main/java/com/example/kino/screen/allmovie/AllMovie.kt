@@ -1,6 +1,7 @@
 package com.example.kino.screen.allmovie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,9 +56,9 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModelTransaction.responseTop.onEach { showTop() }.launchView(viewLifecycleOwner)
         viewModelTransaction.responseGenres.onEach(this::showGenres).launchView(viewLifecycleOwner)
-        viewModel.responseMovieResult.observeView(this::setPopularity)
-        viewModel.responseId.observeView(this::openMovie)
-        viewModel.title.observeView(this::setTitle)
+        viewModel.responseMovieResult.onEach(this::setPopularity).launchView(viewLifecycleOwner)
+        viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)
+        viewModel.title.onEach{ binding.toolbar.title = it }.launchView(viewLifecycleOwner)
         binding.recyclerView.apply {
             adapter = this@AllMovie.adapter
             LinearSnapHelper().attachToRecyclerView(this)
@@ -65,11 +66,8 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
         }
     }
 
-    private fun setTitle(title: String) {
-        binding.toolbar.title = title
-    }
-
     private fun showTop() {
+        Timber.i("THIS")
 //        binding.toolbar.title = "популярные"
 //        viewModel.newPage()
 //        viewModel.setTitle("популярные")

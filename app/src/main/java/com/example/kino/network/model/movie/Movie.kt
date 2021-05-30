@@ -9,7 +9,7 @@ data class Movie(
     val page: Int = 0,
     @SerializedName("results")
     @Expose
-    val result: List<MovieResult>,
+    val result: List<MovieResult> = emptyList(),
     @SerializedName("total_pages")
     @Expose
     val totalPages: Int = 0,

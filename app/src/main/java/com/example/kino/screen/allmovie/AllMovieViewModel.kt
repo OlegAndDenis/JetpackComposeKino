@@ -1,50 +1,45 @@
 package com.example.kino.screen.allmovie
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kino.screen.movie.OldAndNewList
-import com.example.kino.SingleLiveEvent
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
-import com.example.kino.plusAssign
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 
 class AllMovieViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel() {
 
-    private val disposable = CompositeDisposable()
+    private val resultMove: MutableStateFlow<Movie> = MutableStateFlow(Movie(page = -99))
+    private val genres: MutableStateFlow<String> = MutableStateFlow("")
 
-    private val resultMove: MutableLiveData<Movie> = MutableLiveData()
+    private val resultMoveResult: MutableStateFlow<OldAndNewList> = MutableStateFlow(OldAndNewList())
+    val responseMovieResult: StateFlow<OldAndNewList> get() = resultMoveResult.asStateFlow()
 
-    private val resultMoveResult: SingleLiveEvent<OldAndNewList> = SingleLiveEvent()
-    val responseMovieResult: LiveData<OldAndNewList> get() = resultMoveResult
+    private val _resultId: MutableSharedFlow<String> = MutableSharedFlow(0)
+    val resultId: SharedFlow<String> get() = _resultId.asSharedFlow()
 
-    private val resultId: SingleLiveEvent<String> = SingleLiveEvent()
-    val responseId: LiveData<String> = resultId
-
-    private val genres: MutableLiveData<String> = MutableLiveData()
-
-    private val _title: MutableLiveData<String> = MutableLiveData()
-    val title: LiveData<String> = _title
+    private val _title: MutableSharedFlow<String> = MutableSharedFlow(0)
+    val title: SharedFlow<String> get() = _title.asSharedFlow()
 
 
     fun setTitle(title: String) {
-        _title.value = title
+        viewModelScope.launch {
+            _title.emit(title)
+        }
     }
 
     fun getMovieClick(id: Long) {
-        resultId.postValue(id.toString())
+        viewModelScope.launch {
+            _resultId.emit(id.toString())
+        }
     }
 
     fun setGenres(id: String) {
@@ -52,9 +47,9 @@ class AllMovieViewModel(
     }
 
     fun newPage() {
-        if (resultMove.value != null) {
-            val page = resultMove.value?.page?.plus(1) ?: -1
-            if (page != -1 && page != resultMove.value?.totalPages) {
+        if (resultMove.value.page != -99) {
+            val page = resultMove.value.page.plus(1)
+            if (page != -1 && page != resultMove.value.totalPages) {
                 getMovieByGenres(page)
             }
         } else {
@@ -64,28 +59,27 @@ class AllMovieViewModel(
 
     private fun getMovieByGenres(page: Int) {
         val value = genres.value
-        val genresId: String = if (value != null && value != "-1") value.toString() else ""
+        val genresId: String = value
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val film = networkRepository.getFilm(page, genresId)
-                resultMove.postValue(film)
+                resultMove.emit(film)
                 addMovie(film.result)
             }
         }
     }
 
     private suspend fun addMovie(newMovies: List<MovieResult>) {
-        if (responseMovieResult.value != null) {
-            val old = resultMoveResult.value?.old?.toMutableList()
-            old?.addAll(newMovies)
-            resultMoveResult.postValue(OldAndNewList(old!!, newMovies))
+        if (responseMovieResult.value.old.isNotEmpty()) {
+            val old = resultMoveResult.value.old.toMutableList()
+            old.addAll(newMovies)
+            resultMoveResult.value = OldAndNewList(old, newMovies)
         } else {
-            resultMoveResult.postValue(OldAndNewList(new = newMovies, old = newMovies))
+            resultMoveResult.value = OldAndNewList(new = newMovies, old = newMovies)
         }
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposable.clear()
     }
 }
