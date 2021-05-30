@@ -13,6 +13,7 @@ import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.TransactionViewModel
+import kotlinx.coroutines.flow.onEach
 
 class OverviewFragment : BaseFragment() {
 
@@ -32,7 +33,7 @@ class OverviewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModelTransaction.overView.observeView(this::setDate)
+        viewModelTransaction.overView.onEach(this::setDate).launchView(viewLifecycleOwner)
     }
 
     private fun setDate(date: MovieDetail) {

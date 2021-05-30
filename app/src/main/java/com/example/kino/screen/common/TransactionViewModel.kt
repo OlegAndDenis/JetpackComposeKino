@@ -1,47 +1,57 @@
 package com.example.kino.screen.common
 
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.kino.SingleLiveEvent
+import androidx.lifecycle.viewModelScope
 import com.example.kino.db.model.Genres
 import com.example.kino.network.model.movie.MovieDetail
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class TransactionViewModel : ViewModel() {
 
-    private val resultId: SingleLiveEvent<String> = SingleLiveEvent()
-    val responseId: LiveData<String> = resultId
+    private val resultId: MutableStateFlow<String> = MutableStateFlow("")
+    val responseId: StateFlow<String> get() = resultId.asStateFlow()
 
-    private val resultTop: SingleLiveEvent<Unit> = SingleLiveEvent()
-    val responseTop: LiveData<Unit> = resultTop
+    private val resultTop: MutableStateFlow<Unit> = MutableStateFlow(Unit)
+    val responseTop: StateFlow<Unit> get() = resultTop.asStateFlow()
 
-    private val resultGenres: SingleLiveEvent<Genres> = SingleLiveEvent()
-    val responseGenres: LiveData<Genres> = resultGenres
+    private val resultGenres: MutableStateFlow<Genres> = MutableStateFlow(Genres(0, 0, "",""))
+    val responseGenres: StateFlow<Genres> get() = resultGenres.asStateFlow()
 
-    private val _overView: SingleLiveEvent<MovieDetail> = SingleLiveEvent()
-    val overView: LiveData<MovieDetail> = _overView
+    private val _overView: MutableStateFlow<MovieDetail> = MutableStateFlow(MovieDetail())
+    val overView: StateFlow<MovieDetail> get() = _overView.asStateFlow()
 
-    private val _mapFragment: SingleLiveEvent<Map<Fragment, String>> = SingleLiveEvent()
-    val mapFragment: LiveData<Map<Fragment, String>> = _mapFragment
+    private val _mapFragment: MutableStateFlow<Map<Fragment, String>> = MutableStateFlow(mapOf())
+    val mapFragment: StateFlow<Map<Fragment, String>> get() = _mapFragment.asStateFlow()
 
     fun callId(id: String) {
-        resultId.postValue(id)
+        viewModelScope.launch {
+            resultId.emit(id)
+        }
     }
 
     fun callTop() {
-        resultTop.postValue(Unit)
+        viewModelScope.launch {
+            resultTop.emit(Unit)
+        }
     }
 
     fun callGenres(genres: Genres) {
-        resultGenres.postValue(genres)
+        viewModelScope.launch {
+            resultGenres.emit(genres)
+        }
     }
 
     fun callOverView(overview: MovieDetail) {
-        _overView.postValue(overview)
+        viewModelScope.launch {
+            _overView.emit(overview)
+        }
     }
 
     fun callFragment(map: Map<Fragment, String>) {
-        _mapFragment.postValue(map)
+        viewModelScope.launch {
+            _mapFragment.emit(map)
+        }
     }
 }

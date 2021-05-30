@@ -19,8 +19,10 @@ import com.example.kino.adapter.DataDiffUtils
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.AllMovieLayoutBinding
 import com.example.kino.db.model.Genres
+import com.example.kino.launchView
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.common.*
+import kotlinx.coroutines.flow.onEach
 
 class AllMovie : BaseFragment(), OnVerticalScrollListener {
 
@@ -49,8 +51,8 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { navigation = it as CommonNavigation }
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        viewModelTransaction.responseTop.observeView { showTop() }
-        viewModelTransaction.responseGenres.observeView(this::showGenres)
+        viewModelTransaction.responseTop.onEach { showTop() }.launchView(viewLifecycleOwner)
+        viewModelTransaction.responseGenres.onEach(this::showGenres).launchView(viewLifecycleOwner)
         viewModel.responseMovieResult.observeView(this::setPopularity)
         viewModel.responseId.observeView(this::openMovie)
         viewModel.title.observeView(this::setTitle)

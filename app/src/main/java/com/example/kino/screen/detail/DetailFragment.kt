@@ -13,10 +13,12 @@ import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.DetailLayoutBinding
+import com.example.kino.launchView
 import com.example.kino.network.model.common.Backdrops
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.*
+import kotlinx.coroutines.flow.onEach
 
 class DetailFragment : BaseFragment() {
 
@@ -43,7 +45,7 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        viewModelTransaction.responseId.observeView(viewModel::requestId)
+        viewModelTransaction.responseId.onEach(viewModel::requestId).launchView(viewLifecycleOwner)
         viewModel.responseMovie.observeView { setId(it) }
         viewModel.mapFragment.observeView(viewModelTransaction::callFragment)
         viewModel.overview.observeView(viewModelTransaction::callOverView)

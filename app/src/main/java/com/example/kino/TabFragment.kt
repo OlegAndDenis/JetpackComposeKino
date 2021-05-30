@@ -15,6 +15,7 @@ import com.example.kino.screen.common.CommonNavigation
 import com.example.kino.screen.common.TransactionViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.flow.onEach
 
 class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
@@ -38,7 +39,7 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.let { navigation = it as CommonNavigation}
-        viewModelTransaction.mapFragment.observeView(this::setAdapter)
+        viewModelTransaction.mapFragment.onEach(this::setAdapter).launchView(viewLifecycleOwner)
         adapter = FragmentPager(childFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
         binding.viewPager.overScrollMode = View.OVER_SCROLL_NEVER
