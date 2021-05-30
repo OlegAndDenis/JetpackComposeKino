@@ -14,25 +14,34 @@ import com.example.kino.screen.movie.MovieViewHolder
 
 class VerticalViewHolder private constructor(
     private val binding: VerticalViewHolderBinding,
-    private val onClick: (String) -> Unit,
+    private val onClickMovie: (String) -> Unit,
+    private val onClickCategory: (GenresList) -> Unit,
 ) : BindHolder<GenresList>(binding) {
 
-    constructor(parent: ViewGroup, onClick: (String) -> Unit) : this(
+    constructor(
+        parent: ViewGroup,
+        onClick: (String) -> Unit,
+        onClickCategory: (GenresList) -> Unit,
+    ) : this(
         VerticalViewHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-        onClick)
+        onClick,
+        onClickCategory)
 
     private val pagerSnap: PagerSnapHelper = PagerSnapHelper()
 
     override fun bind(item: GenresList, position: Int) {
         binding.title.text = item.name
         binding.horizontal.setHasFixedSize(true)
+        binding.title.setOnClickListener {
+            onClickCategory(item)
+        }
 
         val adapter = CommonAdapter(object : HolderCreator<MovieResult> {
             override fun create(parent: ViewGroup, viewType: Int): BindHolder<MovieResult> {
                 return when (item.type) {
                     -1 -> MovieViewHolder(parent,
-                        onClick)
-                    else -> HorizontalViewHolder(parent, onClick)
+                        onClickMovie)
+                    else -> HorizontalViewHolder(parent, onClickMovie)
                 }
             }
         })

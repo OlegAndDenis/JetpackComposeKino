@@ -7,7 +7,13 @@
 
     <fragment
         android:id="@+id/all_movie_navigation"
-        android:name="com.example.kino.screen.detail.DetailFragment"
+        android:name="com.example.kino.screen.allmovie.AllMovie"
         tools:layout="@layout/all_movie_layout"
-        android:label="AllMovie"/>
+        android:label="AllMovie">
+        <action
+            android:id="@+id/action_all_movie_navigation_to_detail_navigation"
+            app:destination="@id/detail_navigation" />
+    </fragment>
+
+    <include app:graph="@navigation/detail_navigation"/>
 </navigation>

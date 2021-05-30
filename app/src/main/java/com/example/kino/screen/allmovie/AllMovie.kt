@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.kino.CommonFactory
+import com.example.kino.R
 import com.example.kino.screen.movie.OldAndNewList
 import com.example.kino.screen.common.OnScrollListener
 import com.example.kino.screen.common.OnVerticalScrollListener
@@ -23,12 +26,12 @@ import com.example.kino.launchView
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.common.*
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 class AllMovie : BaseFragment(), OnVerticalScrollListener {
 
     private var _binding: AllMovieLayoutBinding? = null
     private val binding get() = _binding!!
-    private var navigation: CommonNavigation? = null
 
     private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
     private val viewModel: AllMovieViewModel by viewModels { CommonFactory }
@@ -49,7 +52,6 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.let { navigation = it as CommonNavigation }
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         viewModelTransaction.responseTop.onEach { showTop() }.launchView(viewLifecycleOwner)
         viewModelTransaction.responseGenres.onEach(this::showGenres).launchView(viewLifecycleOwner)
@@ -68,9 +70,9 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     private fun showTop() {
-        binding.toolbar.title = "популярные"
-        viewModel.newPage()
-        viewModel.setTitle("популярные")
+//        binding.toolbar.title = "популярные"
+//        viewModel.newPage()
+//        viewModel.setTitle("популярные")
     }
 
     private fun showGenres(genres: Genres) {
@@ -89,14 +91,14 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        navigation = null
         binding.root.removeAllViews()
         _binding = null
     }
 
     private fun openMovie(id: String) {
-        navigation?.openScreen(ScreenEnum.DETAIL, ContainerId.GLOBAL_FRAME)
         viewModelTransaction.callId(id)
+        Navigation.findNavController(requireActivity(), R.id.common_frame)
+            .navigate(R.id.action_all_movie_navigation_to_detail_navigation)
     }
 
     override fun onScrolledToTop() {

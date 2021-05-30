@@ -16,6 +16,8 @@ import kotlin.random.Random
 
 private const val TOP_FIVE = 5
 private const val TOP_MORE = 14
+private const val TopFiveName = "Топ 5"
+private const val TopVoteCount = "Топ по рейтингу"
 
 class MovieViewModel(
     private val networkRepository: NetworkRepository,
@@ -47,6 +49,23 @@ class MovieViewModel(
         }
     }
 
+    fun clickByCategory(category: GenresList) {
+        viewModelScope.launch {
+            if (category.type == -1) {
+                when (category.name) {
+                    TopFiveName -> {
+                    }
+                    TopVoteCount -> {
+                    }
+                    else -> {
+                    }
+                }
+            } else {
+                resultGenresByPosition.emit(Genres(idGenres = category.idGenres, name = category.name, type = ""))
+            }
+        }
+    }
+
     private fun selectionTopMore(list: List<MovieResult>, countElement: Int): List<MovieResult> {
         val editList = list.toMutableList()
         editList.sortByDescending { it.voteCount }
@@ -65,15 +84,18 @@ class MovieViewModel(
         genres.forEach {
             val networckGenres = networkRepository.getFilm(1, it.idGenres.toString())
             val genresList =
-                GenresList(0, it.name, it.idGenres, selectionTopMore(networckGenres.result, TOP_MORE))
+                GenresList(0,
+                    it.name,
+                    it.idGenres,
+                    selectionTopMore(networckGenres.result, TOP_MORE))
             genre.add(genresList)
         }
 
         val rotateList: List<MovieResult> = selectionTopMore(rotate.result, TOP_FIVE)
         val topList: List<MovieResult> = selectionTopMore(top.result, TOP_FIVE)
-        genre.add(0, GenresList(-1, "Топ 5", -1, topList))
+        genre.add(0, GenresList(-1, TopFiveName, -1, topList))
         val int = Random.nextInt(2, genre.size - 2)
-        genre.add(int, GenresList(-1, "Топ по рейтингу", -2, rotateList))
+        genre.add(int, GenresList(-1, TopVoteCount, -2, rotateList))
         _movieByGenres.emit(genre)
     }
 

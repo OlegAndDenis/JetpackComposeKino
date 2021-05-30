@@ -36,7 +36,7 @@ class MovieFragment : BaseFragment() {
 
     private val adapter = CommonAdapter(object : HolderCreator<GenresList> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {
-            return VerticalViewHolder(parent, viewModel::getMovieClick)
+            return VerticalViewHolder(parent, viewModel::getMovieClick, viewModel::clickByCategory)
         }
     })
 
@@ -84,6 +84,8 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openGenres(genres: Genres) {
+        Navigation.findNavController(requireActivity(), R.id.common_frame)
+            .navigate(R.id.open_MovieFragment_to_AllFragment)
         viewModelTransaction.callGenres(genres)
     }
 }

@@ -3,6 +3,7 @@ package com.example.kino.screen.allmovie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.kino.screen.movie.OldAndNewList
 import com.example.kino.SingleLiveEvent
 import com.example.kino.db.DatabaseRepository
@@ -12,6 +13,9 @@ import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.plusAssign
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class AllMovieViewModel(
@@ -59,17 +63,18 @@ class AllMovieViewModel(
     }
 
     private fun getMovieByGenres(page: Int) {
-//        val value = genres.value
-//        val genresId: String = if (value != null && value != "-1") value.toString() else ""
-//        disposable += networkRepository.getFilm(page, genresId)
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({
-//                resultMove.postValue(it)
-//                addMovie(it.result)
-//            }, Timber::e)
+        val value = genres.value
+        val genresId: String = if (value != null && value != "-1") value.toString() else ""
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val film = networkRepository.getFilm(page, genresId)
+                resultMove.postValue(film)
+                addMovie(film.result)
+            }
+        }
     }
 
-    private fun addMovie(newMovies: List<MovieResult>) {
+    private suspend fun addMovie(newMovies: List<MovieResult>) {
         if (responseMovieResult.value != null) {
             val old = resultMoveResult.value?.old?.toMutableList()
             old?.addAll(newMovies)
