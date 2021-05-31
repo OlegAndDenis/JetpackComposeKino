@@ -21,21 +21,25 @@
             <Button
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="50dp" />
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/play_film" />
 
             <Button
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="50dp" />
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/play_triller"/>
 
             <Button
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginEnd="50dp" />
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/but_share"/>
 
             <Button
                 android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:background="@drawable/but_favorite"/>
         </LinearLayout>
 
         <TextView
