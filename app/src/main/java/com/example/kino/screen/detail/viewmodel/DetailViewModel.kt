@@ -60,7 +60,7 @@ class DetailViewModel(
             map[CompanyFragment()] = "издатели"
         }
 
-        if (!pair.first.belongsToCollections.isEmpty) {
+        if (pair.first.belongsToCollections != null && !pair.first.belongsToCollections.isEmpty) {
             map[CollectionsFragment()] = "коллекция"
         }
 

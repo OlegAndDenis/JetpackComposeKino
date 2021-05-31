@@ -7,7 +7,7 @@ import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import com.example.kino.screen.detail.viewmodel.DetailViewModel
-import com.example.kino.screen.movie.MovieViewModel
+import com.example.kino.screen.movie.viemodel.MovieViewModel
 import com.example.kino.screen.splash.viewmodel.SplashViewModel
 import dagger.MapKey
 import dagger.Module

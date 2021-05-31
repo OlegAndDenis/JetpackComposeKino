@@ -5,7 +5,6 @@ import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.serial.Serials
-import com.example.kino.screen.common.ContainerId
 import io.reactivex.Single
 
 interface NetworkRepository {

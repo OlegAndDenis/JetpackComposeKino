@@ -15,9 +15,11 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
+import com.example.kino.extensions.launchView
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.example.kino.screen.movie.viemodel.MovieViewModel
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 

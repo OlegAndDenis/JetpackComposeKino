@@ -69,7 +69,7 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun setImage(path: String) {
-        GlideManage.with(binding.poster).loadImage(path, binding.poster)
+        GlideManage.with(binding.poster).loadRoundPoster(path, binding.poster)
     }
 
     override fun onDestroyView() {

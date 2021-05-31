@@ -9,12 +9,14 @@ import androidx.navigation.Navigation
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
+import com.example.kino.extensions.launchView
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.splash.viewmodel.SplashViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.onEach
 
 class SplashFragment : BaseFragment() {
 
@@ -33,7 +35,7 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.attachObservable.observeView(this::statusNetwork)
+        viewModel.attachObservable.onEach(this::statusNetwork).launchView(viewLifecycleOwner)
     }
 
     private fun statusNetwork(status: NetworkEnum) {
