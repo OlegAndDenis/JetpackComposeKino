@@ -7,20 +7,22 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.example.kino.CommonFactory
+import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.DetailLayoutBinding
-import com.example.kino.launchView
+import com.example.kino.extensions.launchView
 import com.example.kino.network.model.common.Backdrops
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.*
+import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.example.kino.screen.detail.viewholder.DetailViewHolder
+import com.example.kino.screen.detail.viewmodel.DetailViewModel
 import kotlinx.coroutines.flow.onEach
 
 class DetailFragment : BaseFragment() {

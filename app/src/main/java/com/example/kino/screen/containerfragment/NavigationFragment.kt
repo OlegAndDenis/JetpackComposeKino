@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.ui.NavigationUI
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
-import com.example.kino.launchView
+import com.example.kino.extensions.launchView
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.ContainerId.*
-import com.example.kino.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.kino.extensions.setupWithNavController
 import kotlinx.coroutines.flow.onEach
 
 class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {

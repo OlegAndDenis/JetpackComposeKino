@@ -4,11 +4,11 @@ import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
-import com.example.kino.screen.allmovie.AllMovieViewModel
-import com.example.kino.screen.common.TransactionViewModel
-import com.example.kino.screen.detail.DetailViewModel
+import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
+import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.example.kino.screen.detail.viewmodel.DetailViewModel
 import com.example.kino.screen.movie.MovieViewModel
-import com.example.kino.screen.splash.SplashViewModel
+import com.example.kino.screen.splash.viewmodel.SplashViewModel
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

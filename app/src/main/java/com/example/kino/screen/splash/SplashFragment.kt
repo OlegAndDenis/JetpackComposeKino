@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.example.kino.CommonFactory
+import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
+import com.example.kino.screen.splash.viewmodel.SplashViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 

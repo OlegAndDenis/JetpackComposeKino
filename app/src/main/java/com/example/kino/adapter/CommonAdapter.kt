@@ -3,7 +3,7 @@ package com.example.kino.adapter
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kino.VerticalViewHolder
+import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.adapter.holder.BindHolder
 
 

@@ -5,7 +5,7 @@ import com.example.kino.network.model.person.PersonResult
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.network.model.serial.SerialsResult
-import com.example.kino.screen.common.TypeEnum.*
+import com.example.kino.screen.common.typeenum.TypeEnum.*
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

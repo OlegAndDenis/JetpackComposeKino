@@ -6,23 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import com.example.kino.CommonFactory
+import com.example.kino.common.CommonFactory
 import com.example.kino.R
-import com.example.kino.VerticalViewHolder
+import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.launchView
-import com.example.kino.screen.GenresList
+import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
-import com.example.kino.screen.common.ContainerId.*
-import com.example.kino.screen.common.ScreenEnum.*
+import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
