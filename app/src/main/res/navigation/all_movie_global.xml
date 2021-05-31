@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/all_movie_global"
+    app:startDestination="@id/all_movie_global_fragment">
+
+    <fragment
+        android:id="@+id/all_movie_global_fragment"
+        android:name="com.example.kino.screen.listmovieview.AllMovieHack"
+        tools:layout="@layout/all_movie_layout"
+        android:label="AllMovieTwo">
+        <action
+            android:id="@+id/action_all_movie_navigation_to_detail_navigation"
+            app:destination="@id/detail_navigation" />
+    </fragment>
+
+    <action android:id="@+id/action_all_movie_navigation_self"
+        app:destination="@id/all_movie_global" />
+</navigation>

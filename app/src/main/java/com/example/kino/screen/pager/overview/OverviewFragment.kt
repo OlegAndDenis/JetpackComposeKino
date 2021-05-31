@@ -4,12 +4,19 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import com.example.kino.R
 import com.example.kino.common.CommonFactory
 import com.example.kino.databinding.OverviewLayoutBinding
+import com.example.kino.db.model.Genres
+import com.example.kino.extensions.findNavController
 import com.example.kino.glide.GlideManage
 import com.example.kino.extensions.launchView
 import com.example.kino.network.model.common.GenresApi
@@ -17,6 +24,7 @@ import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import kotlinx.coroutines.flow.onEach
+import timber.log.Timber
 
 class OverviewFragment : BaseFragment() {
 
@@ -25,13 +33,12 @@ class OverviewFragment : BaseFragment() {
 
     private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = OverviewLayoutBinding.inflate(layoutInflater)
+        _binding = OverviewLayoutBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -46,10 +53,13 @@ class OverviewFragment : BaseFragment() {
     }
 
     private fun setGenres(genres: List<GenresApi>) {
-        val builder = StringBuilder()
-        genres.forEach { builder.append(it.name).append(", ") }
-        val genre = builder.toString().replaceRange(builder.length - 2, builder.length, "")
-        binding.genres.text = genre
+        binding.genres.setGenres(genres)
+        binding.genres.setOnClickListener {
+            viewModelTransaction.callGenres(Genres(idGenres = it.id, name = it.name))
+
+            Navigation.findNavController(requireActivity(), R.id.common_frame)
+                .navigate(R.id.all_movie_global)
+        }
     }
 
     private fun setOverview(overview: String) {
@@ -74,6 +84,9 @@ class OverviewFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.genres.setOnClickListener(null)
+        binding.genres.removeAllViews()
+        binding.genres.onDestroy()
         binding.root.removeAllViews()
         _binding = null
     }

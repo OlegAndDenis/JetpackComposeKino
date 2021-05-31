@@ -29,10 +29,19 @@ class AllMovieViewModel(
     private val _title: MutableSharedFlow<String> = MutableSharedFlow(0)
     val title: SharedFlow<String> get() = _title.asSharedFlow()
 
+    private val _titleHack: MutableSharedFlow<String> = MutableSharedFlow(1)
+    val titleHack: SharedFlow<String> get() = _titleHack.asSharedFlow()
+
 
     fun setTitle(title: String) {
         viewModelScope.launch {
             _title.emit(title)
+        }
+    }
+
+    fun setTitleForHack(title: String) {
+        viewModelScope.launch {
+            _titleHack.emit(title)
         }
     }
 

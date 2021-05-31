@@ -35,7 +35,7 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = FragmentPagerAdapter(childFragmentManager, lifecycle)
+        adapter = FragmentPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
         binding.viewPager.adapter = adapter
         binding.viewPager.overScrollMode = View.OVER_SCROLL_NEVER
 
