@@ -19,6 +19,7 @@ import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.onEach
 
 class OverviewFragment : BaseFragment() {
@@ -50,10 +51,11 @@ class OverviewFragment : BaseFragment() {
     private fun setGenres(genres: List<GenresApi>) {
         binding.genres.setGenres(genres)
         binding.genres.setOnClickListener {
-            viewModelTransaction.callGenres(Genres(idGenres = it.id, name = it.name))
-
+            val bundle = Bundle()
+            val json = Gson().toJson(Genres(idGenres = it.id, name = it.name))
+            bundle.putString("genresId", json)
             Navigation.findNavController(requireActivity(), R.id.common_frame)
-                .navigate(R.id.action_overviewFragment_to_all_navigation)
+                .navigate(R.id.action_overviewFragment_to_all_navigation, bundle)
         }
     }
 

@@ -18,15 +18,14 @@ import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchView
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
-import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import com.example.kino.screen.movie.viemodel.MovieViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
 
     private val viewModel: MovieViewModel by viewModels { CommonFactory }
-    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
     private var _binding: MovieLayoutBinding? = null
     private val binding get() = _binding!!
@@ -70,20 +69,23 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openMovie(id: String) {
+        val bundle = Bundle()
+        bundle.putString("idMovie", id)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.action__MovieFragment_to_DetailFragment)
-        viewModelTransaction.callId(id)
+            .navigate(R.id.action__MovieFragment_to_DetailFragment, bundle)
     }
 
     private fun allTop() {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
             .navigate(R.id.open_MovieFragment_to_AllFragment)
-        viewModelTransaction.callTop()
     }
 
     private fun openGenres(genres: Genres) {
+        val bundle = Bundle()
+        val json = Gson().toJson(genres)
+        bundle.putString("genresId", json)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.open_MovieFragment_to_AllFragment)
-        viewModelTransaction.callGenres(genres)
+            .navigate(R.id.open_MovieFragment_to_AllFragment, bundle)
+//        viewModelTransaction.callGenres(genres)
     }
 }

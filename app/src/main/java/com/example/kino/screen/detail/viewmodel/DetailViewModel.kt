@@ -53,6 +53,7 @@ class DetailViewModel(
     suspend fun createMapFragment(pair: Pair<MovieDetail, Actors>) {
         val map = mutableMapOf<Fragment, String>()
         map[OverviewFragment()] = "описание"
+
         if (pair.second.cast.isNotEmpty()) {
             map[ActorsFragment()] = "актеры"
         }
