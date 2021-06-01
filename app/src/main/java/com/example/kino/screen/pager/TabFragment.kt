@@ -62,6 +62,7 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.viewPager.adapter = null
         binding.root.removeAllViews()
         _binding = null
     }
