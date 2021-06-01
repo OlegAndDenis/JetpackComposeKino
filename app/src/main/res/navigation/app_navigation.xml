@@ -35,13 +35,13 @@
 
         <action android:id="@+id/open_MovieFragment_to_AllFragment"
             app:destination="@id/all_movie_navigation"/>
-
-        <action android:id="@+id/open_MovieFragment_to_all_movie_global"
-            app:destination="@id/all_movie_global"/>
     </fragment>
 
+    <action android:id="@+id/action_overviewFragment_to_all_navigation"
+        app:destination="@+id/all_movie_navigation"
+        />
+
+    <include app:graph="@navigation/overview_navigation"/>
     <include app:graph="@navigation/detail_navigation"/>
     <include app:graph="@navigation/all_movie_navigation"/>
-    <include app:graph="@navigation/all_movie_global"/>
-
 </navigation>

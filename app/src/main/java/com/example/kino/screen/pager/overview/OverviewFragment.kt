@@ -4,19 +4,15 @@ import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import com.example.kino.R
 import com.example.kino.common.CommonFactory
 import com.example.kino.databinding.OverviewLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.extensions.findNavController
 import com.example.kino.glide.GlideManage
 import com.example.kino.extensions.launchView
 import com.example.kino.network.model.common.GenresApi
@@ -24,7 +20,6 @@ import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 
 class OverviewFragment : BaseFragment() {
 
@@ -58,7 +53,7 @@ class OverviewFragment : BaseFragment() {
             viewModelTransaction.callGenres(Genres(idGenres = it.id, name = it.name))
 
             Navigation.findNavController(requireActivity(), R.id.common_frame)
-                .navigate(R.id.all_movie_global)
+                .navigate(R.id.action_overviewFragment_to_all_navigation)
         }
     }
 

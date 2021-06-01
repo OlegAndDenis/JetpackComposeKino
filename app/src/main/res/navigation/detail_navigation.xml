@@ -19,16 +19,5 @@
         android:name="com.example.kino.screen.pager.TabFragment"
         android:label="TabFragment" />
 
-    <fragment
-        android:id="@+id/overviewFragment"
-        android:name="com.example.kino.screen.pager.overview.OverviewFragment"
-        android:label="OverviewFragment" >
-
-        <action
-            android:id="@+id/action_overviewFragment_to_detail_navigation"
-            app:destination="@id/detail_navigation"
-            app:popUpTo="@navigation/app_navigation"
-            app:popUpToInclusive="false"
-            />
-    </fragment>
+    <include app:graph="@navigation/overview_navigation"/>
 </navigation>
