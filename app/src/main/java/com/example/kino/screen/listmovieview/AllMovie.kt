@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -55,8 +56,7 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        val json = arguments?.getString("genresId") ?: ""
-        val genres = Gson().fromJson(json, Genres::class.java)
+        val genres = arguments?.get("genresId") as Genres
         showGenres(genres)
         viewModel.responseMovieResult.onEach(this::setPopularity).launchView(viewLifecycleOwner)
         viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)

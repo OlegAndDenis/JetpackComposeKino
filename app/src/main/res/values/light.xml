@@ -39,7 +39,7 @@
         <item name="backgroundColor">?colorToolbar</item>
     </style>
 
-    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+    m<style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <!--Any text styling can be done here-->
         <item name="android:textStyle">italic</item>
         <item name="android:textSize">12sp</item>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.example.kino.common.CommonFactory
@@ -19,7 +19,6 @@ import com.example.kino.extensions.launchView
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
 import com.example.kino.screen.movie.viemodel.MovieViewModel
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 
@@ -69,8 +68,7 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openMovie(id: String) {
-        val bundle = Bundle()
-        bundle.putString("idMovie", id)
+        val bundle = bundleOf(Pair("idMovie", id))
         Navigation.findNavController(requireActivity(), R.id.common_frame)
             .navigate(R.id.action__MovieFragment_to_DetailFragment, bundle)
     }
@@ -81,11 +79,8 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openGenres(genres: Genres) {
-        val bundle = Bundle()
-        val json = Gson().toJson(genres)
-        bundle.putString("genresId", json)
+        val bundle = bundleOf("genresId" to genres)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
             .navigate(R.id.open_MovieFragment_to_AllFragment, bundle)
-//        viewModelTransaction.callGenres(genres)
     }
 }

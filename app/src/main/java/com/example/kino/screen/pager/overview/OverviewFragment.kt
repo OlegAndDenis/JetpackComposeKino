@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.kino.R
@@ -51,9 +52,7 @@ class OverviewFragment : BaseFragment() {
     private fun setGenres(genres: List<GenresApi>) {
         binding.genres.setGenres(genres)
         binding.genres.setOnClickListener {
-            val bundle = Bundle()
-            val json = Gson().toJson(Genres(idGenres = it.id, name = it.name))
-            bundle.putString("genresId", json)
+            val bundle = bundleOf(Pair("genresId", Genres(idGenres = it.id, name = it.name)))
             Navigation.findNavController(requireActivity(), R.id.common_frame)
                 .navigate(R.id.action_overviewFragment_to_all_navigation, bundle)
         }
