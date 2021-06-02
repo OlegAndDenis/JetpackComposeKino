@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
@@ -27,6 +28,7 @@ import com.example.kino.screen.listmovieview.viewholder.AllViewHolder
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
 import com.example.kino.screen.common.*
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
@@ -35,7 +37,6 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     private var _binding: AllMovieLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
     private val viewModel: AllMovieViewModel by viewModels { CommonFactory }
 
     private val adapter = CommonAdapter(object : HolderCreator<NetworkItem> {
@@ -55,8 +56,8 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        viewModelTransaction.responseTop.onEach { showTop() }.launchView(viewLifecycleOwner)
-        viewModelTransaction.responseGenres.onEach(this::showGenres).launchView(viewLifecycleOwner)
+        val genres = arguments?.get("genresId") as Genres
+        showGenres(genres)
         viewModel.responseMovieResult.onEach(this::setPopularity).launchView(viewLifecycleOwner)
         viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)
         viewModel.title.onEach{ binding.toolbar.title = it }.launchView(viewLifecycleOwner)
@@ -95,9 +96,10 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
     }
 
     private fun openMovie(id: String) {
-        viewModelTransaction.callId(id)
+        val bundle = Bundle()
+        bundle.putString("idMovie", id)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.action_all_movie_navigation_to_detail_navigation)
+            .navigate(R.id.action_all_movie_navigation_to_detail_navigation, bundle)
     }
 
     override fun onScrolledToTop() {

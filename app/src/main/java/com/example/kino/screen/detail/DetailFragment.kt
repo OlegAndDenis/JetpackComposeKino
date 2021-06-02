@@ -48,8 +48,9 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        viewModelTransaction.responseId.onEach(viewModel::requestId).launchView(viewLifecycleOwner)
+        showLoading()
+        val id = arguments?.getString("idMovie") ?: ""
+        viewModel.requestId(id)
         viewModel.responseMovie.onEach { setId(it) }.launchView(viewLifecycleOwner)
         viewModel.mapFragment.onEach(viewModelTransaction::callFragment).launchView(viewLifecycleOwner)
         viewModel.overview.onEach(viewModelTransaction::callOverView).launchView(viewLifecycleOwner)
@@ -62,7 +63,24 @@ class DetailFragment : BaseFragment() {
         createNavHost().navController.navigate(R.id.action_detailFragment_to_tabFragment)
     }
 
+    private fun showLoading() {
+        binding.tabsInfo.visibility = View.GONE
+        binding.collapsingToolbar.visibility = View.GONE
+        binding.appbar.visibility = View.GONE
+        binding.toolbar.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.tabsInfo.visibility = View.VISIBLE
+        binding.collapsingToolbar.visibility = View.VISIBLE
+        binding.appbar.visibility = View.VISIBLE
+        binding.toolbar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
+    }
+
     private fun setId(movie: MovieDetail) {
+        hideLoading()
         binding.toolbar.title = if (movie.title.isNotEmpty()) {
             movie.title
         } else {

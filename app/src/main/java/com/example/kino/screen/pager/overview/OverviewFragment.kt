@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import com.example.kino.R
@@ -19,6 +20,7 @@ import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.common.viewmodel.TransactionViewModel
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.onEach
 
 class OverviewFragment : BaseFragment() {
@@ -50,10 +52,9 @@ class OverviewFragment : BaseFragment() {
     private fun setGenres(genres: List<GenresApi>) {
         binding.genres.setGenres(genres)
         binding.genres.setOnClickListener {
-            viewModelTransaction.callGenres(Genres(idGenres = it.id, name = it.name))
-
+            val bundle = bundleOf(Pair("genresId", Genres(idGenres = it.id, name = it.name)))
             Navigation.findNavController(requireActivity(), R.id.common_frame)
-                .navigate(R.id.action_overviewFragment_to_all_navigation)
+                .navigate(R.id.action_overviewFragment_to_all_navigation, bundle)
         }
     }
 

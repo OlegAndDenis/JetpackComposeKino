@@ -18,6 +18,4 @@
         android:id="@+id/tabFragment"
         android:name="com.example.kino.screen.pager.TabFragment"
         android:label="TabFragment" />
-
-    <include app:graph="@navigation/overview_navigation"/>
 </navigation>
