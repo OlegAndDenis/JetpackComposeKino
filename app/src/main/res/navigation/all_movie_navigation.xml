@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/all_movie_navigation"
-    app:startDestination="@id/AllMovie">
+    app:startDestination="@id/AllMovieFragment">
 
     <fragment
-        android:id="@+id/AllMovie"
-        android:name="com.example.kino.screen.listmovieview.AllMovie"
+        android:id="@+id/AllMovieFragment"
+        android:name="com.example.kino.screen.listmovieview.AllMovieFragment"
         tools:layout="@layout/all_movie_layout"
         android:label="AllMovie">
         <argument
             android:name="genre"
             app:argType="com.example.kino.db.model.Genres"
+            android:defaultValue="true"
             />
         <action
             android:id="@+id/action_all_movie_navigation_to_detail_navigation"
