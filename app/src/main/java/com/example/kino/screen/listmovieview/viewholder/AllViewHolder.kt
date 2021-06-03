@@ -24,7 +24,7 @@ class AllViewHolder private constructor(
         when(item) {
             is MovieResult -> {
                 id = item.id
-                GlideManage.with(itemView).loadImage(item.posterPath, binding.image)
+                GlideManage.with(itemView).loadImage(item.posterPath ?: "", binding.image)
             }
         }
     }

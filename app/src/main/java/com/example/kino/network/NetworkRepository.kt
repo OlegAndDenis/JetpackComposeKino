@@ -5,10 +5,9 @@ import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.serial.Serials
-import io.reactivex.Single
 
 interface NetworkRepository {
-    fun isDownloadGenres(result: ResultSuccess)
+    suspend fun isDownloadGenres(result: ResultSuccess)
 
     fun getListItems()
 
@@ -16,9 +15,9 @@ interface NetworkRepository {
 
     suspend fun getPopularity(page: Int): Movie
 
-    fun getSerials(page: Int): Single<Serials>
+    suspend fun getSerials(page: Int): Serials
 
-    fun getSearch(query: String, page: Int): Single<SearchResult>
+    suspend fun getSearch(query: String, page: Int): SearchResult
 
     suspend fun getMovie(id: String): MovieDetail
 

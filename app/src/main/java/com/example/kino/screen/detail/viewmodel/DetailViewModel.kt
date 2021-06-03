@@ -8,11 +8,9 @@ import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.movie.MovieDetail
-import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.actors.ActorsFragment
 import com.example.kino.screen.pager.collectionscreen.CollectionsFragment
 import com.example.kino.screen.pager.companyscreen.CompanyFragment
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,8 +20,6 @@ class DetailViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel() {
-
-    private val disposable = CompositeDisposable()
 
     private val resultMovie: MutableSharedFlow<MovieDetail> = MutableSharedFlow(0)
     val responseMovie: SharedFlow<MovieDetail> get() = resultMovie.asSharedFlow()
@@ -56,10 +52,5 @@ class DetailViewModel(
         }
 
         _mapFragment.emit(map)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable.clear()
     }
 }

@@ -2,20 +2,17 @@ package com.example.kino.network
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.example.kino.screen.common.typeenum.TypeEnum.*
 import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
-import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.movie.Actors
-import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieDetail
+import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.serial.Serials
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import com.example.kino.screen.common.typeenum.TypeEnum.*
+
 
 class NetworkRepositoryImpl(
     private val context: Context,
@@ -25,7 +22,7 @@ class NetworkRepositoryImpl(
 
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
 
-    override fun isDownloadGenres(result: ResultSuccess) {
+    override suspend fun isDownloadGenres(result: ResultSuccess) {
         when (isOnline()) {
             true -> downloadGenresAll(result)
             false -> isNotEmptyDB(result)
@@ -33,39 +30,36 @@ class NetworkRepositoryImpl(
     }
 
     @SuppressLint("CheckResult")
-    private fun downloadGenresAll(resultSuccess: ResultSuccess) {
-        val movie: Single<GenresList> =
-            api.getGenres(MOVIE.type, API_KEY, MovieApplication.language).retry(3)
-        val serial: Single<GenresList> =
-            api.getGenres(TV.type, API_KEY, MovieApplication.language).retry(3)
+    private suspend fun downloadGenresAll(resultSuccess: ResultSuccess) {
+        val movie = api.getGenres(MOVIE.type, API_KEY, MovieApplication.language)
+        if (movie == null) {
+            resultSuccess.success(ERROR)
+            return
+        }
 
-        Single.zip(movie, serial, { movies, serials -> Pair(movies, serials) })
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                databaseRepository.insertGenres(it.first.genres, MOVIE)
-                databaseRepository.insertGenres(it.second.genres, TV)
-                resultSuccess.success(OK)
-            }, {
-                resultSuccess.success(ERROR)
-                Timber.e(it)
-            })
+        val serial = api.getGenres(TV.type, API_KEY, MovieApplication.language)
+        if (serial == null) {
+            resultSuccess.success(ERROR)
+            return
+        }
+
+        databaseRepository.insertGenres(movie.genres, MOVIE)
+        databaseRepository.insertGenres(serial.genres, TV)
+        resultSuccess.success(OK)
     }
 
     @SuppressLint("CheckResult")
-    fun isNotEmptyDB(result: ResultSuccess) {
-        databaseRepository.isNotEmptyGenresAll()
-            .retry(3)
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                if (it.isNotEmpty) {
-                    result.success(OK)
-                } else {
-                    result.success(NO_CONNECTION)
-                }
-            }, {
-                result.success(ERROR)
-                Timber.e(it)
-            })
+    suspend fun isNotEmptyDB(result: ResultSuccess) {
+        val checkDB = databaseRepository.isNotEmptyGenresAll()
+        if (checkDB == null) {
+            result.success(ERROR)
+            return
+        }
+        if (checkDB.isNotEmpty) {
+            result.success(OK)
+        } else {
+            result.success(NO_CONNECTION)
+        }
     }
 
     override fun getListItems() {
@@ -81,10 +75,10 @@ class NetworkRepositoryImpl(
     override suspend fun getPopularity(page: Int): Movie =
         api.getPopularity(buildParamPopularity(page))
 
-    override fun getSerials(page: Int): Single<Serials> =
+    override suspend fun getSerials(page: Int): Serials =
         api.getSerials(buildParamSerials(page))
 
-    override fun getSearch(query: String, page: Int): Single<SearchResult> =
+    override suspend fun getSearch(query: String, page: Int): SearchResult =
         api.getSearch(buildParamSearch(page, query))
 
     override suspend fun getActors(idMovie: String): Actors =

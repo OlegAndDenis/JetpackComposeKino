@@ -9,7 +9,6 @@ import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.typeenum.TypeEnum
-import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlin.random.Random

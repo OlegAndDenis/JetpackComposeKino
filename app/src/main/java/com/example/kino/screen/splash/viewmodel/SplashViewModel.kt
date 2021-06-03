@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.NetworkRepository.ResultSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SplashViewModel(
     private val mNetworkRepository: NetworkRepository,
@@ -22,13 +24,17 @@ class SplashViewModel(
     }
 
     private fun startNetwork() {
-        mNetworkRepository.isDownloadGenres(object : ResultSuccess {
-            override fun success(result: NetworkEnum) {
-                viewModelScope.launch {
-                    resultLiveData.emit(result)
-                }
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                mNetworkRepository.isDownloadGenres(object : ResultSuccess {
+                    override fun success(result: NetworkEnum) {
+                        viewModelScope.launch {
+                            resultLiveData.emit(result)
+                        }
+                    }
+                })
             }
-        })
+        }
     }
 
     fun restart() {
