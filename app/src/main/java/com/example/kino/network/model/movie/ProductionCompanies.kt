@@ -1,9 +1,12 @@
 package com.example.kino.network.model.movie
 
+import android.os.Parcelable
 import com.example.kino.network.model.common.NetworkItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ProductionCompanies(
     @SerializedName("id")
     @Expose
@@ -17,4 +20,4 @@ data class ProductionCompanies(
     @SerializedName("origin_country")
     @Expose
     val originalCountry: String = "",
-): NetworkItem
+): NetworkItem, Parcelable

@@ -1,8 +1,11 @@
 package com.example.kino.network.model.common
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Video(
     @SerializedName("id")
     @Expose
@@ -25,4 +28,4 @@ data class Video(
     @SerializedName("type")
     @Expose
     val type: String = "",
-): NetworkItem
+): NetworkItem, Parcelable

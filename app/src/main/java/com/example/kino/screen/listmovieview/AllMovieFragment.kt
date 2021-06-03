@@ -5,10 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearSnapHelper
+import com.example.kino.NavigationUi
+import com.example.kino.NavigationUi.*
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.screen.movie.model.OldAndNewList
@@ -41,6 +45,11 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
         }
     })
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getData()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,11 +61,9 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        val genres = arguments?.get("genresId") as Genres
-        showGenres(genres)
         viewModel.responseMovieResult.onEach(this::setPopularity).launchView(viewLifecycleOwner)
         viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)
-        viewModel.title.onEach{ binding.toolbar.title = it }.launchView(viewLifecycleOwner)
+        viewModel.title.onEach { binding.toolbar.title = it }.launchView(viewLifecycleOwner)
         binding.recyclerView.apply {
             adapter = this@AllMovieFragment.adapter
             LinearSnapHelper().attachToRecyclerView(this)
@@ -64,11 +71,23 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
         }
     }
 
+    private fun getData() {
+        val argument = arguments ?: Bundle.EMPTY
+        if (argument.isEmpty) return // Fixme Обработать действие назад
+        lifecycleScope.launchWhenStarted {
+            if (argument.containsKey(GENRES.name)) {
+                val genres = (argument.getParcelable(GENRES.name) ?: Genres())
+                showGenres(genres)
+            } else if (argument.containsKey(TOP.name)) {
+                showTop()
+            }
+        }
+    }
+
     private fun showTop() {
-        Timber.i("THIS")
-//        binding.toolbar.title = "популярные"
-//        viewModel.newPage()
-//        viewModel.setTitle("популярные")
+        binding.toolbar.title = "популярные"
+        viewModel.newPage()
+        viewModel.setTitle("популярные")
     }
 
     private fun showGenres(genres: Genres) {
@@ -92,10 +111,11 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
     }
 
     private fun openMovie(id: String) {
-        val bundle = Bundle()
-        bundle.putString("idMovie", id)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.action_all_movie_navigation_to_detail_navigation, bundle)
+            .navigate(
+                R.id.action_all_movie_navigation_to_detail_navigation,
+                bundleOf(MOVIE_ID.name to id)
+            )
     }
 
     override fun onScrolledToTop() {

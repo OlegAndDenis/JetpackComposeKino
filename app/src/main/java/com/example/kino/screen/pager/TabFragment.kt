@@ -6,22 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import com.example.kino.common.CommonFactory
+import com.example.kino.NavigationUi.*
 import com.example.kino.databinding.TabHostLayoutBinding
-import com.example.kino.extensions.launchView
 import com.example.kino.screen.common.BaseFragment
-import com.example.kino.screen.common.viewmodel.TransactionViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.flow.onEach
 
 class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
     private var _binding: TabHostLayoutBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
     private lateinit var adapter: FragmentPagerAdapter
 
@@ -38,8 +32,17 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
         adapter = FragmentPagerAdapter(childFragmentManager, viewLifecycleOwner.lifecycle)
         binding.viewPager.adapter = adapter
         binding.viewPager.overScrollMode = View.OVER_SCROLL_NEVER
+        getData()
+    }
 
-        viewModelTransaction.mapFragment.onEach(this::setAdapter).launchView(viewLifecycleOwner)
+    private fun getData() {
+        val argument = arguments ?: Bundle.EMPTY
+        if (argument.isEmpty) return // Fixme Обработать действие назад
+        if (argument.containsKey(LIST_FRAGMENT.name)) {
+            val map: Map<Fragment, String> = (argument.getSerializable(LIST_FRAGMENT.name)
+                ?: emptyMap<Fragment, String>()) as Map<Fragment, String>
+            setAdapter(map)
+        }
     }
 
     private fun setAdapter(map: Map<Fragment, String>) {

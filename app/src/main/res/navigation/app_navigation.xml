@@ -15,9 +15,6 @@
             app:destination="@id/commonContainer"
             app:enterAnim="@anim/enter"
             app:exitAnim="@anim/exit" />
-        <argument
-            android:name="splash"
-            android:defaultValue="true" />
     </fragment>
 
     <fragment
@@ -29,11 +26,12 @@
         <action
             android:id="@+id/action__MovieFragment_to_DetailFragment"
             app:destination="@id/detail_navigation" />
+
         <action
             android:id="@+id/action_commonContainer_to_detail_navigation"
             app:destination="@id/detail_navigation" />
 
-        <action android:id="@+id/open_MovieFragment_to_AllFragment"
+        <action android:id="@+id/actionAllFragment"
             app:destination="@id/all_movie_navigation"/>
     </fragment>
 

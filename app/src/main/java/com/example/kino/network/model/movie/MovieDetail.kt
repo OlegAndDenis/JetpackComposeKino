@@ -1,12 +1,15 @@
 package com.example.kino.network.model.movie
 
+import android.os.Parcelable
 import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.common.Images
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.common.Videos
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MovieDetail(
     @SerializedName("adult")
     @Expose
@@ -86,4 +89,4 @@ data class MovieDetail(
     @SerializedName("videos")
     @Expose
     val videos: Videos = Videos(),
-    ): NetworkItem
+    ): NetworkItem, Parcelable

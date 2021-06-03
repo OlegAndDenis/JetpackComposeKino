@@ -33,7 +33,6 @@ class MovieViewModel(
     private val _movieByGenres: MutableSharedFlow<List<GenresList>> = MutableSharedFlow(0)
     val movieByGenres: SharedFlow<List<GenresList>> get() = _movieByGenres.asSharedFlow()
 
-    private val disposable = CompositeDisposable()
 
     init {
         viewModelScope.launch {
@@ -97,10 +96,5 @@ class MovieViewModel(
         val int = Random.nextInt(2, genre.size - 2)
         genre.add(int, GenresList(-1, TopVoteCount, -2, rotateList))
         _movieByGenres.emit(genre)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable.clear()
     }
 }

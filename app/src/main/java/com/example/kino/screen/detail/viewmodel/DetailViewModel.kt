@@ -28,15 +28,6 @@ class DetailViewModel(
     private val resultMovie: MutableSharedFlow<MovieDetail> = MutableSharedFlow(0)
     val responseMovie: SharedFlow<MovieDetail> get() = resultMovie.asSharedFlow()
 
-    private val _collections: MutableSharedFlow<List<MovieResult>> = MutableSharedFlow(0)
-    val collections: SharedFlow<List<MovieResult>> get() = _collections.asSharedFlow()
-
-    private val _overview: MutableSharedFlow<MovieDetail> = MutableSharedFlow(0)
-    val overview: SharedFlow<MovieDetail> get() = _overview.asSharedFlow()
-
-    private val _actor: MutableSharedFlow<Actors> = MutableSharedFlow(0)
-    val actor: SharedFlow<Actors> get() = _actor.asSharedFlow()
-
     private val _mapFragment: MutableSharedFlow<Map<Fragment, String>> = MutableSharedFlow(0)
     val mapFragment: SharedFlow<Map<Fragment, String>> get() = _mapFragment.asSharedFlow()
 
@@ -45,24 +36,23 @@ class DetailViewModel(
             val movie = networkRepository.getMovie(id)
             val actors = networkRepository.getActors(id)
             resultMovie.emit(movie)
-            _overview.emit(movie)
             createMapFragment(Pair(movie, actors))
         }
     }
 
     suspend fun createMapFragment(pair: Pair<MovieDetail, Actors>) {
         val map = mutableMapOf<Fragment, String>()
-        map[OverviewFragment()] = "описание"
+        map[OverviewFragment.newInstance(pair.first)] = "описание"
 
         if (pair.second.cast.isNotEmpty()) {
             map[ActorsFragment()] = "актеры"
         }
         if (pair.first.productionCompanies.isNotEmpty()) {
-            map[CompanyFragment()] = "издатели"
+            map[CompanyFragment.newInstance(pair.first.productionCompanies)] = "издатели"
         }
 
         if (pair.first.belongsToCollections != null && !pair.first.belongsToCollections.isEmpty) {
-            map[CollectionsFragment()] = "коллекция"
+            map[CollectionsFragment.newInstance(pair.first.belongsToCollections)] = "коллекция"
         }
 
         _mapFragment.emit(map)

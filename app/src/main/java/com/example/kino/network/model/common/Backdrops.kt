@@ -1,8 +1,11 @@
 package com.example.kino.network.model.common
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Backdrops(
     @SerializedName("file_path")
     @Expose
@@ -10,4 +13,4 @@ data class Backdrops(
     @SerializedName("vote_count")
     @Expose
     var voteCount: Int = 0
-): NetworkItem
+): NetworkItem, Parcelable

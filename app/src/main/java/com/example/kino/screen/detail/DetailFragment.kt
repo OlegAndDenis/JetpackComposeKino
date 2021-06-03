@@ -5,10 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.example.kino.NavigationUi.*
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.adapter.CommonAdapter
@@ -27,7 +30,6 @@ import kotlinx.coroutines.flow.onEach
 
 class DetailFragment : BaseFragment() {
 
-    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
     private val viewModel: DetailViewModel by viewModels { CommonFactory }
 
     private var _binding: DetailLayoutBinding? = null
@@ -37,6 +39,10 @@ class DetailFragment : BaseFragment() {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<NetworkItem> =
             DetailViewHolder(parent) {}
     })
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,18 +55,26 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         showLoading()
-        val id = arguments?.getString("idMovie") ?: ""
-        viewModel.requestId(id)
+        getData()
         viewModel.responseMovie.onEach { setId(it) }.launchView(viewLifecycleOwner)
-        viewModel.mapFragment.onEach(viewModelTransaction::callFragment).launchView(viewLifecycleOwner)
-        viewModel.overview.onEach(viewModelTransaction::callOverView).launchView(viewLifecycleOwner)
+        viewModel.mapFragment.onEach {
+            createNavHost().navController.navigate(R.id.action_detailFragment_to_tabFragment,
+            bundleOf(LIST_FRAGMENT.name to it))
+        }.launchView(viewLifecycleOwner)
 
         binding.posterViews.apply {
             adapter = this@DetailFragment.adapter
             PagerSnapHelper().attachToRecyclerView(this)
         }
+    }
 
-        createNavHost().navController.navigate(R.id.action_detailFragment_to_tabFragment)
+    private fun getData() {
+        val argument = arguments ?: Bundle.EMPTY
+        if (argument.isEmpty) return // Fixme Обработать действие назад
+        if (argument.containsKey(MOVIE_ID.name)) {
+            val id = argument.getString(MOVIE_ID.name) ?: ""
+            viewModel.requestId(id)
+        }
     }
 
     private fun showLoading() {

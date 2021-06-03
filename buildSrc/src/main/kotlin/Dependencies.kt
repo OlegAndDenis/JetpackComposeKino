@@ -1,4 +1,3 @@
-import ImplementsDependency.nav_version
 import Libs.androidX
 import Libs.coroutines
 import Libs.glide
@@ -70,8 +69,6 @@ object ImplementsDependency {
         test.junitExt,
         navigationComponent.navigationAndroidTesting
     )
-
-    const val nav_version = "2.3.5"
 }
 
 private object Libs {
@@ -155,6 +152,7 @@ private object Libs {
     }
 
     object NavigationComponent {
+        private const val nav_version = "2.3.5"
         const val navigationComponentFragmentKtx =
             "androidx.navigation:navigation-fragment-ktx:$nav_version"
         const val navigationComponentUiKtx =

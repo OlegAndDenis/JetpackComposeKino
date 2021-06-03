@@ -8,27 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
+import com.example.kino.NavigationUi.*
 import com.example.kino.R
-import com.example.kino.common.CommonFactory
 import com.example.kino.databinding.OverviewLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.glide.GlideManage
-import com.example.kino.extensions.launchView
 import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.screen.common.BaseFragment
-import com.example.kino.screen.common.viewmodel.TransactionViewModel
-import com.google.gson.Gson
-import kotlinx.coroutines.flow.onEach
 
 class OverviewFragment : BaseFragment() {
 
     private var _binding: OverviewLayoutBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModelTransaction: TransactionViewModel by activityViewModels { CommonFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +33,16 @@ class OverviewFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModelTransaction.overView.onEach(this::setDate).launchView(viewLifecycleOwner)
+        getData()
+    }
+
+    private fun getData() {
+        val argument = arguments ?: Bundle.EMPTY
+        if (argument.isEmpty) return // Fixme Обработать действие назад
+        if (argument.containsKey(MOVIE_DETAIL.name)) {
+            val genres = (argument.getParcelable(MOVIE_DETAIL.name) ?: MovieDetail())
+            setDate(genres)
+        }
     }
 
     private fun setDate(date: MovieDetail) {
@@ -52,7 +54,7 @@ class OverviewFragment : BaseFragment() {
     private fun setGenres(genres: List<GenresApi>) {
         binding.genres.setGenres(genres)
         binding.genres.setOnClickListener {
-            val bundle = bundleOf(Pair("genresId", Genres(idGenres = it.id, name = it.name)))
+            val bundle = bundleOf(GENRES.name to Genres(idGenres = it.id, name = it.name))
             Navigation.findNavController(requireActivity(), R.id.common_frame)
                 .navigate(R.id.action_overviewFragment_to_all_navigation, bundle)
         }
@@ -85,5 +87,12 @@ class OverviewFragment : BaseFragment() {
         binding.genres.onDestroy()
         binding.root.removeAllViews()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance(movieDetail: MovieDetail): OverviewFragment =
+            OverviewFragment().apply {
+                arguments = bundleOf(MOVIE_DETAIL.name to movieDetail)
+            }
     }
 }

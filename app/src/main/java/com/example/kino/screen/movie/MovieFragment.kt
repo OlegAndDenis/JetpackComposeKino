@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import com.example.kino.NavigationUi.*
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.screen.common.viewholder.VerticalViewHolder
@@ -68,19 +69,20 @@ class MovieFragment : BaseFragment() {
     }
 
     private fun openMovie(id: String) {
-        val bundle = bundleOf(Pair("idMovie", id))
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.action__MovieFragment_to_DetailFragment, bundle)
+            .navigate(
+                R.id.action__MovieFragment_to_DetailFragment,
+                bundleOf(Pair(MOVIE_ID.name, id))
+            )
     }
 
     private fun allTop() {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.open_MovieFragment_to_AllFragment)
+            .navigate(R.id.actionAllFragment, bundleOf(Pair(TOP.name, "")))
     }
 
     private fun openGenres(genres: Genres) {
-        val bundle = bundleOf("genresId" to genres)
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.open_MovieFragment_to_AllFragment, bundle)
+            .navigate(R.id.actionAllFragment, bundleOf(Pair(GENRES.name, genres)))
     }
 }
