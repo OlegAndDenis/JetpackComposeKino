@@ -125,6 +125,7 @@ class DetailFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         (activity as AppCompatActivity).setSupportActionBar(null)
+        binding.appbar.behavior.onDetachedFromLayoutParams()
         binding.root.removeAllViews()
         _binding = null
     }
