@@ -1,9 +1,9 @@
-import ImplementsDependency.navigationComponentVersion
+import ImplementsDependency.nav_version
 import Libs.androidX
 import Libs.coroutines
 import Libs.glide
 import Libs.gson
-import Libs.jetpack
+import Libs.navigationComponent
 import Libs.kotlin
 import Libs.leakcanary
 import Libs.okhttp
@@ -20,8 +20,8 @@ object ImplementsDependency {
         ui.adapterDelegateKotlinDsl,
         ui.adapterDelegateKotlinDslLayoutContainer,
         ui.materialComponents,
-        jetpack.navigationComponentFragmentKtx,
-        jetpack.navigationComponentUiKtx,
+        navigationComponent.navigationComponentFragmentKtx,
+        navigationComponent.navigationComponentUiKtx,
         room.roomKtx,
         room.roomRxJava,
         room.roomRuntime,
@@ -40,7 +40,8 @@ object ImplementsDependency {
         okhttp.okhttp,
         coroutines.coroutines,
         rxJava.rxAndroid,
-        rxJava.rxJava
+        rxJava.rxJava,
+        navigationComponent.supportNavigation
     )
 
     val kaptDependency = listOf(
@@ -66,34 +67,12 @@ object ImplementsDependency {
 
     val androidTestImplementation = listOf(
         test.espresso,
-        test.junitExt
+        test.junitExt,
+        navigationComponent.navigationAndroidTesting
     )
 
-    const val navigationComponentVersion = "1.0.0-alpha05"
+    const val nav_version = "2.3.5"
 }
-
-//Fixme change android.arch.navigation:navigation-ui to androidx.navigation:navigation
-
-//dependencies {
-//    val nav_version = "2.3.5"
-//
-//    // Java language implementation
-//    implementation("androidx.navigation:navigation-fragment:$nav_version")
-//    implementation("androidx.navigation:navigation-ui:$nav_version")
-//
-//    // Kotlin
-//    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-//    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
-//
-//    // Feature module Support
-//    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
-//
-//    // Testing Navigation
-//    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
-//
-//    // Jetpack Compose Integration
-//    implementation("androidx.navigation:navigation-compose:2.4.0-alpha02")
-//}
 
 private object Libs {
 
@@ -101,7 +80,7 @@ private object Libs {
 
     val ui = UI
     val androidX = AndroidX
-    val jetpack = Jetpack
+    val navigationComponent = NavigationComponent
     val test = Test
     val room = Room
     val gson = Gson
@@ -175,11 +154,14 @@ private object Libs {
         const val jsrAnnotationCompileOnly = "javax.annotation:jsr250-api:$jsr"
     }
 
-    object Jetpack {
+    object NavigationComponent {
         const val navigationComponentFragmentKtx =
-            "android.arch.navigation:navigation-fragment:$navigationComponentVersion"
+            "androidx.navigation:navigation-fragment-ktx:$nav_version"
         const val navigationComponentUiKtx =
-            "android.arch.navigation:navigation-ui:$navigationComponentVersion"
+            "androidx.navigation:navigation-ui-ktx:$nav_version"
+        const val supportNavigation =
+            "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+        const val navigationAndroidTesting = "androidx.navigation:navigation-testing:$nav_version"
     }
 
     object Leakcanary {
