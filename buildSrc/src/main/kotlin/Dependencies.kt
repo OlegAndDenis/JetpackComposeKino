@@ -1,3 +1,4 @@
+import ImplementsDependency.navigationComponentVersion
 import Libs.androidX
 import Libs.coroutines
 import Libs.glide
@@ -12,28 +13,6 @@ import Libs.rxJava
 import Libs.test
 import Libs.timber
 import Libs.ui
-
-object Versions {
-    const val compileSdkVersion = 30
-    const val targetSdkVersion = 30
-    const val minSdkVersion = 23
-    const val buildToolsVersion = "30.0.3"
-    const val applicationId = "com.example.kino"
-    const val versionCode = 1
-    const val versionName = "1.0"
-
-    const val kotlin = "1.4.32"
-}
-
-object GradlePlugins {
-    private const val androidBuildToolsVersion = "4.2.1"
-
-    //
-    const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-    const val androidBuildTools = "com.android.tools.build:gradle:$androidBuildToolsVersion"
-    const val navigationComponentSafeArgs =
-        "android.arch.navigation:navigation-safe-args-gradle-plugin:${jetpack.navigationComponentVersion}"
-}
 
 object ImplementsDependency {
     val listImplements = listOf(
@@ -89,6 +68,8 @@ object ImplementsDependency {
         test.espresso,
         test.junitExt
     )
+
+    const val navigationComponentVersion = "1.0.0-alpha05"
 }
 
 //Fixme change android.arch.navigation:navigation-ui to androidx.navigation:navigation
@@ -116,8 +97,7 @@ object ImplementsDependency {
 
 private object Libs {
 
-    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${AppVersion.kotlin}"
 
     val ui = UI
     val androidX = AndroidX
@@ -196,8 +176,6 @@ private object Libs {
     }
 
     object Jetpack {
-        const val navigationComponentVersion = "1.0.0-alpha05"
-
         const val navigationComponentFragmentKtx =
             "android.arch.navigation:navigation-fragment:$navigationComponentVersion"
         const val navigationComponentUiKtx =
@@ -211,7 +189,7 @@ private object Libs {
     }
 
     object Coroutines {
-        private const val coroutineCoreVersion = "1.4.2"
+        private const val coroutineCoreVersion = "1.5.0"
         const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineCoreVersion"
 
     }

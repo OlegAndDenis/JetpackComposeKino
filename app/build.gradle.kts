@@ -19,15 +19,15 @@ repositories {
 }
 
 android {
-    compileSdkVersion(Versions.compileSdkVersion)
-    buildToolsVersion = Versions.buildToolsVersion
+    compileSdkVersion(AppVersion.compileSdkVersion)
+    buildToolsVersion = AppVersion.buildToolsVersion
 
     defaultConfig {
-        applicationId = Versions.applicationId
-        minSdkVersion(Versions.minSdkVersion)
-        targetSdkVersion(Versions.targetSdkVersion)
-        versionCode = Versions.versionCode
-        versionName = Versions.versionName
+        applicationId = AppVersion.applicationId
+        minSdkVersion(AppVersion.minSdkVersion)
+        targetSdkVersion(AppVersion.targetSdkVersion)
+        versionCode = AppVersion.versionCode
+        versionName = AppVersion.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
