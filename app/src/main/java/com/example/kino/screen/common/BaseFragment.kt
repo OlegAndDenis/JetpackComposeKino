@@ -18,10 +18,4 @@ abstract class BaseFragment : Fragment() {
     ): View?
 
     abstract override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-
-    @MainThread
-    protected inline fun <T> LiveData<T>.observeView(
-        crossinline onChanged: (T) -> Unit,
-    ): Observer<T> = Observer<T> { onChanged(it) }
-        .also { observe(this@BaseFragment.viewLifecycleOwner, it) }
 }
