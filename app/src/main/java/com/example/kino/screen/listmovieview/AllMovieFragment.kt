@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
@@ -27,12 +25,10 @@ import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.listmovieview.viewholder.AllViewHolder
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
 import com.example.kino.screen.common.*
-import com.example.kino.screen.common.viewmodel.TransactionViewModel
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.onEach
 import timber.log.Timber
 
-class AllMovie : BaseFragment(), OnVerticalScrollListener {
+class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
 
     private var _binding: AllMovieLayoutBinding? = null
     private val binding get() = _binding!!
@@ -62,9 +58,9 @@ class AllMovie : BaseFragment(), OnVerticalScrollListener {
         viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)
         viewModel.title.onEach{ binding.toolbar.title = it }.launchView(viewLifecycleOwner)
         binding.recyclerView.apply {
-            adapter = this@AllMovie.adapter
+            adapter = this@AllMovieFragment.adapter
             LinearSnapHelper().attachToRecyclerView(this)
-            addOnScrollListener(OnScrollListener(this@AllMovie))
+            addOnScrollListener(OnScrollListener(this@AllMovieFragment))
         }
     }
 
