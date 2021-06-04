@@ -1,5 +1,6 @@
 package com.example.kino.network
 
+import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.movie.Movie
@@ -7,7 +8,7 @@ import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.serial.Serials
 
 interface NetworkRepository {
-    suspend fun isDownloadGenres(result: ResultSuccess)
+    suspend fun downloadGenres(): Pair<GenresList, GenresList>
 
     fun getListItems()
 
@@ -24,10 +25,4 @@ interface NetworkRepository {
     suspend fun getActors(idMovie: String): Actors
 
     suspend fun getRotate(page: Int): Movie
-
-    fun isOnline(): Boolean
-
-    interface ResultSuccess {
-        fun success(result: NetworkEnum)
-    }
 }

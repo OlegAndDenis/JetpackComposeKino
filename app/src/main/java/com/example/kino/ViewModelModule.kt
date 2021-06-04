@@ -1,7 +1,7 @@
 package com.example.kino
 
-import androidx.annotation.NonNull
 import androidx.lifecycle.ViewModel
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
@@ -13,6 +13,7 @@ import dagger.MapKey
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
+import kotlinx.coroutines.flow.StateFlow
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
@@ -41,16 +42,18 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     fun provideSplashViewModel(
-        @NonNull networkRepository: NetworkRepository,
+        networkRepository: NetworkRepository,
+        databaseRepository: DatabaseRepository,
+        connectionInfo: StateFlow<ConnectionType>,
     ): ViewModel =
-        SplashViewModel(networkRepository)
+        SplashViewModel(networkRepository, databaseRepository, connectionInfo)
 
     @Provides
     @IntoMap
     @ViewModelKey(MovieViewModel::class)
     fun provideMovieViewModel(
-        @NonNull networkRepository: NetworkRepository,
-        @NonNull databaseRepository: DatabaseRepository,
+        networkRepository: NetworkRepository,
+        databaseRepository: DatabaseRepository,
     ): ViewModel =
         MovieViewModel(networkRepository, databaseRepository)
 
@@ -64,8 +67,8 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(AllMovieViewModel::class)
     fun provideAllMovieViewModel(
-        @NonNull networkRepository: NetworkRepository,
-        @NonNull databaseRepository: DatabaseRepository,
+        networkRepository: NetworkRepository,
+        databaseRepository: DatabaseRepository,
     ): ViewModel =
         AllMovieViewModel(networkRepository, databaseRepository)
 
@@ -73,8 +76,8 @@ class ViewModelModule {
     @IntoMap
     @ViewModelKey(DetailViewModel::class)
     fun provideDetailViewModel(
-        @NonNull networkRepository: NetworkRepository,
-        @NonNull databaseRepository: DatabaseRepository,
+        networkRepository: NetworkRepository,
+        databaseRepository: DatabaseRepository,
     ): ViewModel =
         DetailViewModel(networkRepository, databaseRepository)
 

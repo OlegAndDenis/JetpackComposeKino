@@ -35,7 +35,7 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.attachObservable.onEach(this::statusNetwork).launchView(viewLifecycleOwner)
+        viewModel.notificationUi.onEach(this::statusNetwork).launchView(viewLifecycleOwner)
     }
 
     private fun statusNetwork(status: NetworkEnum) {

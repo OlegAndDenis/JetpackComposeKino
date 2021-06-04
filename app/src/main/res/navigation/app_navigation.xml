@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashFragment_to_commonContainer2"
             app:destination="@id/commonContainer"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/SplashFragment"
             app:enterAnim="@anim/enter"
             app:exitAnim="@anim/exit" />
     </fragment>

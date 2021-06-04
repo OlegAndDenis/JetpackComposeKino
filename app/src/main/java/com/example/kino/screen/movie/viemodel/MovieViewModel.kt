@@ -11,6 +11,7 @@ import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.typeenum.TypeEnum
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 import kotlin.random.Random
 
 private const val TOP_FIVE = 5
@@ -95,5 +96,10 @@ class MovieViewModel(
         val int = Random.nextInt(2, genre.size - 2)
         genre.add(int, GenresList(-1, TopVoteCount, -2, rotateList))
         _movieByGenres.emit(genre)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("onCleared")
     }
 }
