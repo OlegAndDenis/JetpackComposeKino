@@ -6,12 +6,14 @@ import com.example.kino.applicationm.MovieApplication
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
+import com.example.kino.network.model.common.GenresList
 import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.serial.Serials
 import com.example.kino.screen.common.typeenum.TypeEnum.*
+import java.lang.Exception
 
 
 class NetworkRepositoryImpl(
@@ -31,14 +33,16 @@ class NetworkRepositoryImpl(
 
     @SuppressLint("CheckResult")
     private suspend fun downloadGenresAll(resultSuccess: ResultSuccess) {
-        val movie = api.getGenres(MOVIE.type, API_KEY, MovieApplication.language)
-        if (movie == null) {
+        val movie = try {
+            api.getGenres(MOVIE.type, API_KEY, MovieApplication.language)
+        } catch (e: Exception) {
             resultSuccess.success(ERROR)
             return
         }
 
-        val serial = api.getGenres(TV.type, API_KEY, MovieApplication.language)
-        if (serial == null) {
+        val serial = try {
+            api.getGenres(TV.type, API_KEY, MovieApplication.language)
+        } catch (e: Exception) {
             resultSuccess.success(ERROR)
             return
         }
@@ -50,8 +54,9 @@ class NetworkRepositoryImpl(
 
     @SuppressLint("CheckResult")
     suspend fun isNotEmptyDB(result: ResultSuccess) {
-        val checkDB = databaseRepository.isNotEmptyGenresAll()
-        if (checkDB == null) {
+        val checkDB = try {
+            databaseRepository.isNotEmptyGenresAll()
+        } catch (e: Exception) {
             result.success(ERROR)
             return
         }
