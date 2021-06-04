@@ -1,6 +1,9 @@
 package com.example.kino.network
 
 import android.app.Application
+import android.content.Context
+import com.example.kino.connectoninfo.connectionState
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.di.scope.ApplicationScope
 import com.example.kino.network.interceptor.Interceptors
@@ -8,10 +11,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.flow.SharedFlow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 @Module
@@ -31,9 +36,10 @@ class NetworkModule {
     fun provideApiProvider(
         application: Application,
         api: Api,
-        dbRepository: DatabaseRepository
+        dbRepository: DatabaseRepository,
+        connectionInfo: SharedFlow<ConnectionType>,
     ): NetworkRepository {
-        return NetworkRepositoryImpl(application, api, dbRepository)
+        return NetworkRepositoryImpl(application, api, dbRepository, connectionInfo)
     }
 
     @Provides
@@ -68,4 +74,9 @@ class NetworkModule {
     fun providerApi(retrofit: Retrofit): Api {
         return retrofit.create(Api::class.java)
     }
+
+    @Provides
+    @ApplicationScope
+    fun provideNetworkState(context: Context): SharedFlow<@JvmWildcard ConnectionType> =
+        connectionState(context)
 }

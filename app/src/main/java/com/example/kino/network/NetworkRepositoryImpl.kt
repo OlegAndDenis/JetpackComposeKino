@@ -3,6 +3,7 @@ package com.example.kino.network
 import android.annotation.SuppressLint
 import android.content.Context
 import com.example.kino.applicationm.MovieApplication
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository.*
@@ -13,6 +14,7 @@ import com.example.kino.network.model.movie.MovieDetail
 import com.example.kino.network.model.search.SearchResult
 import com.example.kino.network.model.serial.Serials
 import com.example.kino.screen.common.typeenum.TypeEnum.*
+import kotlinx.coroutines.flow.SharedFlow
 import java.lang.Exception
 
 
@@ -20,6 +22,7 @@ class NetworkRepositoryImpl(
     private val context: Context,
     private val api: Api,
     private val databaseRepository: DatabaseRepository,
+    private val connectionInfo: SharedFlow<ConnectionType>,
 ) : NetworkRepository {
 
     private val API_KEY = "620da4379b4594c225da04326f92ffb1"
