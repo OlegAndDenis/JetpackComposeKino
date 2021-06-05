@@ -2,28 +2,27 @@ package com.example.kino.extensions
 
 import android.content.Intent
 import android.util.SparseArray
-import android.view.MenuItem
 import androidx.core.util.forEach
 import androidx.core.util.set
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.kino.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 
 fun BottomNavigationView.setupWithNavController(
     navGraphIds: List<Int>,
     fragmentManager: FragmentManager,
     containerId: Int,
     intent: Intent,
-): StateFlow<MenuItem?> {
+): StateFlow<NavController?> {
 
     val graphIdToTagMap = SparseArray<String>()
 
-    val selectedNavController = MutableLiveData<NavController>()
+    val selectedNavController =
+        MutableStateFlow<NavController?>(null)
 
     var firstFragmentGraphId = 0
 
@@ -46,7 +45,7 @@ fun BottomNavigationView.setupWithNavController(
         graphIdToTagMap[graphId] = fragmentTag
 
         if (this.selectedItemId == graphId) {
-            selectedNavController.value = navHost.navController
+            selectedNavController.tryEmit(navHost.navController)
             attachNavHostFragment(fragmentManager, navHost, index == 0)
         } else {
             detachNavHostFragment(fragmentManager, navHost)
@@ -56,11 +55,8 @@ fun BottomNavigationView.setupWithNavController(
     var selectedItemTag = graphIdToTagMap[this.selectedItemId]
     val firstFragmentTag = graphIdToTagMap[firstFragmentGraphId]
     var isOnFirstFragment = selectedItemTag == firstFragmentTag
-    val titleReturn: MutableStateFlow<MenuItem?> = MutableStateFlow(null)
 
     setOnNavigationItemSelectedListener { item ->
-        titleReturn.value = item
-
         if (fragmentManager.isStateSaved) {
             false
         } else {
@@ -102,7 +98,7 @@ fun BottomNavigationView.setupWithNavController(
                 }
                 selectedItemTag = newlySelectedItemTag
                 isOnFirstFragment = selectedItemTag == firstFragmentTag
-                selectedNavController.value = selectedFragment.navController
+                selectedNavController.tryEmit(selectedFragment.navController)
                 true
             } else {
                 false
@@ -121,13 +117,12 @@ fun BottomNavigationView.setupWithNavController(
 
         // Reset the graph if the currentDestination is not valid (happens when the back
         // stack is popped after using the back button).
-        selectedNavController.value?.let { controller ->
-            if (controller.currentDestination == null) {
-                controller.navigate(controller.graph.id)
-            }
+        val controller = selectedNavController.value ?: return@addOnBackStackChangedListener
+        if (controller.currentDestination == null) {
+            controller.navigate(controller.graph.id)
         }
     }
-    return titleReturn
+    return selectedNavController.asStateFlow()
 }
 
 private fun FragmentManager.isOnBackStack(backStackName: String): Boolean {

@@ -6,23 +6,23 @@
         android:id="@+id/movie_navigation"
         android:icon="@drawable/ic_baseline_local_movies_24"
         android:enabled="true"
-        android:title="Фильмы" />
+        android:title="@string/movie" />
     <item
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:id="@+id/butt_serial"
         android:icon="@drawable/ic_baseline_serial_24"
-        android:title="Сериалы" />
+        android:title="@string/tv" />
     <item
         android:enabled="true"
         android:id="@+id/butt_search"
         android:icon="@drawable/icon_search"
         app:showAsAction="ifRoom"
-        android:title="Поиск" />
+        android:title="@string/search" />
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:id="@+id/butt_favorite"
         android:icon="@drawable/ic_baseline_favorite_24"
-        android:title="Избранное" />
+        android:title="@string/favorite" />
 </menu>

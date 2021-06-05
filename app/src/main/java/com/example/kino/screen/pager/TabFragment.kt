@@ -11,6 +11,7 @@ import com.example.kino.databinding.TabHostLayoutBinding
 import com.example.kino.screen.common.BaseFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 
 class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
 
@@ -68,5 +69,10 @@ class TabFragment : BaseFragment(), TabLayoutMediator.TabConfigurationStrategy {
         binding.viewPager.adapter = null
         binding.root.removeAllViews()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy")
     }
 }

@@ -2,4 +2,8 @@
     <string name="app_name">Kino</string>
     <string name="popularity_title">Популярные</string>
     <string name="title_genres">Жанры</string>
+    <string name="movie">Фильмы</string>
+    <string name="tv">Сериалы</string>
+    <string name="search">Поиск</string>
+    <string name="favorite">Избранное</string>
 </resources>

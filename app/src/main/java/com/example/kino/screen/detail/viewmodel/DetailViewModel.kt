@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class DetailViewModel(
     private val networkRepository: NetworkRepository,
@@ -52,5 +53,10 @@ class DetailViewModel(
         }
 
         _mapFragment.emit(map)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Timber.i("onCleared")
     }
 }

@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import com.example.kino.NavigationUi
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
 import com.example.kino.extensions.launchView
@@ -39,8 +43,11 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
             navGraphIds,
             childFragmentManager,
             binding.containerFrame.id,
-            requireActivity().intent
-        ).onEach(this::onNavigationTitleSelected).launchView(viewLifecycleOwner)
+            requireActivity().intent,
+        ).onEach {
+            if (it == null) return@onEach
+            NavigationUI.setupActionBarWithNavController(requireActivity() as AppCompatActivity, it)
+        }.launchView(viewLifecycleOwner)
         setHasOptionsMenu(true)
     }
 
@@ -53,7 +60,7 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
             search.isSubmitButtonEnabled = true
             search.gravity = Gravity.CENTER
             search.setOnQueryTextListener(this@NavigationFragment)
-            searchMenu.isVisible = binding.containerToolbar.tag == R.id.butt_search
+            searchMenu.isVisible = binding.containerToolbar.tag == "search"
         }
     }
 
@@ -62,15 +69,13 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
         super.onPrepareOptionsMenu(menu)
     }
 
-    private fun onNavigationTitleSelected(item: MenuItem?) {
-        item?.let {
-            binding.containerToolbar.title = item.title
-            if (item.itemId == R.id.butt_search) {
-                binding.containerToolbar.title = ""
-            }
-            binding.containerToolbar.tag = item.itemId
-            (activity as AppCompatActivity).invalidateOptionsMenu()
+    private fun onNavigationTitleSelected(title: String) {
+        binding.containerToolbar.title = title
+        if (title == "search") {
+            binding.containerToolbar.title = ""
         }
+        binding.containerToolbar.tag = "search"
+        (activity as AppCompatActivity).invalidateOptionsMenu()
     }
 
     override fun onDestroyView() {
