@@ -52,9 +52,10 @@ class SplashFragment : BaseFragment() {
 
     private fun noConnection() {
         Snackbar.make(
+            binding.root.context,
             binding.root,
             "Проверте интернет подключение!",
-            BaseTransientBottomBar.LENGTH_INDEFINITE
+            Snackbar.LENGTH_LONG
         ).setAction("Повторить") {
             viewModel.restart()
         }.show()
@@ -62,7 +63,7 @@ class SplashFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.root.removeAllViewsInLayout()
+        binding.root.removeAllViews()
         _binding = null
     }
 }
