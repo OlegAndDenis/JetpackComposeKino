@@ -60,7 +60,7 @@ class GenresGroup @JvmOverloads constructor(
     }
 
     private fun chip() = LayoutInflater.from(context)
-        .inflate(R.layout.genre_chip, null, false) as Chip
+        .inflate(R.layout.genre_chip, binding.root, false) as Chip
 
     private fun ChipGroup.addChip(chip: Chip) {
         isVisible = true
