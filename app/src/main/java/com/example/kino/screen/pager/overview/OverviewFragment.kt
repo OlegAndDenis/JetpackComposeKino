@@ -13,6 +13,7 @@ import com.example.kino.NavigationUi.*
 import com.example.kino.R
 import com.example.kino.databinding.OverviewLayoutBinding
 import com.example.kino.db.model.Genres
+import com.example.kino.extensions.navigateSafe
 import com.example.kino.glide.GlideManage
 import com.example.kino.network.model.common.GenresApi
 import com.example.kino.network.model.movie.MovieDetail
@@ -56,7 +57,7 @@ class OverviewFragment : BaseFragment() {
         binding.genres.setOnClickListener {
             val bundle = bundleOf(GENRES.name to Genres(idGenres = it.id, name = it.name))
             Navigation.findNavController(requireActivity(), R.id.common_frame)
-                .navigate(R.id.action_overviewFragment_to_all_navigation, bundle)
+                .navigateSafe(R.id.action_overviewFragment_to_all_navigation, bundle)
         }
     }
 

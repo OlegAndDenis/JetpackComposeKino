@@ -17,6 +17,7 @@ import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchView
+import com.example.kino.extensions.navigateSafe
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
 import com.example.kino.screen.movie.viemodel.MovieViewModel
@@ -70,7 +71,7 @@ class MovieFragment : BaseFragment() {
 
     private fun openMovie(id: String) {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(
+            .navigateSafe(
                 R.id.action__MovieFragment_to_DetailFragment,
                 bundleOf(Pair(MOVIE_ID.name, id))
             )
@@ -78,11 +79,11 @@ class MovieFragment : BaseFragment() {
 
     private fun allTop() {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.actionAllFragment, bundleOf(Pair(TOP.name, "")))
+            .navigateSafe(R.id.actionAllFragment, bundleOf(Pair(TOP.name, "")))
     }
 
     private fun openGenres(genres: Genres) {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(R.id.actionAllFragment, bundleOf(Pair(GENRES.name, genres)))
+            .navigateSafe(R.id.actionAllFragment, bundleOf(Pair(GENRES.name, genres)))
     }
 }

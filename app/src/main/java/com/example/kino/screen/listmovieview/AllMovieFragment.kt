@@ -25,6 +25,7 @@ import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.AllMovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchView
+import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.listmovieview.viewholder.AllViewHolder
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
@@ -112,7 +113,7 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
 
     private fun openMovie(id: String) {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
-            .navigate(
+            .navigateSafe(
                 R.id.action_all_movie_navigation_to_detail_navigation,
                 bundleOf(MOVIE_ID.name to id)
             )

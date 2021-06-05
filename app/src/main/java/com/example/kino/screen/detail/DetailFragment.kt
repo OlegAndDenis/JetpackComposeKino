@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -19,6 +20,7 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.DetailLayoutBinding
 import com.example.kino.extensions.launchView
+import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.model.common.Backdrops
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.network.model.movie.MovieDetail
@@ -58,7 +60,7 @@ class DetailFragment : BaseFragment() {
         getData()
         viewModel.responseMovie.onEach { setId(it) }.launchView(viewLifecycleOwner)
         viewModel.mapFragment.onEach {
-            createNavHost().navController.navigate(R.id.action_detailFragment_to_tabFragment,
+            createNavHost().navController.navigateSafe(R.id.action_detailFragment_to_tabFragment,
             bundleOf(LIST_FRAGMENT.name to it))
         }.launchView(viewLifecycleOwner)
 
@@ -118,6 +120,7 @@ class DetailFragment : BaseFragment() {
         val navHostFragment = NavHostFragment.create(R.navigation.detail_navigation)
         childFragmentManager.beginTransaction()
             .add(binding.tabsInfo.id, navHostFragment)
+            .setMaxLifecycle(navHostFragment, Lifecycle.State.STARTED)
             .commitNow()
         return navHostFragment
     }

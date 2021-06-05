@@ -119,7 +119,7 @@ fun BottomNavigationView.setupWithNavController(
         // stack is popped after using the back button).
         val controller = selectedNavController.value ?: return@addOnBackStackChangedListener
         if (controller.currentDestination == null) {
-            controller.navigate(controller.graph.id)
+            controller.navigateSafe(controller.graph.id)
         }
     }
     return selectedNavController.asStateFlow()

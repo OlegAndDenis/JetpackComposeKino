@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
-import com.example.kino.NavigationUi
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
 import com.example.kino.extensions.launchView
@@ -47,6 +45,7 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
         ).onEach {
             if (it == null) return@onEach
             NavigationUI.setupActionBarWithNavController(requireActivity() as AppCompatActivity, it)
+            Navigation.setViewNavController(requireView(), it)
         }.launchView(viewLifecycleOwner)
         setHasOptionsMenu(true)
     }
