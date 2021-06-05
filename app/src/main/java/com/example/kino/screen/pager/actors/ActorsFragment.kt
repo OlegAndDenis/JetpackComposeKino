@@ -1,4 +1,4 @@
-package com.example.kino.screen.actors
+package com.example.kino.screen.pager.actors
 
 import android.os.Bundle
 import android.view.LayoutInflater

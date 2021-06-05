@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.navGraphViewModels
 import com.example.kino.NavigationUi.*
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
@@ -26,11 +26,10 @@ import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
 
-    private val viewModel: MovieViewModel by viewModels { CommonFactory }
+    private val viewModel: MovieViewModel by navGraphViewModels(R.id.movie_navigation) { CommonFactory }
 
     private var _binding: MovieLayoutBinding? = null
     private val binding get() = _binding!!
-
 
     private val adapter = CommonAdapter(object : HolderCreator<GenresList> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.navigation.navGraphViewModels
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
@@ -23,7 +23,7 @@ class SplashFragment : BaseFragment() {
     private var _binding: SplashLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SplashViewModel by viewModels { CommonFactory }
+    private val viewModel: SplashViewModel by navGraphViewModels(R.id.app_navigation) { CommonFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,

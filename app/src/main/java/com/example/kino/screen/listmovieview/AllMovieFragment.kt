@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearSnapHelper
-import com.example.kino.NavigationUi
 import com.example.kino.NavigationUi.*
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
@@ -38,7 +37,7 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
     private var _binding: AllMovieLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: AllMovieViewModel by viewModels { CommonFactory }
+    private val viewModel: AllMovieViewModel by navGraphViewModels(R.id.all_movie_navigation) { CommonFactory }
 
     private val adapter = CommonAdapter(object : HolderCreator<NetworkItem> {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<NetworkItem> {

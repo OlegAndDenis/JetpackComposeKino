@@ -8,7 +8,7 @@ import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
 import com.example.kino.network.model.movie.Actors
 import com.example.kino.network.model.movie.MovieDetail
-import com.example.kino.screen.actors.ActorsFragment
+import com.example.kino.screen.pager.actors.ActorsFragment
 import com.example.kino.screen.pager.collectionscreen.CollectionsFragment
 import com.example.kino.screen.pager.companyscreen.CompanyFragment
 import kotlinx.coroutines.flow.MutableSharedFlow
