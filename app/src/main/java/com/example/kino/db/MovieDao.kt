@@ -13,7 +13,7 @@ interface MovieDao {
     fun insertGenres(genres: Genres)
 
     @Transaction
-    fun insertAll(lestGenres: List<Genres>) {
+    suspend fun insertAll(lestGenres: List<Genres>) {
         lestGenres.forEach {
             if (searchIdGenres(it.idGenres)) {
                 val genres: Genres = getGenresById(it.idGenres)

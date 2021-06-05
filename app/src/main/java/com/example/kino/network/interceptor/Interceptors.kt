@@ -1,7 +1,7 @@
 package com.example.kino.network.interceptor
 
-import android.content.Context
-import com.example.kino.network.ConnectionCheck
+import com.example.kino.connectoninfo.model.ConnectionType
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.*
 import timber.log.Timber
 import java.io.File
@@ -12,10 +12,11 @@ class Interceptors {
         private const val MAX_AGE = 120
         private const val MAX_STALE: Long = 86400
 
-        fun offlineCacheInterceptor(context: Context): Interceptor {
+        fun offlineCacheInterceptor(connectionInfo: StateFlow<ConnectionType>): Interceptor {
             return Interceptor {
                 var request = it.request()
-                if (ConnectionCheck.isOnline(context)) {
+                if (connectionInfo.value is ConnectionType.Available) {
+                    Timber.i("Interceptors true")
                     val cacheControl: CacheControl = CacheControl.Builder()
                         .maxStale(1, TimeUnit.DAYS)
                         .build()
@@ -27,11 +28,11 @@ class Interceptors {
             }
         }
 
-        fun networkCacheInterceptor(context: Context): Interceptor {
+        fun networkCacheInterceptor(connectionInfo: StateFlow<ConnectionType>): Interceptor {
             return Interceptor {
                 val originalRequest: Request = it.request()
 
-                val cacheHeaderValue = if (ConnectionCheck.isOnline(context)) "public, max-age=$MAX_AGE"
+                val cacheHeaderValue = if (connectionInfo.value is ConnectionType.Available) "public, max-age=$MAX_AGE"
                 else "public, only-if-cached, max-stale=$MAX_STALE"
                 val request: Request = originalRequest.newBuilder().build()
                 val response = it.proceed(request)

@@ -11,7 +11,7 @@ class DatabaseRepositoryImpl(private val dataBase: DataBase) : DatabaseRepositor
         return dataBase.movieDao().isNotEmptyGenresAll()
     }
 
-    override fun insertGenres(listGenres: List<GenresApi>, type: TypeEnum) {
+    override suspend fun insertGenres(listGenres: List<GenresApi>, type: TypeEnum) {
         val listGenresDb = mutableListOf<Genres>()
         listGenres.forEach { list ->
             list.let {

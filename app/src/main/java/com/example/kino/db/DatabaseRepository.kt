@@ -9,7 +9,7 @@ interface DatabaseRepository {
 
     suspend fun isNotEmptyGenresAll() : CheckColumnDB
 
-    fun insertGenres(listGenres : List<GenresApi>, type : TypeEnum)
+    suspend fun insertGenres(listGenres : List<GenresApi>, type : TypeEnum)
 
     suspend fun getGenres(type: TypeEnum): List<Genres>
 }

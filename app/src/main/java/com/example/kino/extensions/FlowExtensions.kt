@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 fun <T> Flow<T>.launchView(viewLifecycleOwner: LifecycleOwner) =
-    viewLifecycleOwner.lifecycleScope.launch {
+    viewLifecycleOwner.lifecycleScope.launchWhenStarted {
         this@launchView.collectLatest {}
     }
 

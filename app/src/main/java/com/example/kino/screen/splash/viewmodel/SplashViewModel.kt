@@ -8,10 +8,9 @@ import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.network.NetworkRepository
 import com.example.kino.screen.common.typeenum.TypeEnum
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.Exception
 
@@ -24,12 +23,14 @@ class SplashViewModel(
     private val _notificationUi: MutableSharedFlow<NetworkEnum> = MutableSharedFlow(0)
     val notificationUi: SharedFlow<NetworkEnum> get() = _notificationUi.asSharedFlow()
 
+    var job: Job? = null
+
     init {
         startNetwork()
     }
 
     private fun startNetwork() {
-        viewModelScope.launch {
+        job = viewModelScope.launch {
             connectionInfo
                 .onEach {
                     Timber.i("$it")
@@ -43,41 +44,40 @@ class SplashViewModel(
                 }.catch {
                     Timber.i("$it")
                     _notificationUi.emit(ERROR)
-                }.launchIn(this)
+                }
+                .launchIn(this)
         }
     }
 
-    private suspend fun checkDbForData() {
+    private fun checkDbForData() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val checkDB = try {
-                    databaseRepository.isNotEmptyGenresAll()
-                } catch (e: Exception) {
-                    _notificationUi.emit(ERROR)
-                    return@withContext
-                }
-                if (checkDB.isNotEmpty) {
-                    _notificationUi.emit(OK)
-                } else {
-                    _notificationUi.emit(NO_CONNECTION)
-                }
+            val checkDB = try {
+                databaseRepository.isNotEmptyGenresAll()
+            } catch (e: Exception) {
+                _notificationUi.emit(ERROR)
+                return@launch
             }
-        }
-    }
-
-    private suspend fun selectGenresToDb() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val result = networkRepository.downloadGenres()
-                if (result.first.genres.isEmpty() || result.second.genres.isEmpty()) {
-                    _notificationUi.emit(ERROR)
-                    return@withContext
-                }
-                databaseRepository.insertGenres(result.first.genres, TypeEnum.MOVIE)
-                databaseRepository.insertGenres(result.second.genres, TypeEnum.TV)
+            if (checkDB.isNotEmpty) {
                 _notificationUi.emit(OK)
+            } else {
+                _notificationUi.emit(NO_CONNECTION)
             }
         }
+        job?.cancel()
+    }
+
+    private fun selectGenresToDb() {
+        viewModelScope.launch {
+            val result = networkRepository.downloadGenres()
+            if (result.first.genres.isEmpty() || result.second.genres.isEmpty()) {
+                _notificationUi.emit(ERROR)
+                return@launch
+            }
+            databaseRepository.insertGenres(result.first.genres, TypeEnum.MOVIE)
+            databaseRepository.insertGenres(result.second.genres, TypeEnum.TV)
+            _notificationUi.emit(OK)
+        }
+        job?.cancel()
     }
 
     fun restart() {

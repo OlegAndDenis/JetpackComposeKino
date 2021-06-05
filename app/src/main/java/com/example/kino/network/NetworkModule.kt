@@ -41,15 +41,16 @@ class NetworkModule {
     @Provides
     @ApplicationScope
     fun provideOkHttpClient(
-        application: Application
+        application: Application,
+        connectionInfo: StateFlow<ConnectionType>
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .addNetworkInterceptor(Interceptors.networkCacheInterceptor(application))
-            .addInterceptor(Interceptors.offlineCacheInterceptor(application))
+            .addNetworkInterceptor(Interceptors.networkCacheInterceptor(connectionInfo))
+            .addInterceptor(Interceptors.offlineCacheInterceptor(connectionInfo))
             .cache(Interceptors.provideCache(application.cacheDir))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()

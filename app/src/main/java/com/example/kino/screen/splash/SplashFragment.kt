@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
+import com.example.kino.extensions.findNavController
 import com.example.kino.extensions.launchView
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
@@ -41,9 +42,8 @@ class SplashFragment : BaseFragment() {
     private fun statusNetwork(status: NetworkEnum) {
         when (status) {
             OK -> {
-                Navigation
-                    .findNavController(requireActivity(), R.id.common_frame)
-                    .navigate(R.id.action_splashFragment_to_commonContainer2)
+                findNavController()
+                    .navigate(R.id.action_splashFragment_to_navigationFragment)
             }
             NO_CONNECTION -> noConnection()
             ERROR -> requireActivity().finish()

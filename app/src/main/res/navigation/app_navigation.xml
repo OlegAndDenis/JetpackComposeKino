@@ -11,19 +11,21 @@
         android:label="SplashFragment"
         tools:layout="@layout/splash_layout">
         <action
-            android:id="@+id/action_splashFragment_to_commonContainer2"
-            app:destination="@id/commonContainer"
+            android:id="@+id/action_splashFragment_to_navigationFragment"
+            app:destination="@id/NavigationFragment"
             app:launchSingleTop="true"
             app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit"
             app:popUpTo="@id/SplashFragment"
             app:enterAnim="@anim/enter"
             app:exitAnim="@anim/exit" />
     </fragment>
 
     <fragment
-        android:id="@+id/commonContainer"
+        android:id="@+id/NavigationFragment"
         android:name="com.example.kino.screen.containerfragment.NavigationFragment"
-        android:label="CommonContainer"
+        android:label="NavigationFragment"
         tools:layout="@layout/container_layout">
 
         <action
