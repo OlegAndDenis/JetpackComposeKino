@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
 import com.example.kino.extensions.findNavController
 import com.example.kino.extensions.launchView
+import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.screen.splash.viewmodel.SplashViewModel
-import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.onEach
 
@@ -43,7 +42,7 @@ class SplashFragment : BaseFragment() {
         when (status) {
             OK -> {
                 findNavController()
-                    .navigate(R.id.action_splashFragment_to_navigationFragment)
+                    .navigateSafe(R.id.action_splashFragment_to_navigationFragment)
             }
             NO_CONNECTION -> noConnection()
             ERROR -> requireActivity().finish()
