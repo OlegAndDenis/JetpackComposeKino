@@ -43,7 +43,6 @@ class MovieViewModel(
         MutableSharedFlow(0)
     val uiNotification: SharedFlow<ConnectionType> = _uiNotification.asSharedFlow()
 
-
     init {
         connectionInfo.onEach {
             Timber.i("$it")

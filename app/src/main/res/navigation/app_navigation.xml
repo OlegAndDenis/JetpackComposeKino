@@ -13,13 +13,13 @@
         <action
             android:id="@+id/action_splashFragment_to_navigationFragment"
             app:destination="@id/NavigationFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
             app:launchSingleTop="true"
-            app:popUpToInclusive="true"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit"
             app:popUpTo="@id/SplashFragment"
-            app:enterAnim="@anim/enter"
-            app:exitAnim="@anim/exit" />
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -30,22 +30,18 @@
 
         <action
             android:id="@+id/action__MovieFragment_to_DetailFragment"
-            app:destination="@id/detail_navigation"
-            />
-
-        <action
-            android:id="@+id/action_commonContainer_to_detail_navigation"
             app:destination="@id/detail_navigation" />
 
-        <action android:id="@+id/actionAllFragment"
-            app:destination="@id/all_movie_navigation"/>
+        <action
+            android:id="@+id/actionAllFragment"
+            app:destination="@id/all_movie_navigation" />
     </fragment>
 
-    <action android:id="@+id/action_overviewFragment_to_all_navigation"
-        app:destination="@+id/all_movie_navigation"
-        />
+    <action
+        android:id="@+id/action_overviewFragment_to_all_navigation"
+        app:destination="@+id/all_movie_navigation" />
 
-    <include app:graph="@navigation/overview_navigation"/>
-    <include app:graph="@navigation/detail_navigation"/>
-    <include app:graph="@navigation/all_movie_navigation"/>
+    <include app:graph="@navigation/overview_navigation" />
+    <include app:graph="@navigation/detail_navigation" />
+    <include app:graph="@navigation/all_movie_navigation" />
 </navigation>

@@ -5,22 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import androidx.navigation.navGraphViewModels
 import com.example.kino.NavigationUi.*
-import com.example.kino.common.CommonFactory
 import com.example.kino.R
-import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
+import com.example.kino.common.CommonFactory
 import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchViewWhenStartedBlock
 import com.example.kino.extensions.navigateSafe
-import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
+import com.example.kino.screen.common.model.GenresList
+import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.screen.movie.viemodel.MovieViewModel
 import kotlinx.coroutines.flow.*
 
