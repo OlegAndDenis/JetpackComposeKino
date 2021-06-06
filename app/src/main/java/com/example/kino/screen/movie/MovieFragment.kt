@@ -16,13 +16,12 @@ import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.extensions.launchView
+import com.example.kino.extensions.launchViewWhenStartedBlock
 import com.example.kino.extensions.navigateSafe
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.*
 import com.example.kino.screen.movie.viemodel.MovieViewModel
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
 
@@ -51,20 +50,23 @@ class MovieFragment : BaseFragment() {
             adapter = this@MovieFragment.adapter
         }
 
-        viewModel.responseId.onEach(this::openMovie).launchView(viewLifecycleOwner)
-        viewModel.responseGenresByPosition.onEach(this::openGenres).launchView(viewLifecycleOwner)
-        viewModel.movieByGenres.onEach(this@MovieFragment::setGenres).launchView(viewLifecycleOwner)
+        launchViewWhenStartedBlock {
+            with(viewModel) {
+                responseId.collect(::openMovie)
+                responseGenresByPosition.collect(::openGenres)
+                movieByGenres.collect(::setGenres)
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.root.removeAllViews()
         binding.movieTopFive.adapter = null
+        binding.root.removeAllViews()
         _binding = null
     }
 
     private fun setGenres(genres: List<GenresList>) {
-        Timber.i("$genres")
         adapter.setTList(genres)
     }
 

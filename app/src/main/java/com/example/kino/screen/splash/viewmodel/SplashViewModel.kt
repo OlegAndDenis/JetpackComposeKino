@@ -23,7 +23,7 @@ class SplashViewModel(
     private val _notificationUi: MutableSharedFlow<NetworkEnum> = MutableSharedFlow(0)
     val notificationUi: SharedFlow<NetworkEnum> get() = _notificationUi.asSharedFlow()
 
-    var job: Job? = null
+    private var job: Job? = null
 
     init {
         startNetwork()

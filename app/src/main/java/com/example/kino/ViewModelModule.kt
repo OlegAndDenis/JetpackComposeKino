@@ -54,8 +54,9 @@ class ViewModelModule {
     fun provideMovieViewModel(
         networkRepository: NetworkRepository,
         databaseRepository: DatabaseRepository,
+        connectionInfo: StateFlow<ConnectionType>,
     ): ViewModel =
-        MovieViewModel(networkRepository, databaseRepository)
+        MovieViewModel(networkRepository, databaseRepository, connectionInfo)
 
     @Provides
     @IntoMap
@@ -69,8 +70,9 @@ class ViewModelModule {
     fun provideAllMovieViewModel(
         networkRepository: NetworkRepository,
         databaseRepository: DatabaseRepository,
+        connectionInfo: StateFlow<ConnectionType>,
     ): ViewModel =
-        AllMovieViewModel(networkRepository, databaseRepository)
+        AllMovieViewModel(networkRepository, databaseRepository, connectionInfo)
 
     @Provides
     @IntoMap
@@ -78,8 +80,9 @@ class ViewModelModule {
     fun provideDetailViewModel(
         networkRepository: NetworkRepository,
         databaseRepository: DatabaseRepository,
+        connectionInfo: StateFlow<ConnectionType>,
     ): ViewModel =
-        DetailViewModel(networkRepository, databaseRepository)
+        DetailViewModel(networkRepository, databaseRepository, connectionInfo)
 
 //    @Provides
 //    @IntoMap

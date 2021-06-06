@@ -9,7 +9,7 @@ import com.example.kino.common.CommonFactory
 import com.example.kino.R
 import com.example.kino.databinding.SplashLayoutBinding
 import com.example.kino.extensions.findNavController
-import com.example.kino.extensions.launchView
+import com.example.kino.extensions.launchViewWhenStarted
 import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.NetworkEnum
 import com.example.kino.network.NetworkEnum.*
@@ -35,7 +35,7 @@ class SplashFragment : BaseFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.notificationUi.onEach(this::statusNetwork).launchView(viewLifecycleOwner)
+        viewModel.notificationUi.onEach(this::statusNetwork).launchViewWhenStarted(viewLifecycleOwner)
     }
 
     private fun statusNetwork(status: NetworkEnum) {

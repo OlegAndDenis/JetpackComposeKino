@@ -17,7 +17,7 @@ import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.DetailLayoutBinding
-import com.example.kino.extensions.launchView
+import com.example.kino.extensions.launchViewWhenStarted
 import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.model.common.Backdrops
 import com.example.kino.network.model.common.NetworkItem
@@ -55,11 +55,11 @@ class DetailFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         showLoading()
         getData()
-        viewModel.responseMovie.onEach { setId(it) }.launchView(viewLifecycleOwner)
+        viewModel.responseMovie.onEach { setId(it) }.launchViewWhenStarted(viewLifecycleOwner)
         viewModel.mapFragment.onEach {
             createNavHost().navController.navigateSafe(R.id.action_detailFragment_to_tabFragment,
             bundleOf(LIST_FRAGMENT.name to it))
-        }.launchView(viewLifecycleOwner)
+        }.launchViewWhenStarted(viewLifecycleOwner)
 
         binding.posterViews.apply {
             adapter = this@DetailFragment.adapter

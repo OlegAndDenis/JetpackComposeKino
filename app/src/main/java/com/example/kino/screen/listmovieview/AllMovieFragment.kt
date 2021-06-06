@@ -23,14 +23,13 @@ import com.example.kino.adapter.DataDiffUtils
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.databinding.AllMovieLayoutBinding
 import com.example.kino.db.model.Genres
-import com.example.kino.extensions.launchView
+import com.example.kino.extensions.launchViewWhenStarted
 import com.example.kino.extensions.navigateSafe
 import com.example.kino.network.model.common.NetworkItem
 import com.example.kino.screen.listmovieview.viewholder.AllViewHolder
 import com.example.kino.screen.listmovieview.viewmodel.AllMovieViewModel
 import com.example.kino.screen.common.*
 import kotlinx.coroutines.flow.onEach
-import timber.log.Timber
 
 class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
 
@@ -61,9 +60,9 @@ class AllMovieFragment : BaseFragment(), OnVerticalScrollListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        viewModel.responseMovieResult.onEach(this::setPopularity).launchView(viewLifecycleOwner)
-        viewModel.resultId.onEach(this::openMovie).launchView(viewLifecycleOwner)
-        viewModel.title.onEach { binding.toolbar.title = it }.launchView(viewLifecycleOwner)
+        viewModel.responseMovieResult.onEach(this::setPopularity).launchViewWhenStarted(viewLifecycleOwner)
+        viewModel.resultId.onEach(this::openMovie).launchViewWhenStarted(viewLifecycleOwner)
+        viewModel.title.onEach { binding.toolbar.title = it }.launchViewWhenStarted(viewLifecycleOwner)
         binding.recyclerView.apply {
             adapter = this@AllMovieFragment.adapter
             LinearSnapHelper().attachToRecyclerView(this)

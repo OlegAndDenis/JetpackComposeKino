@@ -3,6 +3,7 @@ package com.example.kino.screen.detail.viewmodel
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.screen.pager.overview.OverviewFragment
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
@@ -13,6 +14,7 @@ import com.example.kino.screen.pager.collectionscreen.CollectionsFragment
 import com.example.kino.screen.pager.companyscreen.CompanyFragment
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +22,8 @@ import timber.log.Timber
 class DetailViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
-) : ViewModel() {
+    private val connectionInfo: StateFlow<ConnectionType>,
+    ) : ViewModel() {
 
     private val resultMovie: MutableSharedFlow<MovieDetail> = MutableSharedFlow(0)
     val responseMovie: SharedFlow<MovieDetail> get() = resultMovie.asSharedFlow()

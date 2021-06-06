@@ -2,6 +2,7 @@ package com.example.kino.screen.listmovieview.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.screen.movie.model.OldAndNewList
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.network.NetworkRepository
@@ -15,7 +16,8 @@ import kotlinx.coroutines.withContext
 class AllMovieViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
-) : ViewModel() {
+    private val connectionInfo: StateFlow<ConnectionType>,
+    ) : ViewModel() {
 
     private val resultMove: MutableStateFlow<Movie> = MutableStateFlow(Movie(page = -99))
     private val genres: MutableStateFlow<String> = MutableStateFlow("")

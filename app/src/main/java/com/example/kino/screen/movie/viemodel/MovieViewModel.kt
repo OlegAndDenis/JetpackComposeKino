@@ -2,6 +2,7 @@ package com.example.kino.screen.movie.viemodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.db.DatabaseRepository
 import com.example.kino.db.model.Genres
 import com.example.kino.network.NetworkRepository
@@ -22,6 +23,7 @@ private const val TopVoteCount = "Топ по рейтингу"
 class MovieViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
+    private val connectionInfo: StateFlow<ConnectionType>,
 ) : ViewModel() {
 
     private val resultId: MutableSharedFlow<String> = MutableSharedFlow(0)
@@ -32,7 +34,6 @@ class MovieViewModel(
 
     private val _movieByGenres: MutableSharedFlow<List<GenresList>> = MutableSharedFlow(0)
     val movieByGenres: SharedFlow<List<GenresList>> get() = _movieByGenres.asSharedFlow()
-
 
     init {
         viewModelScope.launch {
@@ -60,7 +61,13 @@ class MovieViewModel(
                     }
                 }
             } else {
-                resultGenresByPosition.emit(Genres(idGenres = category.idGenres, name = category.name, type = ""))
+                resultGenresByPosition.emit(
+                    Genres(
+                        idGenres = category.idGenres,
+                        name = category.name,
+                        type = ""
+                    )
+                )
             }
         }
     }
@@ -83,10 +90,12 @@ class MovieViewModel(
         genres.forEach {
             val networckGenres = networkRepository.getFilm(1, it.idGenres.toString())
             val genresList =
-                GenresList(0,
+                GenresList(
+                    0,
                     it.name,
                     it.idGenres,
-                    selectionTopMore(networckGenres.result, TOP_MORE))
+                    selectionTopMore(networckGenres.result, TOP_MORE)
+                )
             genre.add(genresList)
         }
 

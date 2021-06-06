@@ -8,7 +8,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.kino.R
 import com.example.kino.databinding.ContainerLayoutBinding
-import com.example.kino.extensions.launchView
+import com.example.kino.extensions.launchViewWhenStarted
 import com.example.kino.screen.common.BaseFragment
 import com.example.kino.extensions.setupWithNavController
 import kotlinx.coroutines.flow.onEach
@@ -46,7 +46,7 @@ class NavigationFragment : BaseFragment(), SearchView.OnQueryTextListener {
             if (it == null) return@onEach
             NavigationUI.setupActionBarWithNavController(requireActivity() as AppCompatActivity, it)
             Navigation.setViewNavController(requireView(), it)
-        }.launchView(viewLifecycleOwner)
+        }.launchViewWhenStarted(viewLifecycleOwner)
         setHasOptionsMenu(true)
     }
 
