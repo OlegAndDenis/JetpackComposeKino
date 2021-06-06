@@ -11,6 +11,7 @@ import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.typeenum.TypeEnum
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import timber.log.Timber
 import kotlin.random.Random
@@ -23,19 +24,42 @@ private const val TopVoteCount = "Топ по рейтингу"
 class MovieViewModel(
     private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
-    private val connectionInfo: StateFlow<ConnectionType>,
+    connectionInfo: StateFlow<ConnectionType>,
 ) : ViewModel() {
 
-    private val resultId: MutableSharedFlow<String> = MutableSharedFlow(0)
-    val responseId: SharedFlow<String> get() = resultId
+    private val resultId: MutableSharedFlow<String> =
+        MutableSharedFlow(0)
+    val responseId: SharedFlow<String> = resultId.asSharedFlow()
 
-    private val resultGenresByPosition: MutableSharedFlow<Genres> = MutableSharedFlow(replay = 0)
-    val responseGenresByPosition: SharedFlow<Genres> get() = resultGenresByPosition
+    private val resultGenresByPosition: MutableSharedFlow<Genres> =
+        MutableSharedFlow(0)
+    val responseGenresByPosition: SharedFlow<Genres> = resultGenresByPosition.asSharedFlow()
 
-    private val _movieByGenres: MutableSharedFlow<List<GenresList>> = MutableSharedFlow(0)
-    val movieByGenres: SharedFlow<List<GenresList>> get() = _movieByGenres.asSharedFlow()
+    private val _movieByGenres: MutableSharedFlow<List<GenresList>> =
+        MutableSharedFlow(0)
+    val movieByGenres: SharedFlow<List<GenresList>> = _movieByGenres.asSharedFlow()
+
+    private val _uiNotification: MutableSharedFlow<ConnectionType> =
+        MutableSharedFlow(0)
+    val uiNotification: SharedFlow<ConnectionType> = _uiNotification.asSharedFlow()
+
 
     init {
+        connectionInfo.onEach {
+            Timber.i("$it")
+            when (it) {
+                is ConnectionType.Available -> {
+                    _uiNotification.emit(it)
+                    downloadData()
+                }
+                is ConnectionType.Lost -> _uiNotification.emit(it)
+                is ConnectionType.Init -> { }
+                else -> { }
+            }
+        }.launchIn(viewModelScope)
+    }
+
+    private fun downloadData() {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 getGenres()
@@ -105,10 +129,5 @@ class MovieViewModel(
         val int = Random.nextInt(2, genre.size - 2)
         genre.add(int, GenresList(-1, TopVoteCount, -2, rotateList))
         _movieByGenres.emit(genre)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Timber.i("onCleared")
     }
 }

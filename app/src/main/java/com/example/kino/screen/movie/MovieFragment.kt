@@ -14,6 +14,7 @@ import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
+import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchViewWhenStartedBlock
@@ -55,19 +56,31 @@ class MovieFragment : BaseFragment() {
                 responseId.collect(::openMovie)
                 responseGenresByPosition.collect(::openGenres)
                 movieByGenres.collect(::setGenres)
+                uiNotification.collect(::uiState)
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding.movieTopFive.adapter = null
-        binding.root.removeAllViews()
-        _binding = null
+    private fun uiState(connectionType: ConnectionType) {
+        when(connectionType) {
+            is ConnectionType.Available -> showUi()
+                is ConnectionType.Lost -> hideUi()
+            else -> {}
+        }
+    }
+
+    private fun hideUi() {
+        binding.gag.visibility = View.VISIBLE
+        binding.movieTopFive.visibility = View.GONE
+    }
+
+    private fun showUi() {
+        binding.gag.visibility = View.GONE
+        binding.movieTopFive.visibility = View.VISIBLE
     }
 
     private fun setGenres(genres: List<GenresList>) {
-        adapter.setTList(genres)
+        adapter.initTList(genres)
     }
 
     private fun openMovie(id: String) {
@@ -86,5 +99,12 @@ class MovieFragment : BaseFragment() {
     private fun openGenres(genres: Genres) {
         Navigation.findNavController(requireActivity(), R.id.common_frame)
             .navigateSafe(R.id.actionAllFragment, bundleOf(Pair(GENRES.name, genres)))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.movieTopFive.adapter = null
+        binding.root.removeAllViews()
+        _binding = null
     }
 }

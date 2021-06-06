@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.adapter.holder.BindHolder
 
-
 open class CommonAdapter<T>(private val holderCreator: HolderCreator<T>) :
     RecyclerView.Adapter<BindHolder<T>>() {
 
@@ -25,8 +24,9 @@ open class CommonAdapter<T>(private val holderCreator: HolderCreator<T>) :
         return mTList.size
     }
 
-    fun getTList(): List<T> {
-        return mTList
+    fun initTList(tList: List<T>) {
+        mTList = tList.toMutableList()
+        notifyDataSetChanged()
     }
 
     fun setTList(tList: List<T>) {
