@@ -13,13 +13,13 @@ private val connectionListener: MutableStateFlow<ConnectionType> =
 fun connectionState(context: Context): StateFlow<ConnectionType> {
     val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     registerNetwork(manager)
-    if (!isFirstLaunch(manager)) {
+    if (!checkInfoIfFirstLaunchNotConnection(manager)) {
         connectionListener.tryEmit(ConnectionType.Lost(true))
     }
     return connectionListener.asStateFlow()
 }
 
-fun registerNetwork(manager: ConnectivityManager) =
+private fun registerNetwork(manager: ConnectivityManager) =
     manager.registerNetworkCallback(buildNetworkRequest(), object : NetworkCallback() {
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
@@ -33,7 +33,7 @@ fun registerNetwork(manager: ConnectivityManager) =
         }
     })
 
-fun buildNetworkRequest(): NetworkRequest = NetworkRequest
+private fun buildNetworkRequest(): NetworkRequest = NetworkRequest
     .Builder()
     .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
@@ -42,7 +42,7 @@ fun buildNetworkRequest(): NetworkRequest = NetworkRequest
     .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
     .build()
 
-fun isFirstLaunch(connectivityManager: ConnectivityManager): Boolean {
+private fun checkInfoIfFirstLaunchNotConnection(connectivityManager: ConnectivityManager): Boolean {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         val capabilities =
             connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
