@@ -14,7 +14,6 @@ import com.example.kino.adapter.CommonAdapter
 import com.example.kino.adapter.CommonAdapter.*
 import com.example.kino.adapter.holder.BindHolder
 import com.example.kino.common.CommonFactory
-import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.databinding.MovieLayoutBinding
 import com.example.kino.db.model.Genres
 import com.example.kino.extensions.launchViewWhenStartedBlock
@@ -24,6 +23,7 @@ import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.viewholder.VerticalViewHolder
 import com.example.kino.screen.movie.viemodel.MovieViewModel
 import kotlinx.coroutines.flow.*
+import timber.log.Timber
 
 class MovieFragment : BaseFragment() {
 
@@ -36,8 +36,12 @@ class MovieFragment : BaseFragment() {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {
             return VerticalViewHolder(parent, viewModel::getMovieClick, viewModel::clickByCategory)
         }
-
     })
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        downloadMove()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,26 +63,18 @@ class MovieFragment : BaseFragment() {
                 responseGenresByPosition.collect(::openGenres)
                 movieByGenres.collect(::setGenres)
                 uiNotification.collect(::uiState)
+                loadNewData.collect { downloadData() }
             }
         }
     }
 
-    private fun uiState(connectionType: ConnectionType) {
-        when(connectionType) {
-            is ConnectionType.Available -> showUi()
-                is ConnectionType.Lost -> hideUi()
-            else -> {}
-        }
+    private fun downloadMove() {
+        viewModel.downloadData()
     }
 
-    private fun hideUi() {
-        binding.gag.visibility = View.VISIBLE
-        binding.movieTopFive.visibility = View.GONE
-    }
-
-    private fun showUi() {
-        binding.gag.visibility = View.GONE
-        binding.movieTopFive.visibility = View.VISIBLE
+    private fun uiState(uiState: MovieUiState) {
+        binding.gag.visibility = uiState.gag
+        binding.movieTopFive.visibility = uiState.recyclerview
     }
 
     private fun setGenres(genres: List<GenresList>) {

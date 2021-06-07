@@ -10,10 +10,9 @@ import com.example.kino.network.model.movie.Movie
 import com.example.kino.network.model.movie.MovieResult
 import com.example.kino.screen.common.model.GenresList
 import com.example.kino.screen.common.typeenum.TypeEnum
+import com.example.kino.screen.movie.MovieUiState
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
-import timber.log.Timber
 import kotlin.random.Random
 
 private const val TOP_FIVE = 5
@@ -39,30 +38,27 @@ class MovieViewModel(
         MutableSharedFlow(0)
     val movieByGenres: SharedFlow<List<GenresList>> = _movieByGenres.asSharedFlow()
 
-    private val _uiNotification: MutableSharedFlow<ConnectionType> =
+    private val _uiNotification: MutableSharedFlow<MovieUiState> =
         MutableSharedFlow(0)
-    val uiNotification: SharedFlow<ConnectionType> = _uiNotification.asSharedFlow()
+    val uiNotification: SharedFlow<MovieUiState> = _uiNotification.asSharedFlow()
+
+    private val _loadNewData: MutableSharedFlow<Unit> = MutableSharedFlow(0)
+    val loadNewData: SharedFlow<Unit> = _loadNewData.asSharedFlow()
 
     init {
-        connectionInfo.onEach {
-            Timber.i("$it")
-            when (it) {
-                is ConnectionType.Available -> {
-                    _uiNotification.emit(it)
-                    downloadData()
-                }
-                is ConnectionType.Lost -> _uiNotification.emit(it)
-                is ConnectionType.Init -> { }
-                else -> { }
-            }
-        }.launchIn(viewModelScope)
+        connectionInfo
+            .onEach(::checkConnectionStateInfo)
+            .launchIn(viewModelScope)
     }
 
-    private fun downloadData() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                getGenres()
+    private suspend fun checkConnectionStateInfo(connectionType: ConnectionType) {
+        when (connectionType) {
+            is ConnectionType.Available -> {
+                _uiNotification.emit(MovieUiState.ConnectionAvailable)
+                _loadNewData.emit(Unit)
             }
+            is ConnectionType.Lost -> _uiNotification.emit(MovieUiState.ConnectionLost)
+            is ConnectionType.Init -> { }
         }
     }
 
@@ -76,34 +72,25 @@ class MovieViewModel(
         viewModelScope.launch {
             if (category.type == -1) {
                 when (category.name) {
-                    TopFiveName -> {
-                    }
-                    TopVoteCount -> {
-                    }
-                    else -> {
-                    }
+                    TopFiveName -> { }
+                    TopVoteCount -> { }
+                    else -> { }
                 }
             } else {
                 resultGenresByPosition.emit(
-                    Genres(
-                        idGenres = category.idGenres,
-                        name = category.name,
-                        type = ""
-                    )
+                    Genres(0L,category.idGenres, category.name, "")
                 )
             }
         }
     }
 
-    private fun selectionTopMore(list: List<MovieResult>, countElement: Int): List<MovieResult> {
-        val editList = list.toMutableList()
-        editList.sortByDescending { it.voteCount }
-        return editList.take(countElement).toMutableList()
-    }
-
-    private suspend fun getGenres() {
-        val genres = databaseRepository.getGenres(TypeEnum.MOVIE)
-        getMovieByIdGenres(genres)
+    fun downloadData() {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val genres = databaseRepository.getGenres(TypeEnum.MOVIE)
+                getMovieByIdGenres(genres)
+            }
+        }
     }
 
     private suspend fun getMovieByIdGenres(genres: List<Genres>) {
@@ -111,13 +98,10 @@ class MovieViewModel(
         val rotate: Movie = networkRepository.getRotate(1)
         val genre: MutableList<GenresList> = mutableListOf()
         genres.forEach {
-            val networckGenres = networkRepository.getFilm(1, it.idGenres.toString())
+            val networkGenres = networkRepository.getFilm(1, it.idGenres.toString())
             val genresList =
-                GenresList(
-                    0,
-                    it.name,
-                    it.idGenres,
-                    selectionTopMore(networckGenres.result, TOP_MORE)
+                GenresList(0, it.name, it.idGenres,
+                    selectionTopMore(networkGenres.result, TOP_MORE)
                 )
             genre.add(genresList)
         }
@@ -128,5 +112,11 @@ class MovieViewModel(
         val int = Random.nextInt(2, genre.size - 2)
         genre.add(int, GenresList(-1, TopVoteCount, -2, rotateList))
         _movieByGenres.emit(genre)
+    }
+
+    private fun selectionTopMore(list: List<MovieResult>, countElement: Int): List<MovieResult> {
+        val editList = list.toMutableList()
+        editList.sortByDescending { it.voteCount }
+        return editList.take(countElement).toMutableList()
     }
 }
