@@ -18,10 +18,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+private const val BASE_URL = "https://api.themoviedb.org/3/"
+
 @Module
 class NetworkModule {
-
-    private val BASE_URL = "https://api.themoviedb.org/3/"
 
     @Provides
     @ApplicationScope
