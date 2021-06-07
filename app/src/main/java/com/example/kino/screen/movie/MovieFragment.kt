@@ -36,6 +36,7 @@ class MovieFragment : BaseFragment() {
         override fun create(parent: ViewGroup, viewType: Int): BindHolder<GenresList> {
             return VerticalViewHolder(parent, viewModel::getMovieClick, viewModel::clickByCategory)
         }
+
     })
 
     override fun onCreateView(
