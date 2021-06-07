@@ -14,11 +14,6 @@ fun <T> Flow<T>.launchViewWhenStarted(viewLifecycleOwner: LifecycleOwner) =
         this@launchViewWhenStarted.collectLatest {}
     }
 
-fun <T> Flow<T>.launchThis(lifecycleScope: LifecycleCoroutineScope) =
-    lifecycleScope.launch {
-        this@launchThis.collectLatest {}
-    }
-
 inline fun Fragment.launchViewWhenStartedBlock(
     crossinline block: suspend Wrapper.() -> Unit
 ) = viewLifecycleOwner.lifecycleScope.launchWhenStarted {
