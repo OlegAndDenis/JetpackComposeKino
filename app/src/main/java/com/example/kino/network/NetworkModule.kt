@@ -2,6 +2,7 @@ package com.example.kino.network
 
 import android.app.Application
 import android.content.Context
+import android.net.ConnectivityManager
 import com.example.kino.connectoninfo.connectionState
 import com.example.kino.connectoninfo.model.ConnectionType
 import com.example.kino.di.scope.ApplicationScope
@@ -73,7 +74,11 @@ class NetworkModule {
     }
 
     @Provides
+    fun provideConnectivityManager(context: Context): ConnectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    @Provides
     @ApplicationScope
-    fun provideNetworkState(context: Context): StateFlow<@JvmWildcard ConnectionType> =
-        connectionState(context)
+    fun provideNetworkState(manager: ConnectivityManager): StateFlow<@JvmWildcard ConnectionType> =
+        connectionState(manager)
 }

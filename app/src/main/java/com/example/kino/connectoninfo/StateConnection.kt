@@ -1,6 +1,5 @@
 package com.example.kino.connectoninfo
 
-import android.content.Context
 import android.net.*
 import android.net.ConnectivityManager.NetworkCallback
 import android.os.Build
@@ -10,12 +9,14 @@ import kotlinx.coroutines.flow.*
 private val connectionListener: MutableStateFlow<ConnectionType> =
     MutableStateFlow(ConnectionType.Init())
 
-fun connectionState(context: Context): StateFlow<ConnectionType> {
-    val manager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+fun connectionState(manager: ConnectivityManager): StateFlow<ConnectionType> {
+
     registerNetwork(manager)
+
     if (!checkInfoIfFirstLaunchNotConnection(manager)) {
         connectionListener.tryEmit(ConnectionType.Lost(true))
     }
+
     return connectionListener.asStateFlow()
 }
 
