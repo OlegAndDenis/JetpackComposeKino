@@ -25,26 +25,20 @@ class NetworkModule {
 
     @Provides
     @ApplicationScope
-    fun provideGson(): Gson {
-        return GsonBuilder()
-            .create()
-    }
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     @ApplicationScope
     fun provideApiProvider(
         api: Api
-    ): NetworkRepository {
-        return NetworkRepositoryImpl(api)
-    }
+    ): NetworkRepository = NetworkRepositoryImpl(api)
 
     @Provides
     @ApplicationScope
     fun provideOkHttpClient(
         application: Application,
         connectionInfo: StateFlow<ConnectionType>
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+    ): OkHttpClient = OkHttpClient.Builder()
             .retryOnConnectionFailure(true)
             .connectTimeout(15, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
@@ -54,23 +48,18 @@ class NetworkModule {
             .cache(Interceptors.provideCache(application.cacheDir))
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
-    }
 
     @Provides
     @ApplicationScope
-    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
-    }
 
     @Provides
     @ApplicationScope
-    fun providerApi(retrofit: Retrofit): Api {
-        return retrofit.create(Api::class.java)
-    }
+    fun providerApi(retrofit: Retrofit): Api = retrofit.create(Api::class.java)
 
     @Provides
     fun provideConnectivityManager(context: Context): ConnectivityManager =
