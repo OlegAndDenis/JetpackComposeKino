@@ -6,7 +6,7 @@ import android.os.Build
 import com.example.kino.connectoninfo.model.ConnectionType
 import kotlinx.coroutines.flow.*
 
-private val connectionListener: MutableStateFlow<ConnectionType> =
+private val connectionState: MutableStateFlow<ConnectionType> =
     MutableStateFlow(ConnectionType.Init())
 
 fun connectionState(manager: ConnectivityManager): StateFlow<ConnectionType> {
@@ -14,10 +14,10 @@ fun connectionState(manager: ConnectivityManager): StateFlow<ConnectionType> {
     registerNetwork(manager)
 
     if (!checkInfoIfFirstLaunchNotConnection(manager)) {
-        connectionListener.tryEmit(ConnectionType.Lost(true))
+        connectionState.tryEmit(ConnectionType.Lost(true))
     }
 
-    return connectionListener.asStateFlow()
+    return connectionState.asStateFlow()
 }
 
 private fun registerNetwork(manager: ConnectivityManager) =
@@ -25,12 +25,12 @@ private fun registerNetwork(manager: ConnectivityManager) =
         override fun onAvailable(network: Network) {
             super.onAvailable(network)
             manager.bindProcessToNetwork(network)
-            connectionListener.tryEmit(ConnectionType.Available(true))
+            connectionState.tryEmit(ConnectionType.Available(true))
         }
 
         override fun onLost(network: Network) {
             super.onLost(network)
-            connectionListener.tryEmit(ConnectionType.Lost(true))
+            connectionState.tryEmit(ConnectionType.Lost(true))
         }
     })
 
