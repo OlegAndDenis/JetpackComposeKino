@@ -60,6 +60,7 @@ object ImplementsDependency {
         accompanist.insets,
         accompanist.swipeRefresh,
         accompanist.flowLayout,
+        hilt.hiltNavigation,
     )
 
     val apiList = listOf(
@@ -169,7 +170,7 @@ private object Libs {
 
         const val hilt = "androidx.hilt:hilt-compiler:$hiltVersion"
         const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion"
-            const val hintWork = "androidx.hilt:hilt-work$hiltNavigation"
+        const val hintWork = "androidx.hilt:hilt-work:$hiltVersion"
 
         const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${AppVersion.hilt}"
         const val dagger = "com.google.dagger:dagger:$daggerVersion"

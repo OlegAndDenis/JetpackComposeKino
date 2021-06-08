@@ -13,27 +13,33 @@ plugins {
     id("dagger.hilt.android.plugin")
 }
 
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
+}
+
 repositories {
     google()
     mavenCentral()
 }
 
 android {
-    compileSdkVersion(AppVersion.compileSdkVersion)
+    compileSdk = AppVersion.compileSdkVersion
     buildToolsVersion = AppVersion.buildToolsVersion
 
     defaultConfig {
         applicationId = AppVersion.applicationId
-        minSdkVersion(AppVersion.minSdkVersion)
-        targetSdkVersion(AppVersion.targetSdkVersion)
+        minSdk = AppVersion.minSdkVersion
+        targetSdk = AppVersion.targetSdkVersion
         versionCode = AppVersion.versionCode
         versionName = AppVersion.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    viewBinding {
-        android.buildFeatures.viewBinding = true
+    buildFeatures {
+        viewBinding = true
+        compose = true
     }
 
     buildTypes {
@@ -45,10 +51,6 @@ android {
         getByName("debug") {
             isDebuggable = true
         }
-    }
-
-    buildFeatures {
-        compose = true
     }
 
     composeOptions {
