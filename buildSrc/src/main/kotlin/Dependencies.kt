@@ -1,11 +1,16 @@
+import Libs.accompanist
 import Libs.androidX
+import Libs.coil
+import Libs.compose
 import Libs.coroutines
-import Libs.glide
 import Libs.gson
-import Libs.navigationComponent
+import Libs.hilt
 import Libs.kotlin
 import Libs.leakcanary
+import Libs.lifecycle
+import Libs.navigation
 import Libs.okhttp
+import Libs.paging
 import Libs.retrofit
 import Libs.room
 import Libs.test
@@ -18,51 +23,71 @@ object ImplementsDependency {
         ui.adapterDelegateKotlinDsl,
         ui.adapterDelegateKotlinDslLayoutContainer,
         ui.materialComponents,
-        navigationComponent.navigationComponentFragmentKtx,
-        navigationComponent.navigationComponentUiKtx,
         room.roomKtx,
         room.roomRuntime,
         gson.gson,
-        glide.glide,
         androidX.appCompat,
         androidX.constraintLayout,
         androidX.coreKtx,
         androidX.fragment,
         retrofit.converterGson,
         retrofit.retrofit,
-        Libs.dagger.dagger,
+        hilt.dagger,
+        hilt.hiltAndroid,
         timber.timber,
         okhttp.okhttp,
         coroutines.coroutines,
-        navigationComponent.supportNavigation,
-        coroutines.coroutinesAndroid
+        coroutines.coroutinesAndroid,
+        compose.composeAnimationAnimation,
+        compose.composeFoundationFoundation,
+        compose.composeFoundationLayout,
+        compose.composeMaterialIconsext,
+        compose.composeMaterialMaterial,
+        compose.uiTooling,
+        compose.uiUi,
+        compose.uiUti,
+        compose.uiViewBinding,
+        hilt.hintWork,
+        lifecycle.lifecycleViewModel,
+        lifecycle.uiUi,
+        lifecycle.viewModelKtx,
+        navigation.navigationComponentCompose,
+        room.roomCommon,
+        androidX.androidxActivityCompose,
+        paging.pagingCompos,
+        paging.pagingCommon,
+        accompanist.coil,
+        accompanist.insets,
+        accompanist.swipeRefresh,
+        accompanist.flowLayout,
+    )
+
+    val apiList = listOf(
+        lifecycle.lifecycleRuntime,
+        paging.pagingRuntime,
+        coil.coil,
+        coil.coilGif,
     )
 
     val kaptDependency = listOf(
-        Libs.dagger.compilerKapt,
+        hilt.compilerKapt,
+        hilt.hiltAndroidCompiler,
         room.kaptCompiller
     )
 
-    val annotationProcessDependency = listOf(
-        glide.annotationProcessor
-    )
-
-    val compileOnlyDependency = listOf(
-        Libs.dagger.jsrAnnotationCompileOnly
-    )
-
     val debuggerDependency = listOf(
-        leakcanary.leakcanaryDebugg
+        leakcanary.leakcanaryDebug
     )
 
     val testImplementations = listOf(
-        test.junit
+        test.junit,
+        hilt.hiltTesting
     )
 
     val androidTestImplementation = listOf(
         test.espresso,
         test.junitExt,
-        navigationComponent.navigationAndroidTesting
+        compose.composeUiTest,
     )
 }
 
@@ -72,17 +97,21 @@ private object Libs {
 
     val ui = UI
     val androidX = AndroidX
-    val navigationComponent = NavigationComponent
     val test = Test
     val room = Room
     val gson = Gson
     val retrofit = Retrofit
-    val dagger = Dagger
+    val hilt = Hilt
     val leakcanary = Leakcanary
     val coroutines = Coroutines
     val timber = Timber
-    val glide = Glide
+    val coil = Coil
     val okhttp = Okhttp
+    val compose = Compose
+    val lifecycle = Lifecycle
+    val navigation = NavigationComponent
+    val paging = Paging
+    val accompanist = Accompanist
 
 
     object UI {
@@ -102,17 +131,20 @@ private object Libs {
         private const val appCompatVersion = "1.3.0"
         private const val coreKtxVersion = "1.5.0"
         private const val fragmentKtx = "1.3.4"
+        private const val androidxActivityComposeVersion = "1.3.0-beta01"
 
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
         const val appCompat = "androidx.appcompat:appcompat:$appCompatVersion"
         const val coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
         const val fragment = "androidx.fragment:fragment-ktx:$fragmentKtx"
+        const val androidxActivityCompose = "androidx.activity:activity-compose:$androidxActivityComposeVersion"
     }
 
     object Room {
         private const val roomVersion = "2.3.0"
 
+        const val roomCommon = "androidx.room:room-common:$roomVersion"
         const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
         const val kaptCompiller = "androidx.room:room-compiler:$roomVersion"
         const val roomKtx = "androidx.room:room-ktx:$roomVersion"
@@ -130,30 +162,62 @@ private object Libs {
         const val converterGson = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     }
 
-    object Dagger {
+    object Hilt {
+        private const val hiltVersion = "1.0.0"
+        private const val hiltNavigationVersion = "1.0.0-alpha02"
         private const val daggerVersion = "2.33"
-        private const val jsr = "1.0"
 
+        const val hilt = "androidx.hilt:hilt-compiler:$hiltVersion"
+        const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion"
+            const val hintWork = "androidx.hilt:hilt-work$hiltNavigation"
+
+        const val hiltAndroidCompiler = "com.google.dagger:hilt-android-compiler:${AppVersion.hilt}"
         const val dagger = "com.google.dagger:dagger:$daggerVersion"
         const val compilerKapt = "com.google.dagger:dagger-compiler:$daggerVersion"
-        const val jsrAnnotationCompileOnly = "javax.annotation:jsr250-api:$jsr"
+        const val hiltAndroid = "com.google.dagger:hilt-android:${AppVersion.hilt}"
+        const val hiltTesting = "com.google.dagger:hilt-android-testing:${AppVersion.hilt}"
+    }
+
+    object Lifecycle {
+        private const val uiUiVersion = "1.0.0-beta07"
+        private const val lifecycleVersion = "1.3.0"
+        private const val viewModelVersion = "1.0.0-alpha05"
+        private const val viewModelKtxVersion = "2.4.0-alpha01"
+
+        const val uiUi = "androidx.compose.ui:ui-tooling:$uiUiVersion"
+        const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+        const val lifecycleViewModel ="androidx.lifecycle:lifecycle-viewmodel-compose:$viewModelVersion"
+        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion"
     }
 
     object NavigationComponent {
-        private const val nav_version = "2.3.5"
-        const val navigationComponentFragmentKtx =
-            "androidx.navigation:navigation-fragment-ktx:$nav_version"
-        const val navigationComponentUiKtx =
-            "androidx.navigation:navigation-ui-ktx:$nav_version"
-        const val supportNavigation =
-            "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-        const val navigationAndroidTesting = "androidx.navigation:navigation-testing:$nav_version"
+        private const val nav_version = "2.4.0-alpha02"
+        const val navigationComponentCompose =
+            "androidx.navigation:navigation-compose:$nav_version"
+    }
+
+    object Paging {
+        private const val pagingVersion = "3.0.0"
+        private const val pagingComposVersion = "1.0.0-alpha10"
+
+        const val pagingCommon = "androidx.paging:paging-common-ktx:$pagingVersion"
+        const val pagingRuntime = "androidx.paging:paging-runtime-ktx:$pagingVersion"
+        const val pagingCompos = "androidx.paging:paging-compose:$pagingComposVersion"
+
+    }
+
+    object Accompanist {
+        private const val accompanistVersion = "0.11.1"
+        const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
+        const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
+        const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
+        const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
     }
 
     object Leakcanary {
         private const val leakcanaryVersion = "2.7"
 
-        const val leakcanaryDebugg = "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+        const val leakcanaryDebug = "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
     }
 
     object Coroutines {
@@ -169,11 +233,24 @@ private object Libs {
         const val timber = "com.jakewharton.timber:timber:$timberVersion"
     }
 
-    object Glide {
-        private const val glideVersion = "4.12.0"
+    object Coil {
+        private const val coilVersion = "1.2.2"
 
-        const val glide = "com.github.bumptech.glide:glide:$glideVersion"
-        const val annotationProcessor = "com.github.bumptech.glide:compiler:$glideVersion"
+        const val coil = "io.coil-kt:coil:$coilVersion"
+        const val coilGif = "io.coil-kt:coil-gif:$coilVersion"
+    }
+
+    object Compose {
+        const val composeAnimationAnimation = "androidx.compose.animation:animation:${AppVersion.compose}"
+        const val composeFoundationFoundation = "androidx.compose.foundation:foundation:${AppVersion.compose}"
+        const val composeFoundationLayout = "androidx.compose.foundation:foundation-layout:${AppVersion.compose}"
+        const val composeMaterialIconsext = "androidx.compose.material:material-icons-extended:${AppVersion.compose}"
+        const val composeMaterialMaterial = "androidx.compose.material:material:${AppVersion.compose}"
+        const val composeUiTest = "androidx.compose.ui:ui-test-junit4:${AppVersion.compose}"
+        const val uiTooling = "androidx.compose.ui:ui-tooling:${AppVersion.compose}"
+        const val uiUi = "androidx.compose.ui:ui:${AppVersion.compose}"
+        const val uiUti = "androidx.compose.ui:ui-util:${AppVersion.compose}"
+        const val uiViewBinding = "androidx.compose.ui:ui-viewbinding:${AppVersion.compose}"
     }
 
     object Okhttp {

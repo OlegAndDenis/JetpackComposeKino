@@ -1,6 +1,5 @@
 import ImplementsDependency.androidTestImplementation
-import ImplementsDependency.annotationProcessDependency
-import ImplementsDependency.compileOnlyDependency
+import ImplementsDependency.apiList
 import ImplementsDependency.debuggerDependency
 import ImplementsDependency.kaptDependency
 import ImplementsDependency.listImplements
@@ -11,6 +10,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
 }
 
 repositories {
@@ -47,6 +47,14 @@ android {
         }
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -57,15 +65,11 @@ android {
 }
 
 dependencies {
-
+    apiList.forEach {
+        api(it)
+    }
     listImplements.forEach {
         implementation(it)
-    }
-    annotationProcessDependency.forEach {
-        annotationProcessor(it)
-    }
-    compileOnlyDependency.forEach {
-        compileOnly(it)
     }
     debuggerDependency.forEach {
         debugImplementation(it)

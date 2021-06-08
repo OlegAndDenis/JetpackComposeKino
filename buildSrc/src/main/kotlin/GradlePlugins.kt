@@ -3,4 +3,5 @@ object GradlePlugins {
 
     const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${AppVersion.kotlin}"
     const val androidBuildTools = "com.android.tools.build:gradle:$androidBuildToolsVersion"
+    const val daggerHilt = "com.google.dagger:hilt-android-gradle-plugin:${AppVersion.hilt}"
 }
