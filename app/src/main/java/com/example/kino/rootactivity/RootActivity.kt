@@ -1,6 +1,6 @@
 package com.example.kino.rootactivity
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 
-class RootActivity: AppCompatActivity() {
+class RootActivity: FragmentActivity() {
 }
