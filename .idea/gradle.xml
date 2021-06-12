@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/ui-common-compose" />
             <option value="$PROJECT_DIR$/ui-movie" />
+            <option value="$PROJECT_DIR$/ui-profile" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
