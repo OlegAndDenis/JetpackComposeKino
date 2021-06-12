@@ -1,6 +1,7 @@
 object Modules {
     val modules = listOf(
         ":ui-common-compose",
-        ":ui-movie"
+        ":ui-movie",
+        ":ui-profile"
     )
 }
