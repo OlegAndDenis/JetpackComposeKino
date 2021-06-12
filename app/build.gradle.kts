@@ -34,7 +34,7 @@ android {
         versionCode = AppVersion.versionCode
         versionName = AppVersion.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = AppVersion.stringValue.androidJUnitRunner
     }
 
     buildFeatures {
@@ -43,12 +43,12 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro")
         }
-        getByName("debug") {
+        debug {
             isDebuggable = true
         }
     }
@@ -63,7 +63,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AppVersion.targetJvm
     }
 }
 
