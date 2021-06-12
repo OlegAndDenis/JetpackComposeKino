@@ -58,5 +58,6 @@ dependencies {
     implementation(Libs.compose.composeMaterialMaterial)
     implementation(Libs.coil.coil)
     implementation(Libs.accompanist.coil)
+    implementation(Libs.accompanist.pager)
     implementation(project(Modules.uiCommonCompose))
 }
