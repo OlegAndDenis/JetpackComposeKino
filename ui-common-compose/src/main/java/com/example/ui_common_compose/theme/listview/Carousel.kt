@@ -1,4 +1,4 @@
-package com.example.kino.listview
+package com.example.ui_common_compose.theme.listview
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyItemScope
@@ -22,13 +22,12 @@ fun <T> Carousel(
     val spacingContent = PaddingValues(halfSpacing, 0.dp, halfSpacing, 0.dp)
 
     ComposePagerSnapHelper(
-        width = 320.dp
+        width = 500.dp
     ) { listState ->
         LazyRow(
             state = listState,
             modifier = modifier.fillMaxWidth()
-                .fillMaxHeight()
-                .padding(bottom = 56.dp),
+                .fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             items(items) { item ->
