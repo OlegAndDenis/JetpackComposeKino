@@ -20,6 +20,10 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -28,6 +32,10 @@ android {
                 "proguard-rules.pro"
             )
         }
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
     }
 
     compileOptions {
