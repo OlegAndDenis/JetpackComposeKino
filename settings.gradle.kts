@@ -1,1 +1,1 @@
-include(":app", ":ui-common-compose")
+include(":app", ":ui-common-compose", ":ui-movie")
