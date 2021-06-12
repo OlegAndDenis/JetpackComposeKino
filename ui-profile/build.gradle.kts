@@ -42,4 +42,6 @@ android {
 
 dependencies {
     implementation(Libs.compose.uiUi)
+    implementation(Libs.compose.composeFoundationFoundation)
+    implementation(Libs.compose.composeFoundationLayout)
 }
