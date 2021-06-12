@@ -9,14 +9,14 @@ repositories {
 }
 
 android {
-    compileSdk = 30
-    buildToolsVersion = "30.0.3"
+    compileSdk = AppVersion.compileSdkVersion
+    buildToolsVersion = AppVersion.buildToolsVersion
 
     defaultConfig {
-        minSdk = 23
-        targetSdk = 30
+        minSdk = AppVersion.minSdkVersion
+        targetSdk = AppVersion.targetSdkVersion
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = AppVersion.stringValue.androidJUnitRunner
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -44,7 +44,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AppVersion.targetJvm
     }
 }
 
