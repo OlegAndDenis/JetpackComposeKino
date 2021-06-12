@@ -33,6 +33,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 
 dependencies {
