@@ -41,5 +41,5 @@ android {
 }
 
 dependencies {
-
+    implementation(Libs.compose.uiUi)
 }
