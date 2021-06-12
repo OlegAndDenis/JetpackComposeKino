@@ -85,4 +85,7 @@ dependencies {
     androidTestImplementation.forEach {
         androidTestImplementation(it)
     }
+    Modules.modules.forEach {
+        implementation(project(it))
+    }
 }
