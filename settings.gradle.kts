@@ -1,2 +1,1 @@
-include(":app")
-include(":ui-common-compose")
+include(":app", ":ui-common-compose")
