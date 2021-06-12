@@ -3,6 +3,11 @@ plugins {
     id("kotlin-android")
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 android {
     compileSdk = 30
     buildToolsVersion = "30.0.3"
@@ -40,11 +45,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-
-    repositories {
-        google()
-        mavenCentral()
     }
 }
 
