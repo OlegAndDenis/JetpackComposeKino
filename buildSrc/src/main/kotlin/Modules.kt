@@ -4,4 +4,6 @@ object Modules {
         ":ui-movie",
         ":ui-profile"
     )
+
+    val uiCommonCompose = ":ui-common-compose"
 }
