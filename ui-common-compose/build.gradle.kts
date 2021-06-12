@@ -49,5 +49,5 @@ android {
 }
 
 dependencies {
-    implementation("androidx.compose.ui:ui:${AppVersion.compose}")
+    implementation(Libs.compose.uiUi)
 }
