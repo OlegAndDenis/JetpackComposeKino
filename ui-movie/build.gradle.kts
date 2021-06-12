@@ -29,15 +29,34 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AppVersion.targetJvm
     }
 }
 
 dependencies {
     implementation(Libs.compose.uiUi)
+    implementation(Libs.compose.uiTooling)
+    implementation(Libs.compose.composeFoundationFoundation)
+    implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.compose.uiViewBinding)
+    implementation(Libs.compose.composeMaterialIconsext)
+    implementation(Libs.compose.composeMaterialMaterial)
+    implementation(Libs.coil.coil)
+    implementation(Libs.accompanist.coil)
+    implementation(project(Modules.uiCommonCompose))
 }
