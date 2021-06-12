@@ -20,6 +20,10 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,16 +34,26 @@ android {
         }
     }
 
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = AppVersion.targetJvm
     }
 }
 
 dependencies {
+    implementation(Libs.compose.uiUi)
+    implementation(Libs.compose.composeFoundationFoundation)
+    implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.compose.composeMaterialMaterial)
 
+    implementation(Libs.coil.coil)
+    implementation(Libs.accompanist.coil)
 }
