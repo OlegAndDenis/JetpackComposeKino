@@ -92,7 +92,7 @@ object ImplementsDependency {
     )
 }
 
-private object Libs {
+object Libs {
 
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${AppVersion.kotlin}"
 
@@ -139,7 +139,8 @@ private object Libs {
         const val appCompat = "androidx.appcompat:appcompat:$appCompatVersion"
         const val coreKtx = "androidx.core:core-ktx:$coreKtxVersion"
         const val fragment = "androidx.fragment:fragment-ktx:$fragmentKtx"
-        const val androidxActivityCompose = "androidx.activity:activity-compose:$androidxActivityComposeVersion"
+        const val androidxActivityCompose =
+            "androidx.activity:activity-compose:$androidxActivityComposeVersion"
     }
 
     object Room {
@@ -187,7 +188,8 @@ private object Libs {
 
         const val uiUi = "androidx.compose.ui:ui-tooling:$uiUiVersion"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-        const val lifecycleViewModel ="androidx.lifecycle:lifecycle-viewmodel-compose:$viewModelVersion"
+        const val lifecycleViewModel =
+            "androidx.lifecycle:lifecycle-viewmodel-compose:$viewModelVersion"
         const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion"
     }
 
@@ -212,7 +214,8 @@ private object Libs {
         const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
-        const val swipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
+        const val swipeRefresh =
+            "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
     }
 
     object Leakcanary {
@@ -242,11 +245,16 @@ private object Libs {
     }
 
     object Compose {
-        const val composeAnimationAnimation = "androidx.compose.animation:animation:${AppVersion.compose}"
-        const val composeFoundationFoundation = "androidx.compose.foundation:foundation:${AppVersion.compose}"
-        const val composeFoundationLayout = "androidx.compose.foundation:foundation-layout:${AppVersion.compose}"
-        const val composeMaterialIconsext = "androidx.compose.material:material-icons-extended:${AppVersion.compose}"
-        const val composeMaterialMaterial = "androidx.compose.material:material:${AppVersion.compose}"
+        const val composeAnimationAnimation =
+            "androidx.compose.animation:animation:${AppVersion.compose}"
+        const val composeFoundationFoundation =
+            "androidx.compose.foundation:foundation:${AppVersion.compose}"
+        const val composeFoundationLayout =
+            "androidx.compose.foundation:foundation-layout:${AppVersion.compose}"
+        const val composeMaterialIconsext =
+            "androidx.compose.material:material-icons-extended:${AppVersion.compose}"
+        const val composeMaterialMaterial =
+            "androidx.compose.material:material:${AppVersion.compose}"
         const val composeUiTest = "androidx.compose.ui:ui-test-junit4:${AppVersion.compose}"
         const val uiTooling = "androidx.compose.ui:ui-tooling:${AppVersion.compose}"
         const val uiUi = "androidx.compose.ui:ui:${AppVersion.compose}"
