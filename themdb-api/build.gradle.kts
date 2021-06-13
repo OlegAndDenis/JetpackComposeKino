@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.library")
     id("kotlin-android")
@@ -29,6 +31,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            isMinifyEnabled = true
+            val tmdbApiKey = gradleLocalProperties(rootDir).getProperty("tmdbApiKey")
+            buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
         }
     }
 
