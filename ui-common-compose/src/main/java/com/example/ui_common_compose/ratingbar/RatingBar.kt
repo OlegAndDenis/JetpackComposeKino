@@ -1,4 +1,4 @@
-package com.example.ui_common_compose.theme.ratingbar
+package com.example.ui_common_compose.ratingbar
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
