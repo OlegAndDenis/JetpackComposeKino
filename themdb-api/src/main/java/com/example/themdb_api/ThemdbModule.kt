@@ -1,12 +1,17 @@
 package com.example.themdb_api
 
+import android.content.Context
+import com.example.base.network.model.ConnectionType
 import com.example.themdb_api.api.ApiClient
+import com.example.themdb_api.interceptors.Interceptors
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,14 +35,21 @@ object ThemdbModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
-        .retryOnConnectionFailure(true)
-        .connectTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .writeTimeout(20, TimeUnit.SECONDS)
-        .connectionPool(ConnectionPool(10, 2, TimeUnit.MINUTES))
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        .build()
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        connectionInfo: StateFlow<ConnectionType>
+    ): OkHttpClient =
+        OkHttpClient.Builder()
+            .retryOnConnectionFailure(true)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .addNetworkInterceptor(Interceptors.networkCacheInterceptor(connectionInfo))
+            .addInterceptor(Interceptors.offlineCacheInterceptor(connectionInfo))
+            .cache(Interceptors.provideCache(context.cacheDir))
+            .connectionPool(ConnectionPool(10, 2, TimeUnit.MINUTES))
+            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .build()
 
     @Provides
     @Singleton
