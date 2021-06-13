@@ -36,20 +36,20 @@ val listImageView = listOf(
     "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
 )
 
-data class Movie(val listMovie: List<String>, val title: String)
+data class MovieModel(val listMovie: List<String>, val title: String)
 
 val listMovie = listOf(
-    Movie(listImageView, "Приключене"),
-    Movie(listImageView, "Фантастика"),
-    Movie(listImageView, "Драма"),
-    Movie(listImageView, "Боевик"),
-    Movie(listImageView, "Юмор"),
-    Movie(listImageView, "Мелодрама")
+    MovieModel(listImageView, "Приключене"),
+    MovieModel(listImageView, "Фантастика"),
+    MovieModel(listImageView, "Драма"),
+    MovieModel(listImageView, "Боевик"),
+    MovieModel(listImageView, "Юмор"),
+    MovieModel(listImageView, "Мелодрама")
 )
 
 @Preview
 @Composable
-fun MovieView() {
+fun Movie() {
     val lazyListState = rememberLazyListState()
     var scrolledY = 0f
     var previousOffset = 0
@@ -84,7 +84,7 @@ fun MovieView() {
 
 @Composable
 internal fun Genres(
-    movie: Movie
+    movie: MovieModel
 ) {
     val contaxt = LocalContext.current
     Column(
