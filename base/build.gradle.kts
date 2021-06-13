@@ -31,16 +31,6 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = AppVersion.compose
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,24 +41,13 @@ android {
 }
 
 dependencies {
-    implementation(Libs.compose.uiUi)
-    implementation(Libs.compose.uiTooling)
-    implementation(Libs.compose.composeFoundationFoundation)
-    implementation(Libs.compose.composeFoundationLayout)
-    implementation(Libs.compose.uiViewBinding)
-    implementation(Libs.compose.composeMaterialIconsext)
-    implementation(Libs.compose.composeMaterialMaterial)
-    implementation(Libs.coil.coil)
-    implementation(Libs.accompanist.coil)
-    implementation(Libs.accompanist.pager)
-    implementation(Libs.timber.timber)
-    implementation(Libs.hilt.hiltNavigation)
+
     implementation(Libs.hilt.hilt)
     implementation(Libs.hilt.dagger)
     implementation(Libs.hilt.hiltAndroid)
+    implementation(Libs.timber.timber)
+    implementation(Libs.coroutines.coroutines)
+    implementation(Libs.coroutines.coroutinesAndroid)
     kapt(Libs.hilt.compilerKapt)
     kapt(Libs.hilt.hiltAndroidCompiler)
-    implementation(project(Modules.uiCommonCompose))
-    implementation(project(Modules.base))
-    implementation(project(Modules.themdb))
 }

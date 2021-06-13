@@ -52,6 +52,7 @@ dependencies {
     implementation(Libs.coroutines.coroutines)
     implementation(Libs.coroutines.coroutinesAndroid)
     implementation(Libs.okhttp.okhttp)
+    implementation(project(Modules.base))
     kapt(Libs.hilt.compilerKapt)
     kapt(Libs.hilt.hiltAndroidCompiler)
 }
