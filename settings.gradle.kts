@@ -1,1 +1,8 @@
-include(":app", ":ui-common-compose", ":ui-movie", ":ui-profile", ":themdb-api")
+include(
+    ":app",
+    ":ui-common-compose",
+    ":ui-movie",
+    ":ui-profile",
+    ":themdb-api",
+    ":ui-common-resources"
+)
