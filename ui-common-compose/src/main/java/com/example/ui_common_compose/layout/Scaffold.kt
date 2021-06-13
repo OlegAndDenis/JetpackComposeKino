@@ -1,4 +1,4 @@
-package com.example.ui_common_compose.theme.layout
+package com.example.ui_common_compose.layout
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
