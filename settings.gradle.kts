@@ -4,5 +4,6 @@ include(
     ":ui-movie",
     ":ui-profile",
     ":themdb-api",
-    ":ui-common-resources"
+    ":ui-common-resources",
+    ":base"
 )
