@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 repositories {
@@ -59,5 +61,14 @@ dependencies {
     implementation(Libs.coil.coil)
     implementation(Libs.accompanist.coil)
     implementation(Libs.accompanist.pager)
+    implementation(Libs.timber.timber)
+    implementation(Libs.hilt.hiltNavigation)
+    implementation(Libs.hilt.hilt)
+    implementation(Libs.hilt.dagger)
+    implementation(Libs.hilt.hiltAndroid)
+    kapt(Libs.hilt.compilerKapt)
+    kapt(Libs.hilt.hiltAndroidCompiler)
     implementation(project(Modules.uiCommonCompose))
+    implementation(project(Modules.base))
+    implementation(project(Modules.themdb))
 }
