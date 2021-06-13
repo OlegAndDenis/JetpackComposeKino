@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 @Suppress("AndroidGradlePluginVersion")
 buildscript {
-    val kotlin_version by extra("1.5.10")
+    val kotlinVersion by extra("1.5.10")
     repositories {
         google()
         mavenCentral()
@@ -10,7 +10,7 @@ buildscript {
         classpath(GradlePlugins.androidBuildTools)
         classpath(GradlePlugins.kotlin)
         classpath(GradlePlugins.daggerHilt)
-        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.android.tools.build:gradle:7.0.0-beta03")
     }
 }
