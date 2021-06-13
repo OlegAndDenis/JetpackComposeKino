@@ -43,4 +43,8 @@ object ThemdbModule {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(client)
         .build()
+
+    @Provides
+    @Singleton
+    fun provideApiClient(retrofit: Retrofit): ApiClient = retrofit.create(ApiClient::class.java)
 }
