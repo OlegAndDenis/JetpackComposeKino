@@ -4,6 +4,8 @@ import android.content.Context
 import com.example.base.network.model.ConnectionType
 import com.example.themdb_api.api.ApiClient
 import com.example.themdb_api.interceptors.Interceptors
+import com.example.themdb_api.themdbrepository.ThemdbRepository
+import com.example.themdb_api.themdbrepository.ThemdbRepositoryImpl
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -62,4 +64,9 @@ object ThemdbModule {
     @Provides
     @Singleton
     fun provideApiClient(retrofit: Retrofit): ApiClient = retrofit.create(ApiClient::class.java)
+
+    @Provides
+    @Singleton
+    fun provideThemdbRepository(apiClient: ApiClient): ThemdbRepository =
+        ThemdbRepositoryImpl(apiClient)
 }
