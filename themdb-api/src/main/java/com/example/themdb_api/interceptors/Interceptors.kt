@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit
 object Interceptors {
     private const val MAX_AGE = 120
     private const val MAX_STALE: Long = 86400
+    private const val MAX_SIZE_CACHE: Long = 50 * 1024 * 1024
 
     fun offlineCacheInterceptor(connectionInfo: StateFlow<ConnectionType>): Interceptor {
         return Interceptor {
@@ -50,7 +51,7 @@ object Interceptors {
     fun provideCache(dir: File): Cache? {
         var cache: Cache? = null
         try {
-            cache = Cache(File(dir, "api_cache"), 10 * 1024 * 1024)
+            cache = Cache(File(dir, "api_cache"), MAX_SIZE_CACHE)
         } catch (e: Exception) {
             Timber.e(e)
         }
