@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 repositories {
@@ -40,5 +42,16 @@ android {
 }
 
 dependencies {
-
+    implementation(Libs.hilt.hilt)
+    implementation(Libs.hilt.dagger)
+    implementation(Libs.hilt.hiltAndroid)
+    implementation(Libs.gson.gson)
+    implementation(Libs.retrofit.converterGson)
+    implementation(Libs.retrofit.retrofit)
+    implementation(Libs.timber.timber)
+    implementation(Libs.coroutines.coroutines)
+    implementation(Libs.coroutines.coroutinesAndroid)
+    implementation(Libs.okhttp.okhttp)
+    kapt(Libs.hilt.compilerKapt)
+    kapt(Libs.hilt.hiltAndroidCompiler)
 }
