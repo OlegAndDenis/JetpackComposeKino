@@ -1,5 +1,6 @@
 package com.example.themdb_api
 
+import com.example.themdb_api.api.ApiClient
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
