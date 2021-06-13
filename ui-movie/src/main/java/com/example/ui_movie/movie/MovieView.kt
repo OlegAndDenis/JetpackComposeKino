@@ -20,8 +20,8 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import com.example.ui_common_compose.theme.layout.Scaffold
-import com.example.ui_common_compose.theme.ratingbar.RatingBar
+import com.example.ui_common_compose.layout.Scaffold
+import com.example.ui_common_compose.ratingbar.RatingBar
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager

@@ -34,7 +34,7 @@ fun Scaffold(
     contentColor: Color = contentColorFor(backgroundColor),
     paddingValues: PaddingValues = LocalScaffoldPadding.current,
     content: @Composable (PaddingValues) -> Unit
-    ) {
+) {
 
     val child = @Composable { childModifier: Modifier ->
         Surface(modifier = childModifier, color = backgroundColor, contentColor = contentColor) {
@@ -69,7 +69,7 @@ private fun ScaffoldLayout(
     topBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
     paddingValues: PaddingValues,
-    ) {
+) {
     SubcomposeLayout { constraints ->
         val layoutWidth = constraints.maxWidth
         val layoutHeight = constraints.maxHeight
