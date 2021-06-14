@@ -58,4 +58,7 @@ dependencies {
     implementation(Libs.compose.uiViewBinding)
     implementation(Libs.compose.composeMaterialIconsext)
     implementation(Libs.compose.composeMaterialMaterial)
+    implementation(Libs.lifecycle.lifecycleRuntime)
+    implementation(Libs.coroutines.coroutinesAndroid)
+    implementation(Libs.coroutines.coroutines)
 }

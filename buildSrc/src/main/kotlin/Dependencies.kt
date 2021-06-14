@@ -182,15 +182,14 @@ object Libs {
 
     object Lifecycle {
         private const val uiUiVersion = "1.0.0-beta07"
-        private const val lifecycleVersion = "1.3.0"
         private const val viewModelVersion = "1.0.0-alpha05"
-        private const val viewModelKtxVersion = "2.4.0-alpha01"
+        private const val lifecycle = "2.4.0-alpha01"
 
         const val uiUi = "androidx.compose.ui:ui-tooling:$uiUiVersion"
-        const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+        const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
         const val lifecycleViewModel =
             "androidx.lifecycle:lifecycle-viewmodel-compose:$viewModelVersion"
-        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewModelKtxVersion"
+        const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle"
     }
 
     object NavigationComponent {
