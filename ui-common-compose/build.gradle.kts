@@ -49,6 +49,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":ui-common-resources"))
+
     implementation(Libs.compose.uiUi)
     implementation(Libs.compose.uiTooling)
     implementation(Libs.compose.composeFoundationFoundation)
