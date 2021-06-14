@@ -35,6 +35,7 @@ fun KinoTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
+        shapes = KinoShapes,
         colors = if (darkTheme) DarkColors else LightColors,
         typography = KinoTypography,
         content = content
