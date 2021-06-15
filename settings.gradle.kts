@@ -5,5 +5,6 @@ include(
     ":ui-profile",
     ":themdb-api",
     ":ui-common-resources",
-    ":base"
+    ":base",
+    ":ui-login"
 )
