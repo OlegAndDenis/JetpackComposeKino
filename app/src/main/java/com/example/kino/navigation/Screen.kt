@@ -1,4 +1,4 @@
-package com.example.kino.root
+package com.example.kino.navigation
 
 import androidx.annotation.DrawableRes
 import com.example.kino.R
