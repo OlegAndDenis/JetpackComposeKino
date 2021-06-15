@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
@@ -34,7 +35,7 @@ fun Profile() {
         Spacer(modifier = Modifier.size(16.dp))
         Text(text = "Elon Musk", fontSize = 27.sp, color = Color.White)
         Spacer(modifier = Modifier.size(4.dp))
-        Text(text = "Premium", fontSize = 20.sp, color = Color(0xFFFFBB3B))
+        Text(text = "Premium", fontSize = 20.sp, color = MaterialTheme.colors.secondary)
         Spacer(modifier = Modifier.size(56.dp))
         profileItems.forEachIndexed { index, profileItem ->
             Item(profileItem, index != profileItems.lastIndex)
@@ -51,7 +52,7 @@ private fun Image() {
         modifier = Modifier
             .size(140.dp)
             .clip(CircleShape)
-            .border(4.dp, Color(0xFFFFBB3B), CircleShape),
+            .border(4.dp, MaterialTheme.colors.secondary, CircleShape),
         contentScale = ContentScale.Crop,
         alignment = Alignment.Center
     )
