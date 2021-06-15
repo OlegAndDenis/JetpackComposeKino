@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
+import com.example.ui_login.Login
+import com.example.ui_movie.movie.Movie
 import com.example.ui_profile.Profile
 import com.example.ui_tab_host.TabHost
 import timber.log.Timber
@@ -65,6 +67,7 @@ private fun NavGraphBuilder.addProfileRoot(navController: NavController) {
         startDestination = Screen.Profile.route
     ) {
         addProfile(navController)
+        addLogin(navController)
     }
 }
 
@@ -92,5 +95,11 @@ private fun NavGraphBuilder.addSearch(navController: NavController) {
 private fun NavGraphBuilder.addProfile(navController: NavController) {
     composable(Screen.Profile.route) {
         Profile()
+    }
+}
+
+private fun NavGraphBuilder.addLogin(navController: NavController) {
+    composable(Screen.Login.route) {
+        Login()
     }
 }
