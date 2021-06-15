@@ -12,15 +12,31 @@ val Gotham = FontFamily(
     Font(R.font.gotham_bold, FontWeight.Bold),
     Font(R.font.gotham_medium, FontWeight.Medium),
     Font(R.font.gotham_book, FontWeight.Normal),
+    Font(R.font.gotham_light, FontWeight.Light),
 )
 
 val KinoTypography = Typography(
+    h4 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Medium,
+        fontSize = 27.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Light,
+        fontSize = 20.sp
+    ),
     button = TextStyle(
         fontFamily = Gotham,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp
     ),
     subtitle1 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Normal,
+        fontSize = 17.sp
+    ),
+    body1 = TextStyle(
         fontFamily = Gotham,
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp
