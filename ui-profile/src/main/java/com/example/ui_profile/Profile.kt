@@ -49,7 +49,7 @@ private fun Image() {
         painter = rememberCoilPainter(request = testImageUrl),
         contentDescription = null,
         modifier = Modifier
-            .size(141.dp)
+            .size(140.dp)
             .clip(CircleShape)
             .border(4.dp, Color(0xFFFFBB3B), CircleShape),
         contentScale = ContentScale.Crop,
