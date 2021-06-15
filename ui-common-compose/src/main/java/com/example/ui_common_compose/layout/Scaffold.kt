@@ -23,6 +23,7 @@ fun Scaffold(
     modifier: Modifier = Modifier,
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     topBar: @Composable () -> Unit = {},
+    bottomBar: @Composable () -> Unit = {},
     drawerContent: @Composable (ColumnScope.() -> Unit)? = null,
     drawerGesturesEnabled: Boolean = true,
     drawerShape: Shape = MaterialTheme.shapes.large,
@@ -42,6 +43,7 @@ fun Scaffold(
                 topBar = topBar,
                 content = content,
                 paddingValues = paddingValues,
+                bottomBar = bottomBar
             )
         }
     }
@@ -68,6 +70,7 @@ fun Scaffold(
 private fun ScaffoldLayout(
     topBar: @Composable () -> Unit,
     content: @Composable (PaddingValues) -> Unit,
+    bottomBar: @Composable () -> Unit,
     paddingValues: PaddingValues,
 ) {
     SubcomposeLayout { constraints ->
@@ -84,12 +87,17 @@ private fun ScaffoldLayout(
 
             val topBarHeight = topBarPlaceables.maxByOrNull { it.height }?.height ?: 0
 
+            val bottomBarPlaceables = subcompose(ScaffoldLayoutContent.BottomBar, bottomBar)
+                .map { it.measure(looseConstraints) }
+
+            val bottomBarHeight = bottomBarPlaceables.maxByOrNull { it.height }?.height ?: 0
+
             val bodyContentPlaceables = subcompose(ScaffoldLayoutContent.MainContent) {
                 val innerPadding = PaddingValues(
                     start = paddingValues.calculateStartPadding(LayoutDirection.Ltr),
                     top = topBarHeight.toDp() + paddingValues.calculateTopPadding(),
                     end = paddingValues.calculateEndPadding(LayoutDirection.Ltr),
-                    bottom = paddingValues.calculateBottomPadding()
+                    bottom = bottomBarHeight.toDp() + paddingValues.calculateBottomPadding()
                 )
                 CompositionLocalProvider(LocalScaffoldPadding provides innerPadding) {
                     content(innerPadding)
@@ -98,6 +106,9 @@ private fun ScaffoldLayout(
 
             bodyContentPlaceables.forEach { it.place(0, 0) }
             topBarPlaceables.forEach { it.place(0, 0) }
+            bottomBarPlaceables.forEach {
+                it.place(0, layoutHeight - bottomBarHeight)
+            }
         }
     }
 }
