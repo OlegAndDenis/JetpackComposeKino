@@ -9,3 +9,12 @@ sealed class RootScreen(val route: String, val label: String, @DrawableRes val i
     object Search : RootScreen("search_root", "Search", R.drawable.ic_search)
     object Profile : RootScreen("profile_root", "Profile", R.drawable.ic_profile_user)
 }
+
+sealed class Screen(val route: String) {
+    object Main : Screen("main")
+    object Following : Screen("following")
+    object Search : Screen("search")
+    object Profile : Screen("profile")
+
+    object Test : Screen("test")
+}
