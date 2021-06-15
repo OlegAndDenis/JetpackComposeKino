@@ -1,6 +1,9 @@
 package com.example.ui_movie.movie
 
 import android.widget.Toast
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,79 +14,127 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithCache
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.themdb_api.MovieResult
+import com.example.themdb_api.UiMovie
+import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.layout.Scaffold
-import com.example.ui_common_compose.ratingbar.RatingBar
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 
-val listImageView = listOf(
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
-    "https://www.film.ru/sites/default/files/movies/posters/3563896-816272.jpg",
+const val baseImageUrl = "https://image.tmdb.org/t/p/"
+
+val posterSizes = listOf(
+    "w92",
+    "w154",
+    "w185",
+    "w342",
+    "w500",
+    "w780",
+    "original"
 )
 
-data class MovieModel(val listMovie: List<String>, val title: String)
-
-val listMovie = listOf(
-    MovieModel(listImageView, "Приключене"),
-    MovieModel(listImageView, "Фантастика"),
-    MovieModel(listImageView, "Драма"),
-    MovieModel(listImageView, "Боевик"),
-    MovieModel(listImageView, "Юмор"),
-    MovieModel(listImageView, "Мелодрама")
+val backdropSizes = listOf(
+    "w300",
+    "w780",
+    "w1280",
+    "original"
 )
 
 @Preview
 @Composable
 fun Movie() {
     val movieViewModel: MovieViewModel = hiltViewModel()
+
+    val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
+        .collectAsState(initial = MovieState.Loading()).value
+
+    when (state) {
+        is MovieState.Loading -> Loading()
+        is MovieState.Result -> Movie(movie = state.uiMovies, state.top)
+        else -> {
+        }
+    }
+}
+
+@Composable
+fun Loading() {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = CenterHorizontally,
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.wrapContentWidth(CenterHorizontally),
+                color = Color.Red
+            )
+        }
+    }
+}
+
+@Composable
+fun Movie(
+    movie: List<UiMovie>,
+    popularity: UiMovie = UiMovie()
+) {
     val lazyListState = rememberLazyListState()
-    var scrolledY = 0f
-    var previousOffset = 0
+    val infiniteLoop by remember { mutableStateOf(true) }
+    var previousOffset by remember { mutableStateOf(0) }
+
+    val transaction by animateFloatAsState(
+        targetValue = lazyListState.firstVisibleItemScrollOffset.toFloat() - previousOffset,
+        tween(
+            durationMillis = 150,
+            delayMillis = 10,
+        )
+    )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
     ) { paddingValues ->
         LazyColumn(
             contentPadding = paddingValues,
-            modifier = Modifier.fillMaxSize(),
             reverseLayout = false,
             state = lazyListState,
         ) {
             item {
                 CarouselWithHeader(
-                    listImageView,
+                    popularity,
                     modifier = Modifier
                         .graphicsLayer {
-                            scrolledY += lazyListState.firstVisibleItemScrollOffset - previousOffset
-                            translationY = scrolledY * -0.2F
+                            translationY = transaction
                             previousOffset = lazyListState.firstVisibleItemScrollOffset
-                        }
+                        },
+                    infiniteLoop
                 )
             }
 
-            items(listMovie) {
+            items(movie) {
                 Genres(movie = it)
             }
         }
@@ -92,7 +143,7 @@ fun Movie() {
 
 @Composable
 internal fun Genres(
-    movie: MovieModel
+    movie: UiMovie
 ) {
     val contaxt = LocalContext.current
     Column(
@@ -136,7 +187,8 @@ internal fun Genres(
             ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(movie.listMovie) {
+            items(movie.movies) {
+                //Fixme добавить шейп из темы
                 Card(
                     modifier = Modifier
                         .padding(spacingContent)
@@ -146,7 +198,10 @@ internal fun Genres(
                 ) {
                     Box {
                         Image(
-                            painter = rememberCoilPainter(request = it),
+                            painter = rememberCoilPainter(
+                                request = baseImageUrl.plus("${posterSizes[2]}/")
+                                    .plus(it.posterPath)
+                            ),
                             contentDescription = " ",
                             modifier = Modifier.matchParentSize(),
                             contentScale = ContentScale.Crop,
@@ -158,81 +213,99 @@ internal fun Genres(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class) // HorizontalPager is experimental
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 internal fun CarouselWithHeader(
-    items: List<String>,
-    modifier: Modifier = Modifier
+    items: UiMovie,
+    modifier: Modifier = Modifier,
+    infiniteLoop: Boolean
 ) {
     val pagerState = rememberPagerState(
-        pageCount = items.size,
+        pageCount = items.movies.size,
         initialOffscreenLimit = 1,
+        infiniteLoop = infiniteLoop
     )
+
     HorizontalPager(
         state = pagerState,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(bottom = 24.dp)
+        itemSpacing = 5.dp,
+        modifier = modifier.padding(bottom = 5.dp)
     ) { pager ->
-        val item = items[pager]
-        PosterCard(
-            poster = item,
+        val item = items.movies[pager]
+        Column(
             modifier = modifier
+        ) {
+            PosterCard(
+                movie = item,
+                modifier = modifier
+            )
+
+            Overview(
+                item = item,
+                isScrolling = !pagerState.isScrollInProgress,
+            )
+        }
+    }
+}
+
+@Composable
+internal fun Overview(
+    item: MovieResult,
+    isScrolling: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    val alpha by animateFloatAsState(
+        targetValue = if (isScrolling) 1F else 0F,
+        tween(
+            durationMillis = 150,
+            delayMillis = 10,
+            easing = LinearOutSlowInEasing
         )
+    )
+
+    Column(
+        modifier = Modifier
+            .graphicsLayer(
+                alpha = alpha,
+            )
+            .padding(start = 10.dp, end = 10.dp),
+    ) {
+        Spacer(modifier = modifier.height(5.dp))
+        Spacer(modifier = modifier.width(5.dp))
+        Text(text = item.title, fontSize = 18.sp)
+        Spacer(modifier = modifier.height(5.dp))
+
+        Text(
+            text = item.overview, maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            fontSize = 14.sp,
+        )
+        Spacer(modifier = modifier.height(10.dp))
     }
 }
 
 @Composable
 internal fun PosterCard(
     modifier: Modifier = Modifier,
-    poster: String,
+    movie: MovieResult,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Card(
+        elevation = 10.dp,
+        modifier = modifier.clip(shape = MaterialTheme.shapes.large)
     ) {
-        Image(
-            painter = rememberCoilPainter(request = poster),
-            contentDescription = "",
-            modifier = Modifier.drawWithCache {
-                val gradient = Brush.verticalGradient(
-                    colors = listOf(Color.Transparent, Color.Black),
-                    startY = size.height / 2,
-                    endY = size.height
-                )
-                onDrawWithContent {
-                    drawContent()
-                    drawRect(gradient, blendMode = BlendMode.SrcOver)
-                }
-            },
-            contentScale = ContentScale.FillWidth,
-        )
-
-        Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .fillMaxWidth()
-        )
-
-        Text(text = "7.5", fontSize = 30.sp, fontWeight = FontWeight.Light)
-
-        Spacer(
-            modifier = Modifier
-                .height(7.dp)
-        )
-
-        RatingBar(
-            rating = 7.5F / 2f,
-            modifier = Modifier
-                .height(20.dp)
-        )
-
-        Spacer(
-            modifier = Modifier
-                .height(14.dp)
-        )
-
-        Text(text = "приключения | фантастика | драма | боевик")
+        Column(
+            modifier = modifier,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = CenterHorizontally
+        ) {
+            Image(
+                painter = rememberCoilPainter(
+                    request = baseImageUrl.plus("${backdropSizes[3]}/").plus(movie.backdropPath)
+                ),
+                contentDescription = "",
+                modifier = Modifier.aspectRatio(16 / 9F),
+                contentScale = ContentScale.Crop,
+            )
+        }
     }
 }
