@@ -17,7 +17,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.coil.rememberCoilPainter
 
 private const val testImageUrl =
@@ -31,11 +30,15 @@ fun Profile() {
         Spacer(modifier = Modifier.size(16.dp))
         Text(
             text = "Elon Musk",
-            fontSize = 27.sp,
+            style = MaterialTheme.typography.h4,
             color = MaterialTheme.colors.onSurface
         )
         Spacer(modifier = Modifier.size(4.dp))
-        Text(text = "Premium", fontSize = 20.sp, color = MaterialTheme.colors.secondary)
+        Text(
+            text = "Premium",
+            style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.secondary
+        )
         Spacer(modifier = Modifier.size(56.dp))
         profileItems.forEachIndexed { index, profileItem ->
             Item(profileItem, index != profileItems.lastIndex)
@@ -79,7 +82,11 @@ private fun Item(item: ProfileItem, setDivider: Boolean) {
             Spacer(Modifier.size(16.dp))
             ItemIcon(item.icon)
             Spacer(Modifier.size(32.dp))
-            Text(text = item.content, color = MaterialTheme.colors.onSurface, fontSize = 17.sp)
+            Text(
+                text = item.content,
+                color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.subtitle1
+            )
         }
         if (setDivider) ItemDivider()
     }
