@@ -13,12 +13,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -34,15 +32,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.themdb_api.MovieResult
 import com.example.themdb_api.UiMovie
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
-import com.example.ui_common_compose.layout.Scaffold
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import kotlin.math.absoluteValue
 
 const val baseImageUrl = "https://image.tmdb.org/t/p/"
 
@@ -82,7 +82,8 @@ fun Movie() {
 @Composable
 fun Loading() {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -103,7 +104,7 @@ fun Movie(
     popularity: UiMovie = UiMovie()
 ) {
     val lazyListState = rememberLazyListState()
-    val infiniteLoop by remember { mutableStateOf(true) }
+    val infiniteLoop by rememberSaveable { mutableStateOf(true) }
     var previousOffset by remember { mutableStateOf(0) }
 
     val transaction by animateFloatAsState(
@@ -115,7 +116,9 @@ fun Movie(
     )
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 10.dp),
     ) { paddingValues ->
         LazyColumn(
             contentPadding = paddingValues,
@@ -123,15 +126,21 @@ fun Movie(
             state = lazyListState,
         ) {
             item {
-                CarouselWithHeader(
-                    popularity,
-                    modifier = Modifier
-                        .graphicsLayer {
-                            translationY = transaction
-                            previousOffset = lazyListState.firstVisibleItemScrollOffset
-                        },
-                    infiniteLoop
-                )
+                Column {
+                    Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    CarouselWithHeader(
+                        popularity,
+                        modifier = Modifier
+                            .graphicsLayer {
+                                translationY = transaction
+                                previousOffset = lazyListState.firstVisibleItemScrollOffset
+                            },
+                        infiniteLoop
+                    )
+                }
             }
 
             items(movie) {
@@ -222,7 +231,7 @@ internal fun CarouselWithHeader(
 ) {
     val pagerState = rememberPagerState(
         pageCount = items.movies.size,
-        initialOffscreenLimit = 1,
+        initialOffscreenLimit = 2,
         infiniteLoop = infiniteLoop
     )
 
@@ -234,6 +243,25 @@ internal fun CarouselWithHeader(
         val item = items.movies[pager]
         Column(
             modifier = modifier
+                .graphicsLayer {
+
+                    val pageOffset = calculateCurrentOffsetForPage(pager).absoluteValue
+
+                    lerp(
+                        start = 0.75f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    ).also { scale ->
+                        scaleX = scale
+                        scaleY = scale
+                    }
+
+                    alpha = lerp(
+                        start = 0.4f,
+                        stop = 1f,
+                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                    )
+                }
         ) {
             PosterCard(
                 movie = item,
@@ -290,8 +318,8 @@ internal fun PosterCard(
     movie: MovieResult,
 ) {
     Card(
-        elevation = 10.dp,
-        modifier = modifier.clip(shape = MaterialTheme.shapes.large)
+        elevation = 5.dp,
+        modifier = modifier.padding(start = 5.dp, end = 5.dp).clip(shape = MaterialTheme.shapes.large)
     ) {
         Column(
             modifier = modifier,
@@ -304,7 +332,7 @@ internal fun PosterCard(
                 ),
                 contentDescription = "",
                 modifier = Modifier.aspectRatio(16 / 9F),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.FillBounds,
             )
         }
     }

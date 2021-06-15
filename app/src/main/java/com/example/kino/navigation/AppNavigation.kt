@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
-import com.example.ui_movie.movie.Movie
+import com.example.ui_movie.movie.TabHost
 import com.example.ui_profile.Profile
 import timber.log.Timber
 
@@ -71,7 +71,7 @@ private fun NavGraphBuilder.addProfileRoot(navController: NavController) {
 
 private fun NavGraphBuilder.addMain(navController: NavController) {
     composable(Screen.Main.route) {
-        Movie()
+        TabHost()
     }
 }
 

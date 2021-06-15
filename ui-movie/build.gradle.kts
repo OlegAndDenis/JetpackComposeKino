@@ -58,6 +58,7 @@ dependencies {
     implementation(Libs.compose.uiViewBinding)
     implementation(Libs.compose.composeMaterialIconsext)
     implementation(Libs.compose.composeMaterialMaterial)
+    implementation(Libs.compose.uiUti)
     implementation(Libs.coil.coil)
     implementation(Libs.accompanist.coil)
     implementation(Libs.accompanist.pager)
