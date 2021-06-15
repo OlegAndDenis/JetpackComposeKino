@@ -12,6 +12,7 @@ val Gotham = FontFamily(
     Font(R.font.gotham_bold, FontWeight.Bold),
     Font(R.font.gotham_medium, FontWeight.Medium),
     Font(R.font.gotham_book, FontWeight.Normal),
+    Font(R.font.gotham_light, FontWeight.Light),
 )
 
 val KinoTypography = Typography(
