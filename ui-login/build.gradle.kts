@@ -39,4 +39,11 @@ android {
 }
 
 dependencies {
+    implementation(Libs.compose.uiUi)
+    implementation(Libs.compose.composeFoundationFoundation)
+    implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.compose.composeMaterialMaterial)
+
+    implementation(Libs.coil.coil)
+    implementation(Libs.accompanist.coil)
 }
