@@ -36,6 +36,11 @@ val KinoTypography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 17.sp
     ),
+    body1 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Normal,
+        fontSize = 17.sp
+    ),
     body2 = TextStyle(
         fontFamily = Gotham,
         fontWeight = FontWeight.Medium,
