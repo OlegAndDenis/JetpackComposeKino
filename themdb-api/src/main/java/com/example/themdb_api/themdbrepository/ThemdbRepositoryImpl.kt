@@ -2,6 +2,7 @@ package com.example.themdb_api.themdbrepository
 
 import com.example.themdb_api.BuildConfig
 import com.example.themdb_api.GenresApi
+import com.example.themdb_api.MovieApi
 import com.example.themdb_api.api.ApiClient
 import javax.inject.Inject
 
@@ -14,11 +15,27 @@ class ThemdbRepositoryImpl @Inject constructor(
     override suspend fun getListGenresByMovie(): GenresApi =
         clientApi.getGenres(typeFilm, BuildConfig.TMDB_API_KEY, "ru-RU")
 
-    override fun getMovieByGenres(genresId: Long) {
-        TODO("Not yet implemented")
+    override suspend fun getMovieByGenres(genresId: String): MovieApi =
+        clientApi.getMovieByGenres("movie", buildParamFilm(genresId))
+
+    override suspend fun getPopularityMove(): MovieApi =
+        clientApi.getPopularityMovie("movie", buildParamPopularity())
+
+    private fun buildParamFilm(genres: String): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = BuildConfig.TMDB_API_KEY
+        map["language"] = "ru-RU"
+        map["with_genres"] = genres
+        map["sort_by"] = "popularity.desc"
+        map["page"] = "1"
+        return map
     }
 
-    override fun getPopularityMove() {
-        TODO("Not yet implemented")
+    private fun buildParamPopularity(): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = BuildConfig.TMDB_API_KEY
+        map["language"] = "ru-RU"
+        map["page"] = "1"
+        return map
     }
 }
