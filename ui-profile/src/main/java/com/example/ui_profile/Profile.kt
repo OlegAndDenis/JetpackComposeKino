@@ -7,20 +7,16 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.accompanist.coil.rememberCoilPainter
 
 private const val testImageUrl =
@@ -32,9 +28,17 @@ fun Profile() {
         Spacer(modifier = Modifier.size(80.dp))
         Image()
         Spacer(modifier = Modifier.size(16.dp))
-        Text(text = "Elon Musk", fontSize = 27.sp, color = Color.White)
+        Text(
+            text = "Elon Musk",
+            style = MaterialTheme.typography.h4,
+            color = MaterialTheme.colors.onSurface
+        )
         Spacer(modifier = Modifier.size(4.dp))
-        Text(text = "Premium", fontSize = 20.sp, color = Color(0xFFFFBB3B))
+        Text(
+            text = "Premium",
+            style = MaterialTheme.typography.h6,
+            color = MaterialTheme.colors.secondary
+        )
         Spacer(modifier = Modifier.size(56.dp))
         profileItems.forEachIndexed { index, profileItem ->
             Item(profileItem, index != profileItems.lastIndex)
@@ -49,9 +53,9 @@ private fun Image() {
         painter = rememberCoilPainter(request = testImageUrl),
         contentDescription = null,
         modifier = Modifier
-            .size(141.dp)
+            .size(140.dp)
             .clip(CircleShape)
-            .border(4.dp, Color(0xFFFFBB3B), CircleShape),
+            .border(4.dp, MaterialTheme.colors.secondary, CircleShape),
         contentScale = ContentScale.Crop,
         alignment = Alignment.Center
     )
@@ -78,7 +82,11 @@ private fun Item(item: ProfileItem, setDivider: Boolean) {
             Spacer(Modifier.size(16.dp))
             ItemIcon(item.icon)
             Spacer(Modifier.size(32.dp))
-            Text(text = item.content, color = Color.White, fontSize = 17.sp)
+            Text(
+                text = item.content,
+                color = MaterialTheme.colors.onSurface,
+                style = MaterialTheme.typography.subtitle1
+            )
         }
         if (setDivider) ItemDivider()
     }
@@ -86,16 +94,18 @@ private fun Item(item: ProfileItem, setDivider: Boolean) {
 }
 
 @Composable
-private fun ItemDivider() = Divider(
-    thickness = 1.dp,
-    color = Color(0x42FFFFFF),
-    modifier = Modifier.padding(32.dp, end = 32.dp)
-)
+private fun ItemDivider() = Surface {
+    Divider(
+        thickness = 1.dp,
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.19f),
+        modifier = Modifier.padding(32.dp, end = 32.dp)
+    )
+}
 
 @Composable
 private fun ItemIcon(@DrawableRes icon: Int) = Icon(
     modifier = Modifier.size(24.dp),
     painter = painterResource(id = icon),
     contentDescription = null,
-    tint = Color.White
+    tint = MaterialTheme.colors.onSurface
 )
