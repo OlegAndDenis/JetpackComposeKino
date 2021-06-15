@@ -16,6 +16,16 @@ val Gotham = FontFamily(
 )
 
 val KinoTypography = Typography(
+    h4 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Medium,
+        fontSize = 27.sp
+    ),
+    h6 = TextStyle(
+        fontFamily = Gotham,
+        fontWeight = FontWeight.Light,
+        fontSize = 20.sp
+    ),
     button = TextStyle(
         fontFamily = Gotham,
         fontWeight = FontWeight.Bold,
