@@ -9,3 +9,10 @@ private val items = listOf(
     RootScreen.Search,
     RootScreen.Profile,
 )
+
+
+
+/** Routes that don't need a bottom navigation bar  */
+val blackList = listOf(
+    Screen.Test.route
+)
