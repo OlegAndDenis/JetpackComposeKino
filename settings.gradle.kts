@@ -6,5 +6,6 @@ include(
     ":themdb-api",
     ":ui-common-resources",
     ":base",
-    ":ui-login"
+    ":ui-login",
+    ":ui-tab-host"
 )
