@@ -11,6 +11,7 @@ object AppVersion {
     const val targetJvm = "1.8"
 
     const val kotlin = "1.5.10"
+    const val androidGradle = "7.1.0-alpha01"
 
     val stringValue = StringValue
 }
