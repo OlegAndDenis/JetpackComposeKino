@@ -2,16 +2,16 @@
 @Suppress("AndroidGradlePluginVersion")
 buildscript {
     val kotlinVersion by extra(AppVersion.kotlin)
+    val androidBuildToolsVersion by extra(AppVersion.androidGradle)
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath(GradlePlugins.androidBuildTools)
-        classpath(GradlePlugins.kotlin)
-        classpath(GradlePlugins.daggerHilt)
+        classpath("com.android.tools.build:gradle:$androidBuildToolsVersion")
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("com.android.tools.build:gradle:7.0.0-beta03")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${AppVersion.hilt}")
     }
 }
 
