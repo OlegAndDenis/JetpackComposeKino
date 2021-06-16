@@ -4,9 +4,11 @@ object Modules {
         ":ui-movie",
         ":ui-profile",
         ":themdb-api",
-        ":base"
+        ":base",
+        ":ui-tab-host"
     )
 
+    val movie = ":ui-movie"
     val themdb = ":themdb-api"
     val base = ":base"
     val uiCommonCompose = ":ui-common-compose"

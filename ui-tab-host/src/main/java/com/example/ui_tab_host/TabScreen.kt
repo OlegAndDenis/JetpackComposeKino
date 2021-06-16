@@ -1,6 +1,7 @@
-package com.example.ui_movie.movie
+package com.example.ui_tab_host
 
 import androidx.compose.runtime.Composable
+import com.example.ui_movie.movie.Movie
 
 enum class TabScreen(
     val title: String,
@@ -12,7 +13,7 @@ enum class TabScreen(
     ),
     TvScreen(
         title = "Tv",
-        body = { Movie()}
+        body = { Movie() }
     );
 
     @Composable
