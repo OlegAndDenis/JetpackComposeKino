@@ -11,8 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
-import com.example.ui_movie.movie.TabHost
 import com.example.ui_profile.Profile
+import com.example.ui_tab_host.TabHost
 import timber.log.Timber
 
 // Todo: It would probably be better not to throw navController to composable,

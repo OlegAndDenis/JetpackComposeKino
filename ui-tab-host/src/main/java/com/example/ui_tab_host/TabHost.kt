@@ -1,4 +1,4 @@
-package com.example.ui_movie.movie
+package com.example.ui_tab_host
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
