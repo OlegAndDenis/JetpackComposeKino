@@ -5,7 +5,8 @@ object Modules {
         ":ui-profile",
         ":themdb-api",
         ":base",
-        ":ui-tab-host"
+        ":ui-tab-host",
+        ":coil-image"
     )
 
     val movie = ":ui-movie"
