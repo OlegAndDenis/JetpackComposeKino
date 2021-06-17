@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import com.example.ui_common_compose.theme.DarkTangerine
 import com.example.ui_common_compose.theme.ShinyOrange
 
+// Todo: set color shadow when this https://issuetracker.google.com/issues/160665122 will be fixed
+
 @Composable
 fun KinoButton(text: String, onClick: () -> Unit) = Button(
     onClick = onClick,
