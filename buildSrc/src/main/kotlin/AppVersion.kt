@@ -6,12 +6,12 @@ object AppVersion {
     const val applicationId = "com.example.kino"
     const val versionCode = 1
     const val versionName = "1.0"
-    const val compose = "1.0.0-beta08"
-    const val hilt = "2.36"
+    const val compose = "1.0.0-beta09"
+    const val hilt = "2.37"
     const val targetJvm = "1.8"
 
     const val kotlin = "1.5.10"
-    const val androidGradle = "7.1.0-alpha01"
+    const val androidGradle = "7.1.0-alpha02"
 
     val stringValue = StringValue
 }
