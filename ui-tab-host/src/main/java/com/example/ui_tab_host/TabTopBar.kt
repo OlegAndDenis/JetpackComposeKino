@@ -6,33 +6,37 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabTopBar(
     tabHostScreens: List<TabScreen>,
-    currentScreen: TabScreen,
-    onTabSelected: (TabScreen) -> Unit,
+    pagerState: PagerState,
+    onTabSelected: (Int) -> Unit,
 ) {
-    val selectedIndex = tabHostScreens.indexOfFirst { it == currentScreen }
     val indicator = @Composable { tabPositions: List<TabPosition> ->
         HomeCategoryTabIndicator(
-            Modifier.tabIndicatorOffset(tabPositions[selectedIndex])
+            Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
         )
     }
     TabRow(
-        selectedTabIndex = selectedIndex,
+        selectedTabIndex = pagerState.currentPage,
         indicator = indicator,
         modifier = Modifier
     ) {
-        tabHostScreens.forEachIndexed { index, screen ->
+        tabHostScreens.forEachIndexed { index, _ ->
             Tab(
-                selected = index == selectedIndex,
-                onClick = { onTabSelected(screen) },
+                selected = index == pagerState.currentPage,
+                onClick = {
+                    onTabSelected(index)
+                },
                 text = {
                     Text(
                         text = tabHostScreens[index].title,
