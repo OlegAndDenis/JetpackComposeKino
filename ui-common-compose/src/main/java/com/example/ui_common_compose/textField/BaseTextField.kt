@@ -27,6 +27,7 @@ internal fun BaseTextField(
     height: Dp = 44.dp,
     focusElevation: Dp = 8.dp,
     nonFocusElevation: Dp = 2.dp,
+    onValueChange: (String) -> Unit,
     decorationBox: @Composable (
         showHint: Boolean,
         innerTextField: @Composable () -> Unit
@@ -50,7 +51,7 @@ internal fun BaseTextField(
             .fillMaxWidth()
             .height(height)
     ) {
-        BaseTextField(decorationBox)
+        BaseTextField(onValueChange, decorationBox)
     }
 }
 
@@ -73,6 +74,7 @@ private fun tweenSpec(): TweenSpec<Dp> = tween(
 
 @Composable
 private fun BaseTextField(
+    onValueChange: (String) -> Unit,
     decorationBox: @Composable (
         showHint: Boolean,
         innerTextField: @Composable () -> Unit
@@ -83,7 +85,10 @@ private fun BaseTextField(
     BasicTextField(
         value = text,
         singleLine = true,
-        onValueChange = { text = it },
+        onValueChange = { value ->
+            onValueChange(value)
+            text = value
+        },
         textStyle = MaterialTheme.typography.subtitle1.copy(color = WetAsphalt),
         decorationBox = { innerTextField ->
             decorationBox(text.isEmpty()) {
