@@ -17,8 +17,7 @@ enum class TabScreen(
     );
 
     @Composable
-    fun content(onScreenChange: (TabScreen) -> Unit) {
+    fun Content(onScreenChange: (TabScreen) -> Unit) {
         body(onScreenChange)
     }
-
 }
