@@ -60,5 +60,7 @@ dependencies {
     implementation(Libs.coroutines.coroutines)
     implementation(Libs.compose.uiUti)
     implementation(Libs.accompanist.pager)
+    implementation(Libs.accompanist.pagerIndicator)
+    implementation(Libs.timber.timber)
     implementation(project(Modules.movie))
 }

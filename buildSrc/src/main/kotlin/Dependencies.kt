@@ -205,7 +205,6 @@ object Libs {
         const val pagingCommon = "androidx.paging:paging-common-ktx:$pagingVersion"
         const val pagingRuntime = "androidx.paging:paging-runtime-ktx:$pagingVersion"
         const val pagingCompos = "androidx.paging:paging-compose:$pagingComposVersion"
-
     }
 
     object Accompanist {
@@ -216,6 +215,7 @@ object Libs {
         const val swipeRefresh =
             "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
         const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+        const val pagerIndicator = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
     }
 
     object Leakcanary {
