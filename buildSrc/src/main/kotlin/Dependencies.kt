@@ -116,7 +116,7 @@ object Libs {
 
 
     object UI {
-        private const val materialComponentsVersion = "1.3.0"
+        private const val materialComponentsVersion = "1.4.0-rc01"
         private const val adapterDelegateVersion = "4.3.0"
 
         const val materialComponents =
@@ -128,11 +128,11 @@ object Libs {
     }
 
     object AndroidX {
-        private const val constraintLayoutVersion = "2.0.4"
+        private const val constraintLayoutVersion = "2.1.0-beta02"
         private const val appCompatVersion = "1.3.0"
-        private const val coreKtxVersion = "1.5.0"
-        private const val fragmentKtx = "1.3.4"
-        private const val androidxActivityComposeVersion = "1.3.0-beta01"
+        private const val coreKtxVersion = "1.6.0-rc01"
+        private const val fragmentKtx = "1.4.0-alpha03"
+        private const val androidxActivityComposeVersion = "1.3.0-beta02"
 
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -144,7 +144,7 @@ object Libs {
     }
 
     object Room {
-        private const val roomVersion = "2.3.0"
+        private const val roomVersion = "2.4.0-alpha03"
 
         const val roomCommon = "androidx.room:room-common:$roomVersion"
         const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
@@ -166,8 +166,8 @@ object Libs {
 
     object Hilt {
         private const val hiltVersion = "1.0.0"
-        private const val hiltNavigationVersion = "1.0.0-alpha02"
-        private const val daggerVersion = "2.33"
+        private const val hiltNavigationVersion = "1.0.0-alpha03"
+        private const val daggerVersion = "2.37"
 
         const val hilt = "androidx.hilt:hilt-compiler:$hiltVersion"
         const val hiltNavigation = "androidx.hilt:hilt-navigation-compose:$hiltNavigationVersion"
@@ -182,8 +182,8 @@ object Libs {
 
     object Lifecycle {
         private const val uiUiVersion = "1.0.0-beta07"
-        private const val viewModelVersion = "1.0.0-alpha05"
-        private const val lifecycle = "2.4.0-alpha01"
+        private const val viewModelVersion = "1.0.0-alpha07"
+        private const val lifecycle = "2.4.0-alpha02"
 
         const val uiUi = "androidx.compose.ui:ui-tooling:$uiUiVersion"
         const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
@@ -193,13 +193,13 @@ object Libs {
     }
 
     object NavigationComponent {
-        private const val nav_version = "2.4.0-alpha02"
+        private const val nav_version = "2.4.0-alpha03"
         const val navigationComponentCompose =
             "androidx.navigation:navigation-compose:$nav_version"
     }
 
     object Paging {
-        private const val pagingVersion = "3.0.0"
+        private const val pagingVersion = "3.1.0-alpha01"
         private const val pagingComposVersion = "1.0.0-alpha10"
 
         const val pagingCommon = "androidx.paging:paging-common-ktx:$pagingVersion"
@@ -209,7 +209,7 @@ object Libs {
     }
 
     object Accompanist {
-        private const val accompanistVersion = "0.11.1"
+        private const val accompanistVersion = "0.12.0"
         const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
