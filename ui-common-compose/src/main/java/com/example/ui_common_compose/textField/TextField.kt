@@ -43,17 +43,20 @@ fun PasswordTextField(
         if (showHint) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Hint(hint, Modifier.weight(1f))
-                Text(
-                    text = "FORGOT",
-                    style = MaterialTheme.typography.overline,
-                    color = MaterialTheme.colors.textFieldLabel,
-                    modifier = Modifier.clickable { forgotPassword() }
-                )
+                Forgot(forgotPassword)
             }
         }
         innerTextField()
     }
 }
+
+@Composable
+private fun Forgot(forgotPassword: () -> Unit) = Text(
+    text = "FORGOT",
+    style = MaterialTheme.typography.overline,
+    color = MaterialTheme.colors.textFieldLabel,
+    modifier = Modifier.clickable { forgotPassword() }
+)
 
 @Composable
 private fun Hint(text: String, modifier: Modifier = Modifier) = Text(
