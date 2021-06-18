@@ -12,7 +12,7 @@ import com.example.ui_common_compose.extensions.TextFieldLabel
 import com.example.ui_common_compose.theme.WhiteAluminum
 
 @Composable
-fun TextField(hint: String, label: String, onValueChange: (String) -> Unit) =
+fun TextField(hint: String, label: String, onValueChange: (String) -> Unit = {}) =
     BaseTextField(label = label, onValueChange = onValueChange) { showHint, innerTextField ->
         Box(
             contentAlignment = Alignment.CenterStart,
@@ -31,8 +31,8 @@ fun TextField(hint: String, label: String, onValueChange: (String) -> Unit) =
 fun PasswordTextField(
     hint: String,
     label: String,
-    onValueChange: (String) -> Unit,
-    forgotPassword: () -> Unit
+    onValueChange: (String) -> Unit = {},
+    forgotPassword: () -> Unit = {}
 ) = BaseTextField(label = label, onValueChange = onValueChange) { showHint, innerTextField ->
     Box(
         contentAlignment = Alignment.CenterStart,
