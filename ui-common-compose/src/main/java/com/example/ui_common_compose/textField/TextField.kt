@@ -21,7 +21,7 @@ fun TextField(hint: String, label: String, onValueChange: (String) -> Unit = {})
                 .fillMaxWidth(),
         ) {
             if (showHint) {
-                InputText(hint)
+                Hint(hint)
             }
             innerTextField()
         }
@@ -42,7 +42,7 @@ fun PasswordTextField(
     ) {
         if (showHint) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                InputText(hint, Modifier.weight(1f))
+                Hint(hint, Modifier.weight(1f))
                 Text(
                     text = "FORGOT",
                     style = MaterialTheme.typography.overline,
@@ -56,7 +56,7 @@ fun PasswordTextField(
 }
 
 @Composable
-private fun InputText(text: String, modifier: Modifier = Modifier) = Text(
+private fun Hint(text: String, modifier: Modifier = Modifier) = Text(
     text = text,
     style = MaterialTheme.typography.subtitle1,
     color = WhiteAluminum,
