@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.Color
 import com.example.ui_common_compose.theme.BlackBrown
 import com.example.ui_common_compose.theme.WetAsphalt
 
-val Colors.TextField: Color
+val Colors.textField: Color
     @Composable get() = if (isLight) Color.White else BlackBrown
 
-val Colors.TextFieldLabel: Color
+val Colors.textFieldOnSurface: Color
     @Composable get() = if (isLight) WetAsphalt else Color.White
