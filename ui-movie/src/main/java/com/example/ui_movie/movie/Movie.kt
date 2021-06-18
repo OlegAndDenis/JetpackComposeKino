@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -34,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.coil_image.CoilImageWithCircularProgress
 import com.example.themdb_api.MovieResult
 import com.example.themdb_api.UiMovie
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
-import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -206,12 +205,9 @@ internal fun Genres(
                         .aspectRatio(2 / 3f)
                 ) {
                     Box {
-                        Image(
-                            painter = rememberCoilPainter(
-                                request = baseImageUrl.plus("${posterSizes[2]}/")
-                                    .plus(it.posterPath)
-                            ),
-                            contentDescription = " ",
+                        CoilImageWithCircularProgress(
+                            data = baseImageUrl.plus(posterSizes[2])
+                                .plus(it.posterPath),
                             modifier = Modifier.matchParentSize(),
                             contentScale = ContentScale.Crop,
                         )
@@ -319,19 +315,21 @@ internal fun PosterCard(
 ) {
     Card(
         elevation = 5.dp,
-        modifier = modifier.padding(start = 5.dp, end = 5.dp).clip(shape = MaterialTheme.shapes.large)
+        modifier = modifier
+            .padding(start = 5.dp, end = 5.dp)
+            .clip(shape = MaterialTheme.shapes.large)
     ) {
         Column(
             modifier = modifier,
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = CenterHorizontally
         ) {
-            Image(
-                painter = rememberCoilPainter(
-                    request = baseImageUrl.plus("${backdropSizes[3]}/").plus(movie.backdropPath)
-                ),
-                contentDescription = "",
-                modifier = Modifier.aspectRatio(16 / 9F),
+            CoilImageWithCircularProgress(
+                data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
+                modifier = Modifier
+                    .aspectRatio(16/ 9f)
+                    .clickable {
+                    },
                 contentScale = ContentScale.FillBounds,
             )
         }

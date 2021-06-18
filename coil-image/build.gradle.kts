@@ -1,8 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    kotlin("kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 repositories {
@@ -22,16 +20,6 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-
     buildFeatures {
         viewBinding = true
         compose = true
@@ -41,10 +29,20 @@ android {
         kotlinCompilerExtensionVersion = AppVersion.compose
     }
 
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = AppVersion.targetJvm
     }
@@ -58,19 +56,12 @@ dependencies {
     implementation(Libs.compose.uiViewBinding)
     implementation(Libs.compose.composeMaterialIconsext)
     implementation(Libs.compose.composeMaterialMaterial)
+    implementation(Libs.lifecycle.lifecycleRuntime)
+    implementation(Libs.coroutines.coroutinesAndroid)
+    implementation(Libs.coroutines.coroutines)
     implementation(Libs.compose.uiUti)
     implementation(Libs.coil.coil)
     implementation(Libs.accompanist.coil)
-    implementation(Libs.accompanist.pager)
     implementation(Libs.timber.timber)
-    implementation(Libs.hilt.hiltNavigation)
-    implementation(Libs.hilt.hilt)
-    implementation(Libs.hilt.dagger)
-    implementation(Libs.hilt.hiltAndroid)
-    kapt(Libs.hilt.compilerKapt)
-    kapt(Libs.hilt.hiltAndroidCompiler)
-    implementation(project(Modules.uiCommonCompose))
-    implementation(project(Modules.base))
-    implementation(project(Modules.themdb))
-    implementation(project(Modules.coil))
+    implementation(Libs.androidX.coreKtx)
 }
