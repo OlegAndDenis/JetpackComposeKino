@@ -8,5 +8,6 @@ include(
     ":base",
     ":ui-login",
     ":ui-tab-host",
-    ":coil-image"
+    ":coil-image",
+    ":ui-tv",
 )
