@@ -12,7 +12,6 @@ import androidx.navigation.navigation
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
 import com.example.ui_login.Login
-import com.example.ui_movie.movie.Movie
 import com.example.ui_profile.Profile
 import com.example.ui_tab_host.TabHost
 import timber.log.Timber
