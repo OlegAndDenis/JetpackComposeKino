@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.ui_common_compose.extensions.textField
-import com.example.ui_common_compose.extensions.textFieldLabel
+import com.example.ui_common_compose.extensions.textFieldOnSurface
 import com.example.ui_common_compose.theme.WetAsphalt
 
 @Composable
@@ -60,7 +60,7 @@ private fun Label(text: String) = Text(
     text = text,
     textAlign = TextAlign.Start,
     style = MaterialTheme.typography.caption,
-    color = MaterialTheme.colors.textFieldLabel,
+    color = MaterialTheme.colors.textFieldOnSurface,
     modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 8.dp)

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.ui_common_compose.extensions.textFieldLabel
+import com.example.ui_common_compose.extensions.textFieldOnSurface
 import com.example.ui_common_compose.theme.WhiteAluminum
 
 @Composable
@@ -54,7 +54,7 @@ fun PasswordTextField(
 private fun Forgot(forgotPassword: () -> Unit) = Text(
     text = "FORGOT",
     style = MaterialTheme.typography.overline,
-    color = MaterialTheme.colors.textFieldLabel,
+    color = MaterialTheme.colors.textFieldOnSurface,
     modifier = Modifier.clickable { forgotPassword() }
 )
 
