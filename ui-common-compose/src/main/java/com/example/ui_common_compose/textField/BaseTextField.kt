@@ -17,8 +17,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.ui_common_compose.extensions.TextField
-import com.example.ui_common_compose.extensions.TextFieldLabel
+import com.example.ui_common_compose.extensions.textField
+import com.example.ui_common_compose.extensions.textFieldLabel
 import com.example.ui_common_compose.theme.WetAsphalt
 
 @Composable
@@ -45,7 +45,7 @@ internal fun BaseTextField(
     Surface(
         elevation = elevation,
         shape = MaterialTheme.shapes.large,
-        color = MaterialTheme.colors.TextField,
+        color = MaterialTheme.colors.textField,
         modifier = Modifier
             .onFocusChanged { focus = it.isFocused }
             .fillMaxWidth()
@@ -60,7 +60,7 @@ private fun Label(text: String) = Text(
     text = text,
     textAlign = TextAlign.Start,
     style = MaterialTheme.typography.caption,
-    color = MaterialTheme.colors.TextFieldLabel,
+    color = MaterialTheme.colors.textFieldLabel,
     modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 8.dp)
