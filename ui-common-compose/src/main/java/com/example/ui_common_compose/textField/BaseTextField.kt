@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.ui_common_compose.extensions.textField
 import com.example.ui_common_compose.extensions.textFieldOnSurface
-import com.example.ui_common_compose.theme.WetAsphalt
 
 @Composable
 internal fun BaseTextField(
@@ -89,7 +88,8 @@ private fun BaseTextField(
             onValueChange(value)
             text = value
         },
-        textStyle = MaterialTheme.typography.subtitle1.copy(color = WetAsphalt),
+        textStyle = MaterialTheme.typography.subtitle1
+            .copy(color = MaterialTheme.colors.textFieldOnSurface),
         decorationBox = { innerTextField ->
             decorationBox(text.isEmpty()) {
                 innerTextField()
