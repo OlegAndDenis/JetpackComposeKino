@@ -72,4 +72,5 @@ dependencies {
     implementation(project(Modules.uiCommonCompose))
     implementation(project(Modules.base))
     implementation(project(Modules.themdb))
+    implementation(project(Modules.coil))
 }

@@ -9,6 +9,7 @@ object Modules {
         ":coil-image"
     )
 
+    val coil = ":coil-image"
     val movie = ":ui-movie"
     val themdb = ":themdb-api"
     val base = ":base"
