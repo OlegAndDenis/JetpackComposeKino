@@ -1,9 +1,9 @@
 package com.example.themdb_api.themdbrepository
 
 import com.example.themdb_api.BuildConfig
-import com.example.themdb_api.GenresApi
-import com.example.themdb_api.MovieApi
 import com.example.themdb_api.api.ApiClient
+import com.example.themdb_api.genres.GenresApi
+import com.example.themdb_api.movie.MovieApi
 import javax.inject.Inject
 
 class ThemdbRepositoryImpl @Inject constructor(

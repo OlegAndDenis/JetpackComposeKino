@@ -1,4 +1,4 @@
-package com.example.themdb_api
+package com.example.themdb_api.genres
 
 import kotlinx.serialization.Serializable
 

@@ -34,8 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
-import com.example.themdb_api.MovieResult
-import com.example.themdb_api.UiMovie
+import com.example.themdb_api.movie.MovieResult
+import com.example.themdb_api.movie.UiMovie
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
