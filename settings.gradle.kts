@@ -7,6 +7,6 @@ include(
     ":ui-common-resources",
     ":base",
     ":ui-login",
-    ":ui-tab-host"
+    ":ui-tab-host",
+    ":coil-image"
 )
-include(":coil-Image")
