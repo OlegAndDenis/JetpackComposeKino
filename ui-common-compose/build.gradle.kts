@@ -61,4 +61,6 @@ dependencies {
     implementation(Libs.lifecycle.lifecycleRuntime)
     implementation(Libs.coroutines.coroutinesAndroid)
     implementation(Libs.coroutines.coroutines)
+    implementation(Libs.accompanist.pager)
+    implementation(Libs.compose.uiUti)
 }

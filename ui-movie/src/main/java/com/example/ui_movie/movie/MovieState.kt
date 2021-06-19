@@ -1,6 +1,6 @@
 package com.example.ui_movie.movie
 
-import com.example.themdb_api.UiMovie
+import com.example.themdb_api.movie.UiMovie
 
 sealed class MovieState {
     data class Loading(val isLoading: Boolean = false) : MovieState()

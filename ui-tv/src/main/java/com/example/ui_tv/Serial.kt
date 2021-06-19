@@ -1,4 +1,4 @@
-package com.example.ui_movie.movie
+package com.example.ui_tv
 
 import android.widget.Toast
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -27,13 +27,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
-import com.example.themdb_api.movie.MovieResult
-import com.example.themdb_api.movie.UiMovie
+import com.example.themdb_api.serials.SerialResult
+import com.example.themdb_api.serials.UiSerial
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
@@ -57,26 +56,25 @@ val backdropSizes = listOf(
     "original"
 )
 
-@Preview
 @Composable
-fun Movie() {
-    val movieViewModel: MovieViewModel = hiltViewModel()
-    movieViewModel.loadGenres()
-    val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
-        .collectAsState(initial = MovieState.Loading()).value
-
+fun Serial() {
+    val viewModule: SerialViewModule = hiltViewModel()
+    viewModule.loadGenres()
+    val state = rememberFlowWithLifecycle(flow = viewModule.serials)
+        .collectAsState(initial = SerialState.Loading).value
     when (state) {
-        is MovieState.Loading -> Loading()
-        is MovieState.Result -> Movie(movie = state.uiMovies, state.top)
+        is SerialState.Loading -> Loading()
+        is SerialState.Result -> Serial(listUiSerial = state.uiMovies, popularity = state.top)
         else -> {
+
         }
     }
 }
 
 @Composable
-fun Movie(
-    movie: List<UiMovie>,
-    popularity: UiMovie = UiMovie()
+fun Serial(
+    listUiSerial: List<UiSerial>,
+    popularity: UiSerial
 ) {
     val lazyListState = rememberLazyListState()
     var previousOffset by remember { mutableStateOf(0) }
@@ -91,37 +89,33 @@ fun Movie(
 
     Scaffold(
         modifier = Modifier
-            .fillMaxSize()
-    ) { paddingValues ->
-        LazyColumn(
-            contentPadding = paddingValues,
-            reverseLayout = false,
-            state = lazyListState,
-        ) {
-            item {
+            .fillMaxSize(),
+    ) {
+        LazyColumn(contentPadding = it) {
+            item("Top") {
                 Carousel(
-                    totalCount = popularity.movies.size,
+                    totalCount = popularity.serials.size,
                     modifier = Modifier.graphicsLayer {
                         translationY = transaction
                         previousOffset = lazyListState.firstVisibleItemScrollOffset
                     },
                     title = {
-                        Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
+                        Text(text = popularity.name, modifier = Modifier.padding(start = 10.dp))
                     },
                     image = {
                         PosterCard(
                             modifier = Modifier.fillMaxSize(),
-                            popularity.movies[it]
+                            popularity.serials[it]
                         )
                     },
                     overView = { (position, isScrolling) ->
-                        Overview(item = popularity.movies[position], isScrolling = isScrolling)
+                        Overview(item = popularity.serials[position], isScrolling = isScrolling)
                     }
                 )
             }
 
-            items(movie) {
-                Genres(movie = it)
+            items(listUiSerial) { serial ->
+                Genres(serial)
             }
         }
     }
@@ -129,7 +123,7 @@ fun Movie(
 
 @Composable
 internal fun Genres(
-    movie: UiMovie
+    uiSerial: UiSerial = UiSerial()
 ) {
     val contaxt = LocalContext.current
     Column(
@@ -137,7 +131,7 @@ internal fun Genres(
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = movie.title,
+            text = uiSerial.name,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
@@ -149,7 +143,7 @@ internal fun Genres(
                     indication = rememberRipple(),
                 ) {
                     Toast
-                        .makeText(contaxt, "${movie.title}", Toast.LENGTH_SHORT)
+                        .makeText(contaxt, uiSerial.name, Toast.LENGTH_SHORT)
                         .show()
                 }
         )
@@ -173,7 +167,7 @@ internal fun Genres(
             ),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(movie.movies) {
+            items(uiSerial.serials) {
                 //Fixme добавить шейп из темы
                 Card(
                     modifier = Modifier
@@ -198,7 +192,7 @@ internal fun Genres(
 
 @Composable
 internal fun Overview(
-    item: MovieResult,
+    item: SerialResult,
     isScrolling: Boolean,
     modifier: Modifier = Modifier,
 ) {
@@ -220,7 +214,7 @@ internal fun Overview(
     ) {
         Spacer(modifier = modifier.height(5.dp))
         Spacer(modifier = modifier.width(5.dp))
-        Text(text = item.title, fontSize = 18.sp)
+        Text(text = item.name, fontSize = 18.sp)
         Spacer(modifier = modifier.height(5.dp))
 
         Text(
@@ -235,7 +229,7 @@ internal fun Overview(
 @Composable
 internal fun PosterCard(
     modifier: Modifier = Modifier,
-    movie: MovieResult,
+    movie: SerialResult,
 ) {
     Card(
         elevation = 5.dp,
@@ -244,11 +238,11 @@ internal fun PosterCard(
             .clip(shape = MaterialTheme.shapes.large)
     ) {
         CoilImageWithCircularProgress(
-            data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
             modifier = Modifier
                 .aspectRatio(16 / 9f)
                 .clickable {
                 },
+            data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
             contentScale = ContentScale.FillBounds,
         )
     }

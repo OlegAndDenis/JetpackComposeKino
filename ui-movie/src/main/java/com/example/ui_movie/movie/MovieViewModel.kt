@@ -3,8 +3,8 @@ package com.example.ui_movie.movie
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.base.network.model.ConnectionType
-import com.example.themdb_api.MovieResult
-import com.example.themdb_api.UiMovie
+import com.example.themdb_api.movie.MovieResult
+import com.example.themdb_api.movie.UiMovie
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -30,7 +30,6 @@ class MovieViewModel @Inject constructor(
                 .onEach {
                     when (it) {
                         is ConnectionType.Available -> {
-                            loadGenres()
                             Timber.i("Connection type Available")
                         }
                         is ConnectionType.Lost -> {

@@ -1,4 +1,4 @@
-package com.example.themdb_api
+package com.example.themdb_api.movie
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

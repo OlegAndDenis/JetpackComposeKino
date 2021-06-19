@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/ui-movie" />
             <option value="$PROJECT_DIR$/ui-profile" />
             <option value="$PROJECT_DIR$/ui-tab-host" />
+            <option value="$PROJECT_DIR$/ui-tv" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
