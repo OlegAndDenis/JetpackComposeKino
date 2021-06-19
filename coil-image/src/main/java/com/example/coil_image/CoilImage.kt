@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LifecycleOwner
 import coil.ImageLoader
+import coil.request.CachePolicy
 import coil.request.Disposable
 import coil.request.ImageRequest
+import coil.size.Precision
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -92,6 +94,9 @@ private fun CoilBuilder(
         request = ImageRequest.Builder(context)
             .data(data)
             .lifecycle(lifecycleOwner)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .premultipliedAlpha(true)
+            .precision(Precision.AUTOMATIC)
             .build(),
         modifier = modifier.fillMaxWidth()
     ) { imageState ->
