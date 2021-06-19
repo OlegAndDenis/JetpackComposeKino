@@ -5,6 +5,7 @@ object Modules {
         ":ui-profile",
         ":themdb-api",
         ":base",
+        ":ui-login",
         ":ui-tab-host",
         ":coil-image",
         ":ui-tv",

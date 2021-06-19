@@ -52,7 +52,7 @@ fun PasswordTextField(
 
 @Composable
 private fun Forgot(forgotPassword: () -> Unit) = Text(
-    text = "FORGOT",
+    text = "FORGOT?",
     style = MaterialTheme.typography.overline,
     color = MaterialTheme.colors.textFieldOnSurface,
     modifier = Modifier.clickable { forgotPassword() }

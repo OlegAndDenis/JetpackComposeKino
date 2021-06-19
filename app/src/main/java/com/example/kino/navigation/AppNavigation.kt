@@ -1,4 +1,5 @@
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
+import com.example.ui_login.Login
 import com.example.ui_profile.Profile
 import com.example.ui_tab_host.TabHost
 import timber.log.Timber
@@ -18,6 +20,7 @@ import timber.log.Timber
 // Todo: It would probably be better not to throw navController to composable,
 //  but replace that with a lambda
 
+@ExperimentalFoundationApi
 @Composable
 fun AppNavigation(navController: NavHostController, paddings: PaddingValues) {
     NavHost(
@@ -59,12 +62,14 @@ private fun NavGraphBuilder.addSearchRoot(navController: NavController) {
     }
 }
 
+@ExperimentalFoundationApi
 private fun NavGraphBuilder.addProfileRoot(navController: NavController) {
     navigation(
         route = RootScreen.Profile.route,
         startDestination = Screen.Profile.route
     ) {
         addProfile(navController)
+        addLogin(navController)
     }
 }
 
@@ -92,5 +97,12 @@ private fun NavGraphBuilder.addSearch(navController: NavController) {
 private fun NavGraphBuilder.addProfile(navController: NavController) {
     composable(Screen.Profile.route) {
         Profile()
+    }
+}
+
+@ExperimentalFoundationApi
+private fun NavGraphBuilder.addLogin(navController: NavController) {
+    composable(Screen.Login.route) {
+        Login()
     }
 }
