@@ -3,10 +3,7 @@ package com.example.ui_tab_host
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -23,8 +20,6 @@ fun TabHost() {
         pageCount = allScreens.size,
         initialOffscreenLimit = 1
     )
-
-    val currentPage by rememberSaveable { mutableStateOf(pagerState.currentPage) }
 
     Scaffold(
         topBar = {
