@@ -1,44 +1,36 @@
 package com.example.themdb_api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieResult(
-    @SerializedName("backdrop_path")
-    @Expose
+    @SerialName("backdrop_path")
     val backdropPath: String = "no",
-    @SerializedName("id")
-    @Expose
+    @SerialName("id")
     val id: Long = 0L,
-    @SerializedName("genre_ids")
-    @Expose
+    @SerialName("genre_ids")
     val genreIds: List<Long> = listOf(),
-    @SerializedName("original_title")
-    @Expose
+    @SerialName("original_title")
     val originalTitle: String = "no",
-    @SerializedName("overview")
-    @Expose
+    @SerialName("original_language")
+    val originalLanguage: String = "no",
+    @SerialName("overview")
     val overview: String = "no",
-    @SerializedName("popularity")
-    @Expose
+    @SerialName("popularity")
     val popularity: Float = 0.0F,
-    @SerializedName("poster_path")
-    @Expose
+    @SerialName("poster_path")
     val posterPath: String = "no",
-    @SerializedName("release_date")
-    @Expose
+    @SerialName("release_date")
     val releaseDate: String = "no",
-    @SerializedName("title")
-    @Expose
+    @SerialName("title")
     val title: String = "no",
-    @SerializedName("video")
-    @Expose
+    @SerialName("video")
     val video: Boolean = false,
-    @SerializedName("vote_average")
-    @Expose
-    val voteAverage: String = "no",
-    @SerializedName("vote_count")
-    @Expose
+    @SerialName("vote_average")
+    val voteAverage: Double = 0.0,
+    @SerialName("vote_count")
     val voteCount: Long = 0L,
-    val isEmpty: Boolean = false
+    @SerialName("adult")
+    val adult: Boolean = false,
 )

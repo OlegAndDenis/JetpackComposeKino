@@ -1,20 +1,16 @@
 package com.example.themdb_api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieApi(
-    @SerializedName("page")
-    @Expose
+    @SerialName("page")
     val page: Int = 0,
-    @SerializedName("results")
-    @Expose
+    @SerialName("results")
     val result: List<MovieResult>,
-    @SerializedName("total_pages")
-    @Expose
+    @SerialName("total_pages")
     val totalPages: Int = 0,
-    @SerializedName("total_results")
-    @Expose
+    @SerialName("total_results")
     val totalResults: Int = 0,
-    val isEmpty: Boolean = false
 )
