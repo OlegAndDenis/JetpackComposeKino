@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -12,16 +11,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -31,17 +30,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
 import com.example.themdb_api.movie.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
-import com.google.accompanist.pager.rememberPagerState
-import kotlin.math.absoluteValue
+import com.example.ui_common_compose.loading.Loading
+import com.example.ui_common_compose.topcarusel.Carousel
 
 const val baseImageUrl = "https://image.tmdb.org/t/p/"
 
@@ -66,7 +61,7 @@ val backdropSizes = listOf(
 @Composable
 fun Movie() {
     val movieViewModel: MovieViewModel = hiltViewModel()
-
+    movieViewModel.loadGenres()
     val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
         .collectAsState(initial = MovieState.Loading()).value
 
@@ -79,31 +74,11 @@ fun Movie() {
 }
 
 @Composable
-fun Loading() {
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = CenterHorizontally,
-        ) {
-            CircularProgressIndicator(
-                modifier = Modifier.wrapContentWidth(CenterHorizontally),
-                color = Color.Red
-            )
-        }
-    }
-}
-
-@Composable
 fun Movie(
     movie: List<UiMovie>,
     popularity: UiMovie = UiMovie()
 ) {
     val lazyListState = rememberLazyListState()
-    val infiniteLoop by rememberSaveable { mutableStateOf(true) }
     var previousOffset by remember { mutableStateOf(0) }
 
     val transaction by animateFloatAsState(
@@ -117,7 +92,6 @@ fun Movie(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp),
     ) { paddingValues ->
         LazyColumn(
             contentPadding = paddingValues,
@@ -125,21 +99,25 @@ fun Movie(
             state = lazyListState,
         ) {
             item {
-                Column {
-                    Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
-
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    CarouselWithHeader(
-                        popularity,
-                        modifier = Modifier
-                            .graphicsLayer {
-                                translationY = transaction
-                                previousOffset = lazyListState.firstVisibleItemScrollOffset
-                            },
-                        infiniteLoop
-                    )
-                }
+                Carousel(
+                    totalCount = popularity.movies.size,
+                    modifier = Modifier.graphicsLayer {
+                        translationY = transaction
+                        previousOffset = lazyListState.firstVisibleItemScrollOffset
+                    },
+                    title = {
+                        Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
+                    },
+                    image = {
+                        PosterCard(
+                            modifier = Modifier.fillMaxSize(),
+                            popularity.movies[it]
+                        )
+                    },
+                    overView = { (position, isScrolling) ->
+                        Overview(item = popularity.movies[position], isScrolling = isScrolling)
+                    }
+                )
             }
 
             items(movie) {
@@ -155,7 +133,7 @@ internal fun Genres(
 ) {
     val contaxt = LocalContext.current
     Column(
-        modifier = Modifier.background(color = Color.White, shape = RectangleShape),
+        modifier = Modifier,
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
@@ -218,60 +196,6 @@ internal fun Genres(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-internal fun CarouselWithHeader(
-    items: UiMovie,
-    modifier: Modifier = Modifier,
-    infiniteLoop: Boolean
-) {
-    val pagerState = rememberPagerState(
-        pageCount = items.movies.size,
-        initialOffscreenLimit = 2,
-        infiniteLoop = infiniteLoop
-    )
-
-    HorizontalPager(
-        state = pagerState,
-        itemSpacing = 5.dp,
-        modifier = modifier.padding(bottom = 5.dp)
-    ) { pager ->
-        val item = items.movies[pager]
-        Column(
-            modifier = modifier
-                .graphicsLayer {
-
-                    val pageOffset = calculateCurrentOffsetForPage(pager).absoluteValue
-
-                    lerp(
-                        start = 0.75f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    ).also { scale ->
-                        scaleX = scale
-                        scaleY = scale
-                    }
-
-                    alpha = lerp(
-                        start = 0.4f,
-                        stop = 1f,
-                        fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                    )
-                }
-        ) {
-            PosterCard(
-                movie = item,
-                modifier = modifier
-            )
-
-            Overview(
-                item = item,
-                isScrolling = !pagerState.isScrollInProgress,
-            )
-        }
-    }
-}
-
 @Composable
 internal fun Overview(
     item: MovieResult,
@@ -319,19 +243,13 @@ internal fun PosterCard(
             .padding(start = 5.dp, end = 5.dp)
             .clip(shape = MaterialTheme.shapes.large)
     ) {
-        Column(
-            modifier = modifier,
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = CenterHorizontally
-        ) {
-            CoilImageWithCircularProgress(
-                data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
-                modifier = Modifier
-                    .aspectRatio(16/ 9f)
-                    .clickable {
-                    },
-                contentScale = ContentScale.FillBounds,
-            )
-        }
+        CoilImageWithCircularProgress(
+            data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
+            modifier = Modifier
+                .aspectRatio(16 / 9f)
+                .clickable {
+                },
+            contentScale = ContentScale.FillBounds,
+        )
     }
 }

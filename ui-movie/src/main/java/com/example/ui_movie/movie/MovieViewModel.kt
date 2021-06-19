@@ -30,7 +30,6 @@ class MovieViewModel @Inject constructor(
                 .onEach {
                     when (it) {
                         is ConnectionType.Available -> {
-                            loadGenres()
                             Timber.i("Connection type Available")
                         }
                         is ConnectionType.Lost -> {
