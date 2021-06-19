@@ -1,4 +1,5 @@
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import timber.log.Timber
 // Todo: It would probably be better not to throw navController to composable,
 //  but replace that with a lambda
 
+@ExperimentalFoundationApi
 @Composable
 fun AppNavigation(navController: NavHostController, paddings: PaddingValues) {
     NavHost(
@@ -60,6 +62,7 @@ private fun NavGraphBuilder.addSearchRoot(navController: NavController) {
     }
 }
 
+@ExperimentalFoundationApi
 private fun NavGraphBuilder.addProfileRoot(navController: NavController) {
     navigation(
         route = RootScreen.Profile.route,
@@ -97,6 +100,7 @@ private fun NavGraphBuilder.addProfile(navController: NavController) {
     }
 }
 
+@ExperimentalFoundationApi
 private fun NavGraphBuilder.addLogin(navController: NavController) {
     composable(Screen.Login.route) {
         Login()
