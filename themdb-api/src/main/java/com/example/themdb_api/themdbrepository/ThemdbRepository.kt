@@ -8,6 +8,8 @@ interface ThemdbRepository {
 
     suspend fun getListGenresByMovie() : GenresApi
 
+    suspend fun getListGenresBySerial() : GenresApi
+
     suspend fun getMovieByGenres(genresId: String): MovieApi
 
     suspend fun getPopularityMove(): MovieApi

@@ -17,6 +17,10 @@ class ThemdbRepositoryImpl @Inject constructor(
     override suspend fun getListGenresByMovie(): GenresApi =
         clientApi.getGenres(typeFilm, BuildConfig.TMDB_API_KEY, "ru-RU")
 
+    //Fixme добавить получение типа как парамметр. Добавить Enum для TV и Movie
+    override suspend fun getListGenresBySerial(): GenresApi =
+        clientApi.getGenres(typeTv, BuildConfig.TMDB_API_KEY, "ru-RU")
+
     override suspend fun getMovieByGenres(genresId: String): MovieApi =
         clientApi.getMovieByGenres("movie", buildParamFilm(genresId))
 
