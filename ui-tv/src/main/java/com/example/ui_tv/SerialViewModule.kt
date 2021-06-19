@@ -29,11 +29,7 @@ class SerialViewModule @Inject constructor(
             network
                 .onEach {
                     when (it) {
-                        is ConnectionType.Available -> {
-                            _serials.emit(SerialState.ConnectionAvailable)
-                            loadGenres()
-                            _serials.emit(SerialState.Loading)
-                        }
+                        is ConnectionType.Available -> { }
                         is ConnectionType.Lost -> _serials.emit(SerialState.ConnectionLost)
                         else -> { Timber.i("Connection type Init") }
                     }
@@ -44,8 +40,6 @@ class SerialViewModule @Inject constructor(
 
     fun loadGenres() {
         viewModelScope.launch {
-            if (_serials.first() == SerialState.Loading) return@launch
-
             val genre = themdbRepository.getListGenresBySerial()
             val popularity = themdbRepository.getPopularSerial()
             val topPopularity = selectionTopMore(popularity.result, TOP_FIVE)
