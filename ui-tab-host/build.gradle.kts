@@ -63,4 +63,5 @@ dependencies {
     implementation(Libs.accompanist.pagerIndicator)
     implementation(Libs.timber.timber)
     implementation(project(Modules.movie))
+    implementation(project(Modules.tv))
 }

@@ -6,9 +6,11 @@ object Modules {
         ":themdb-api",
         ":base",
         ":ui-tab-host",
-        ":coil-image"
+        ":coil-image",
+        ":ui-tv",
     )
 
+    val tv = ":ui-tv"
     val coil = ":coil-image"
     val movie = ":ui-movie"
     val themdb = ":themdb-api"
