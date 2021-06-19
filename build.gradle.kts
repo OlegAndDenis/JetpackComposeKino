@@ -12,6 +12,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:$androidBuildToolsVersion")
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${AppVersion.hilt}")
+        classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
     }
 }
 

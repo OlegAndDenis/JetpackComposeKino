@@ -1,10 +1,8 @@
 package com.example.themdb_api
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GenresApi(
-    @SerializedName("genres")
-    @Expose
     var genres: List<Genres>
 )

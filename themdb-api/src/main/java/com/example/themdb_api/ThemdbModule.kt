@@ -6,19 +6,21 @@ import com.example.themdb_api.api.ApiClient
 import com.example.themdb_api.interceptors.Interceptors
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import com.example.themdb_api.themdbrepository.ThemdbRepositoryImpl
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
 import okhttp3.ConnectionPool
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -33,7 +35,7 @@ object ThemdbModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideMediaType(): MediaType = "application/json".toMediaType()
 
     @Provides
     @Singleton
@@ -53,11 +55,12 @@ object ThemdbModule {
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
+    @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, client: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(mediaType: MediaType, client: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(API_URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(Json { coerceInputValues = true }.asConverterFactory(mediaType))
         .client(client)
         .build()
 

@@ -1,9 +1,9 @@
+
 import Libs.accompanist
 import Libs.androidX
 import Libs.coil
 import Libs.compose
 import Libs.coroutines
-import Libs.gson
 import Libs.hilt
 import Libs.kotlin
 import Libs.leakcanary
@@ -25,12 +25,10 @@ object ImplementsDependency {
         ui.materialComponents,
         room.roomKtx,
         room.roomRuntime,
-        gson.gson,
         androidX.appCompat,
         androidX.constraintLayout,
         androidX.coreKtx,
         androidX.fragment,
-        retrofit.converterGson,
         retrofit.retrofit,
         hilt.dagger,
         hilt.hiltAndroid,
@@ -100,7 +98,7 @@ object Libs {
     val androidX = AndroidX
     val test = Test
     val room = Room
-    val gson = Gson
+    val serialisation = Serialisation
     val retrofit = Retrofit
     val hilt = Hilt
     val leakcanary = Leakcanary
@@ -152,16 +150,20 @@ object Libs {
         const val roomKtx = "androidx.room:room-ktx:$roomVersion"
     }
 
-    object Gson {
-        private const val gsonVersion = "2.8.6"
-        const val gson = "com.google.code.gson:gson:$gsonVersion"
+    object Serialisation {
+        private const val serializationVersion = "0.8.0"
+        private const val serializationRuntime = "0.20.0-1.4.0-rc-95"
+        private const val jsonVersion = "1.2.1"
+
+        const val serialisationAdapter =
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$serializationVersion"
+        const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$jsonVersion"
     }
 
     object Retrofit {
         private const val retrofitVersion = "2.9.0"
 
         const val retrofit = "com.squareup.retrofit2:retrofit:$retrofitVersion"
-        const val converterGson = "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     }
 
     object Hilt {
@@ -215,7 +217,8 @@ object Libs {
         const val swipeRefresh =
             "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
         const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
-        const val pagerIndicator = "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
+        const val pagerIndicator =
+            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
     }
 
     object Leakcanary {
