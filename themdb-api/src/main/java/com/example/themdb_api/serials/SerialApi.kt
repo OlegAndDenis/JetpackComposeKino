@@ -1,19 +1,16 @@
 package com.example.themdb_api.serials
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SerialApi(
-    @SerializedName("page")
-    @Expose
+    @SerialName("page")
     val page: Int = 0,
-    @SerializedName("results")
-    @Expose
+    @SerialName("results")
     val result: List<SerialResult>,
-    @SerializedName("total_pages")
-    @Expose
+    @SerialName("total_pages")
     val totalPages: Int = 0,
-    @SerializedName("total_results")
-    @Expose
+    @SerialName("total_results")
     val totalResults: Int = 0,
 )
