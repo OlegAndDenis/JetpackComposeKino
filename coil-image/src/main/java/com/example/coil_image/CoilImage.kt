@@ -43,6 +43,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 @Composable
 fun CoilImageWithCircularProgress(
     data: Any,
+    nameFilm: String = "",
     modifier: Modifier = Modifier,
     contentScale: ContentScale = ContentScale.Crop,
     indicatorColor: Color = Color.Red,
@@ -64,6 +65,15 @@ fun CoilImageWithCircularProgress(
                     color = indicatorColor,
                     strokeWidth = strokeWidth
                 )
+            }
+        },
+        failure = {
+            Row(
+                modifier = modifier,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                Text(text = nameFilm)
             }
         }
     )
