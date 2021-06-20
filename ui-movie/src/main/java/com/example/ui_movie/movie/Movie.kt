@@ -118,7 +118,7 @@ internal fun Genres(
         verticalArrangement = Arrangement.Center,
     ) {
         Row(
-            modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, bottom = 16.dp, end = 12.dp),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
