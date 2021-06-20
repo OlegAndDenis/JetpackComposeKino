@@ -23,39 +23,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
+import com.example.themdb_api.UrlType
+import com.example.themdb_api.createPath
 import com.example.themdb_api.movie.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
-
-const val baseImageUrl = "https://image.tmdb.org/t/p/"
-
-val posterSizes = listOf(
-    "w92",
-    "w154",
-    "w185",
-    "w342",
-    "w500",
-    "w780",
-    "original"
-)
-
-val backdropSizes = listOf(
-    "w300",
-    "w780",
-    "w1280",
-    "original"
-)
 
 @Preview
 @Composable
@@ -181,12 +166,20 @@ internal fun Genres(
                         .height(150.dp)
                         .fillMaxWidth()
                         .aspectRatio(2 / 3f)
+
                 ) {
+                    var size by remember { mutableStateOf(IntSize(0, 0)) }
+
+                    val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
                     Box {
                         CoilImageWithCircularProgress(
-                            data = baseImageUrl.plus(posterSizes[2])
-                                .plus(it.posterPath),
-                            modifier = Modifier.matchParentSize(),
+                            data = path,
+                            nameFilm = it.originalTitle,
+                            modifier = Modifier
+                                .matchParentSize()
+                                .onGloballyPositioned {
+                                    size = it.size
+                                },
                             contentScale = ContentScale.Crop,
                         )
                     }
@@ -237,17 +230,24 @@ internal fun PosterCard(
     modifier: Modifier = Modifier,
     movie: MovieResult,
 ) {
+
     Card(
         elevation = 5.dp,
         modifier = modifier
             .padding(start = 5.dp, end = 5.dp)
             .clip(shape = MaterialTheme.shapes.large)
     ) {
+        var size by remember { mutableStateOf(IntSize(0, 0)) }
+
         CoilImageWithCircularProgress(
-            data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
+            data = createPath(size, UrlType.Backdrop, movie.backdropPath),
+            nameFilm = movie.originalTitle,
             modifier = Modifier
                 .aspectRatio(16 / 9f)
                 .clickable {
+                }
+                .onGloballyPositioned {
+                    size = it.size
                 },
             contentScale = ContentScale.FillBounds,
         )
