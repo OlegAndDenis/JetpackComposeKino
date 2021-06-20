@@ -60,6 +60,7 @@ dependencies {
     implementation(Libs.okhttp.okhttp)
     implementation(Libs.serialisation.serialisationAdapter)
     implementation(Libs.serialisation.json)
+    implementation(Libs.compose.uiUi)
     implementation(project(Modules.base))
     kapt(Libs.hilt.compilerKapt)
     kapt(Libs.hilt.hiltAndroidCompiler)

@@ -23,38 +23,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
+import com.example.themdb_api.UrlType
+import com.example.themdb_api.createPath
 import com.example.themdb_api.serials.SerialResult
 import com.example.themdb_api.serials.UiSerial
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
-
-const val baseImageUrl = "https://image.tmdb.org/t/p/"
-
-val posterSizes = listOf(
-    "w92",
-    "w154",
-    "w185",
-    "w342",
-    "w500",
-    "w780",
-    "original"
-)
-
-val backdropSizes = listOf(
-    "w300",
-    "w780",
-    "w1280",
-    "original"
-)
 
 @Composable
 fun Serial() {
@@ -177,10 +162,16 @@ internal fun Genres(
                         .aspectRatio(2 / 3f)
                 ) {
                     Box {
+                        var size by remember { mutableStateOf(IntSize(0, 0)) }
+
                         CoilImageWithCircularProgress(
-                            data = baseImageUrl.plus(posterSizes[2])
-                                .plus(it.posterPath),
-                            modifier = Modifier.matchParentSize(),
+                            modifier = Modifier
+                                .matchParentSize()
+                                .onGloballyPositioned {
+                                    size = it.size
+                                },
+                            nameFilm = it.originalName,
+                            data = createPath(size, UrlType.PosterPatch, it.posterPath),
                             contentScale = ContentScale.Crop,
                         )
                     }
@@ -229,7 +220,7 @@ internal fun Overview(
 @Composable
 internal fun PosterCard(
     modifier: Modifier = Modifier,
-    movie: SerialResult,
+    serial: SerialResult,
 ) {
     Card(
         elevation = 5.dp,
@@ -237,12 +228,18 @@ internal fun PosterCard(
             .padding(start = 5.dp, end = 5.dp)
             .clip(shape = MaterialTheme.shapes.large)
     ) {
+        var size by remember { mutableStateOf(IntSize(0, 0)) }
+
         CoilImageWithCircularProgress(
             modifier = Modifier
                 .aspectRatio(16 / 9f)
                 .clickable {
+                }
+                .onGloballyPositioned {
+                    size = it.size
                 },
-            data = baseImageUrl.plus(backdropSizes[3]).plus(movie.backdropPath),
+            nameFilm = serial.originalName,
+            data = createPath(size = size, UrlType.Backdrop, serial.backdropPath),
             contentScale = ContentScale.FillBounds,
         )
     }
