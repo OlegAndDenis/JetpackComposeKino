@@ -11,11 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -115,23 +111,35 @@ internal fun Genres(
         modifier = Modifier,
         verticalArrangement = Arrangement.Center,
     ) {
+        Row(
+                modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically
+        ) {
         Text(
             text = uiSerial.name,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
             modifier = Modifier
-                .padding(start = 16.dp, bottom = 10.dp)
-                .wrapContentWidth(Alignment.End)
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = rememberRipple(),
-                ) {
-                    Toast
-                        .makeText(contaxt, uiSerial.name, Toast.LENGTH_SHORT)
-                        .show()
-                }
+                .weight(1f)
+                .wrapContentWidth(Alignment.Start)
         )
+
+        Button(
+            interactionSource = remember { MutableInteractionSource() },
+            onClick = {
+                Toast
+                    .makeText(contaxt, "${uiSerial.name}", Toast.LENGTH_SHORT)
+                    .show()
+            },
+            modifier = Modifier
+                .weight(1f)
+                .wrapContentWidth(Alignment.End)
+        ) {
+            Text(text = "More")
+        }
+    }
 
         val halfSpacing = 14.dp / 2
         val spacingContent = PaddingValues(halfSpacing, 0.dp, halfSpacing, 10.dp)
