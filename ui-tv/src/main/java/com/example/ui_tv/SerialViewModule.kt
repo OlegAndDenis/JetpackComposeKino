@@ -29,9 +29,12 @@ class SerialViewModule @Inject constructor(
             network
                 .onEach {
                     when (it) {
-                        is ConnectionType.Available -> { }
+                        is ConnectionType.Available -> {
+                        }
                         is ConnectionType.Lost -> _serials.emit(SerialState.ConnectionLost)
-                        else -> { Timber.i("Connection type Init") }
+                        else -> {
+                            Timber.i("Connection type Init")
+                        }
                     }
                 }
                 .launchIn(this)
@@ -48,11 +51,16 @@ class SerialViewModule @Inject constructor(
             genre.genres.forEach {
                 val serialApi = themdbRepository.getSerials(it.id.toString())
                 val topList = selectionTopMore(serialApi.result, TOP_MORE)
-                val uiMovie = UiSerial(it.name, topList)
+                val uiMovie = UiSerial(it.name, it.id, topList)
                 listUiSerial.add(uiMovie)
             }
             if (listUiSerial.isNotEmpty()) {
-                _serials.emit(SerialState.Result(listUiSerial, UiSerial("Top", topPopularity)))
+                _serials.emit(
+                    SerialState.Result(
+                        listUiSerial,
+                        UiSerial("Top", serials = topPopularity)
+                    )
+                )
             } else {
                 _serials.emit(SerialState.ConnectionLost)
             }

@@ -54,11 +54,11 @@ class MovieViewModel @Inject constructor(
             genre.genres.forEach {
                 val movieApi = themdbRepository.getMovieByGenres(it.id.toString())
                 val topList = selectionTopMore(movieApi.result, TOP_MORE)
-                val uiMovie = UiMovie(it.name, topList)
+                val uiMovie = UiMovie(it.name, it.id ,topList)
                 listUiMovie.add(uiMovie)
             }
             if (listUiMovie.isNotEmpty()) {
-                _movieState.value = MovieState.Result(listUiMovie, UiMovie("Top", topPopularity))
+                _movieState.value = MovieState.Result(listUiMovie, UiMovie("Top", movies = topPopularity))
             } else {
                 _movieState.value = MovieState.ConnectionLost
             }
