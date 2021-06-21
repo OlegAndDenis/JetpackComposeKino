@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="kinofork.app" target="16" />
+      <module name="kinofork.base" target="16" />
+      <module name="kinofork.buildSrc" target="16" />
+      <module name="kinofork.buildSrc.main" target="16" />
+      <module name="kinofork.buildSrc.test" target="16" />
+      <module name="kinofork.coil-image" target="16" />
+      <module name="kinofork.shared-module" target="16" />
+      <module name="kinofork.shared-module.androidAndroidTest" target="1.8" />
+      <module name="kinofork.shared-module.androidAndroidTestDebug" target="1.8" />
+      <module name="kinofork.shared-module.androidDebug" target="1.8" />
+      <module name="kinofork.shared-module.androidDebugAndroidTest" target="1.8" />
+      <module name="kinofork.shared-module.androidDebugUnitTest" target="1.8" />
+      <module name="kinofork.shared-module.androidMain" target="1.8" />
+      <module name="kinofork.shared-module.androidRelease" target="1.8" />
+      <module name="kinofork.shared-module.androidReleaseUnitTest" target="1.8" />
+      <module name="kinofork.shared-module.androidTest" target="1.8" />
+      <module name="kinofork.shared-module.androidTestDebug" target="1.8" />
+      <module name="kinofork.shared-module.androidTestRelease" target="1.8" />
+      <module name="kinofork.shared-module.commonMain" target="1.8" />
+      <module name="kinofork.shared-module.commonTest" target="1.8" />
+      <module name="kinofork.themdb-api" target="16" />
+      <module name="kinofork.ui-common-compose" target="16" />
+      <module name="kinofork.ui-common-resources" target="16" />
+      <module name="kinofork.ui-login" target="16" />
+      <module name="kinofork.ui-movie" target="16" />
+      <module name="kinofork.ui-profile" target="16" />
+      <module name="kinofork.ui-tab-host" target="16" />
+      <module name="kinofork.ui-tv" target="16" />
+    </bytecodeTargetLevel>
   </component>
 </project>
