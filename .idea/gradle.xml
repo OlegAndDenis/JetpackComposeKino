@@ -11,9 +11,11 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/backend-module" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/coil-image" />
+            <option value="$PROJECT_DIR$/shared-module" />
             <option value="$PROJECT_DIR$/themdb-api" />
             <option value="$PROJECT_DIR$/ui-common-compose" />
             <option value="$PROJECT_DIR$/ui-common-resources" />
@@ -24,8 +26,8 @@
             <option value="$PROJECT_DIR$/ui-tv" />
           </set>
         </option>
-        <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
+    <option name="offlineMode" value="true" />
   </component>
 </project>

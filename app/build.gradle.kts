@@ -53,6 +53,12 @@ android {
         }
     }
 
+    sourceSets {
+        get("main").java.srcDirs("src/main/kotlin")
+        get("androidTest").java.srcDirs("src/androidTest/kotlin")
+        get("test").java.srcDirs("src/test/kotlin")
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = AppVersion.compose
     }
