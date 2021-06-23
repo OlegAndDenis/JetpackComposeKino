@@ -33,7 +33,10 @@ import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
 
 @Composable
-fun Serial() {
+fun Serial(
+    openFilm: (Id: String) -> Unit = { },
+    openGenres: (genresId: String) -> Unit = { },
+) {
     val viewModule: SerialViewModule = hiltViewModel()
     viewModule.loadGenres()
     val state = rememberFlowWithLifecycle(flow = viewModule.serials)

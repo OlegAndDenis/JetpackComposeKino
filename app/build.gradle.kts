@@ -4,6 +4,7 @@ import ImplementsDependency.debuggerDependency
 import ImplementsDependency.kaptDependency
 import ImplementsDependency.listImplements
 import ImplementsDependency.testImplementations
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
     id("com.android.application")
@@ -36,6 +37,17 @@ android {
 
         testInstrumentationRunner = AppVersion.stringValue.androidJUnitRunner
     }
+    signingConfigs {
+        create("release") {
+            val keystorePatch = gradleLocalProperties(rootDir).getProperty("keystorePatch")
+            val password = gradleLocalProperties(rootDir).getProperty("password")
+            storeFile = file(keystorePatch)
+            storePassword = password
+            keyAlias = "scinario"
+            keyPassword = password
+        }
+    }
+
 
     buildFeatures {
         viewBinding = true
@@ -45,8 +57,11 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isDebuggable = true

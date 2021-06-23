@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/themdb-api" />
             <option value="$PROJECT_DIR$/ui-common-compose" />
             <option value="$PROJECT_DIR$/ui-common-resources" />
+            <option value="$PROJECT_DIR$/ui-detail" />
             <option value="$PROJECT_DIR$/ui-login" />
             <option value="$PROJECT_DIR$/ui-movie" />
             <option value="$PROJECT_DIR$/ui-profile" />

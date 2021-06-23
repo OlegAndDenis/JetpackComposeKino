@@ -27,7 +27,9 @@ private val items = listOf(
 
 /** Routes that don't need a bottom navigation bar  */
 val blackList = listOf(
-    Screen.Login.route
+    Screen.Login.route,
+    Screen.Detail.route,
+    Screen.AllFilm.route,
 )
 
 @Composable

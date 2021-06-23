@@ -24,6 +24,7 @@ include(
     ":ui-tab-host",
     ":coil-image",
     ":ui-tv",
+    ":ui-detail",
     ":shared-module",
     ":backend-module",
 )

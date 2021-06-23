@@ -15,6 +15,11 @@ sealed class Screen(val route: String) {
     object Following : Screen("following")
     object Search : Screen("search")
     object Profile : Screen("profile")
-
+    object Detail : Screen("detail/{id}/{type}") {
+        fun createRoot(id: String, type: String): String = "detail/$id/$type"
+    }
+    object AllFilm : Screen("allFilm/{id}/{type}") {
+        fun createRoot(id: String, type: String): String = "allFilm/$id/$type"
+    }
     object Login : Screen("login")
 }
