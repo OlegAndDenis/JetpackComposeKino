@@ -1,17 +1,3 @@
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            when (requested.id.id) {
-                "kotlin-multiplatform" -> useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-                "kotlinx-serialization" -> "org.jetbrains.kotlin:kotlin-serialization:${requested.version}"
-            }
-        }
-    }
-}
-
 include(
     ":app",
     ":ui-common-compose",
@@ -26,7 +12,6 @@ include(
     ":ui-tv",
     ":ui-detail",
     ":shared-module",
-    ":backend-module",
 )
 rootProject.buildFileName = "build.gradle.kts"
 
