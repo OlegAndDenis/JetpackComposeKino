@@ -30,7 +30,6 @@ fun AppNavigation(navController: NavHostController, paddings: PaddingValues) {
         addFollowingRoot(navController)
         addSearchRoot(navController)
         addProfileRoot(navController)
-        addDetail(navController)
     }
 }
 
@@ -40,6 +39,7 @@ private fun NavGraphBuilder.addMainRoot(navController: NavController) {
         startDestination = Screen.Main.route
     ) {
         addMain(navController)
+        addDetail(navController)
     }
 }
 
