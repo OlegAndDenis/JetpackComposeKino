@@ -3,6 +3,7 @@ package com.example.themdb_api.themdbrepository
 import com.example.themdb_api.BuildConfig
 import com.example.themdb_api.api.ApiClient
 import com.example.themdb_api.genres.GenresApi
+import com.example.themdb_api.movie.DetailMovie
 import com.example.themdb_api.movie.MovieApi
 import com.example.themdb_api.serials.SerialApi
 import javax.inject.Inject
@@ -33,6 +34,9 @@ class ThemdbRepositoryImpl @Inject constructor(
     override suspend fun getPopularSerial(): SerialApi =
         clientApi.getPopularitySerial("tv", buildParamPopularity())
 
+    override suspend fun loadDetail(id: String): DetailMovie =
+        clientApi.getMovie(id, buildDetail())
+
     private fun buildParamFilm(genres: String): MutableMap<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
         map["api_key"] = BuildConfig.TMDB_API_KEY
@@ -40,6 +44,15 @@ class ThemdbRepositoryImpl @Inject constructor(
         map["with_genres"] = genres
         map["sort_by"] = "popularity.desc"
         map["page"] = "1"
+        return map
+    }
+
+    private fun buildDetail(): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = BuildConfig.TMDB_API_KEY
+        map["language"] = "ru-RU"
+        map["append_to_response"] = "videos,images"
+        map["include_image_language"] = "ru-RU,null"
         return map
     }
 

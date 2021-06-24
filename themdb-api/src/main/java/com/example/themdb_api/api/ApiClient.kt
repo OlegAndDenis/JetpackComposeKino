@@ -1,6 +1,7 @@
 package com.example.themdb_api.api
 
 import com.example.themdb_api.genres.GenresApi
+import com.example.themdb_api.movie.DetailMovie
 import com.example.themdb_api.movie.MovieApi
 import com.example.themdb_api.serials.SerialApi
 import retrofit2.http.GET
@@ -39,4 +40,10 @@ interface ApiClient {
         @Path("type") type: String,
         @QueryMap param: MutableMap<String, String>
     ): SerialApi
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovie(
+        @Path("movie_id") id: String,
+        @QueryMap param: MutableMap<String, String>,
+    ): DetailMovie
 }
