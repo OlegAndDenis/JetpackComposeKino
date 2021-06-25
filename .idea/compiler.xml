@@ -25,6 +25,7 @@
       <module name="kinofork.themdb-api" target="11" />
       <module name="kinofork.ui-common-compose" target="11" />
       <module name="kinofork.ui-common-resources" target="11" />
+      <module name="kinofork.ui-detail" target="11" />
       <module name="kinofork.ui-login" target="11" />
       <module name="kinofork.ui-movie" target="11" />
       <module name="kinofork.ui-profile" target="11" />

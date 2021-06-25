@@ -55,6 +55,8 @@ dependencies {
     implementation(Libs.compose.uiTooling)
     implementation(Libs.compose.composeFoundationFoundation)
     implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.accompanist.insetsUi)
+    implementation(Libs.accompanist.insets)
     implementation(Libs.compose.uiViewBinding)
     implementation(Libs.compose.composeMaterialIconsext)
     implementation(Libs.compose.composeMaterialMaterial)
