@@ -1,17 +1,15 @@
-
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.*
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
+import androidx.navigation.compose.navArgument
 import com.example.kino.navigation.RootScreen
 import com.example.kino.navigation.Screen
+import com.example.ui_detail.Detail
 import com.example.ui_login.Login
 import com.example.ui_profile.Profile
 import com.example.ui_tab_host.TabHost
@@ -41,6 +39,7 @@ private fun NavGraphBuilder.addMainRoot(navController: NavController) {
         startDestination = Screen.Main.route
     ) {
         addMain(navController)
+        addDetail(navController)
     }
 }
 
@@ -76,7 +75,14 @@ private fun NavGraphBuilder.addProfileRoot(navController: NavController) {
 
 private fun NavGraphBuilder.addMain(navController: NavController) {
     composable(Screen.Main.route) {
-        TabHost()
+        TabHost(
+            openFilm = { id, type ->
+                navController.navigate(Screen.Detail.createRoot(id, type.type))
+            },
+            openGenres = { id, type ->
+                navController.navigate(Screen.AllFilm.createRoot(id, type.type))
+            }
+        )
     }
 }
 
@@ -102,7 +108,29 @@ private fun NavGraphBuilder.addProfile(navController: NavController) {
 
 @ExperimentalFoundationApi
 private fun NavGraphBuilder.addLogin(navController: NavController) {
-    composable(Screen.Login.route) {
+    composable(route = Screen.Login.route) {
         Login()
+    }
+}
+
+private fun NavGraphBuilder.addAllFilm(navController: NavController) {
+    composable(Screen.AllFilm.route,
+        arguments = listOf(
+            navArgument("id") { type = NavType.StringType },
+            navArgument("type") { type = NavType.StringType }
+        )) {
+
+    }
+}
+
+private fun NavGraphBuilder.addDetail(navController: NavController) {
+    composable(
+        route = Screen.Detail.route,
+        arguments = listOf(
+            navArgument("id") { type = NavType.StringType },
+            navArgument("type") { type = NavType.StringType }
+        )
+    ) {
+        Detail()
     }
 }

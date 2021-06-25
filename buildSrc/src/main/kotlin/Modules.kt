@@ -9,8 +9,10 @@ object Modules {
         ":ui-tab-host",
         ":coil-image",
         ":ui-tv",
+        ":ui-detail"
     )
 
+    val detail = "ui-detail"
     val tv = ":ui-tv"
     val coil = ":coil-image"
     val movie = ":ui-movie"

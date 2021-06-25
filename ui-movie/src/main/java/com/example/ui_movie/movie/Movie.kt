@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,9 +33,11 @@ import com.example.ui_common_compose.genrecommon.HorizontalGenre
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
 
-@Preview
 @Composable
-fun Movie() {
+fun Movie(
+    openFilm: (Id: String) -> Unit = { },
+    openGenres: (genresId: String) -> Unit = { },
+) {
     val movieViewModel: MovieViewModel = hiltViewModel()
     movieViewModel.loadGenres()
     val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
@@ -44,7 +45,11 @@ fun Movie() {
 
     when (state) {
         is MovieState.Loading -> Loading()
-        is MovieState.Result -> Movie(movie = state.uiMovies, state.top)
+        is MovieState.Result -> Movie(
+            movie = state.uiMovies,
+            state.top,
+            openFilm = openFilm,
+        )
         else -> {
         }
     }
@@ -53,7 +58,8 @@ fun Movie() {
 @Composable
 fun Movie(
     movie: List<UiMovie>,
-    popularity: UiMovie = UiMovie()
+    popularity: UiMovie = UiMovie(),
+    openFilm: (Id: String) -> Unit = { },
 ) {
     val lazyState = rememberLazyListState()
 
@@ -73,7 +79,8 @@ fun Movie(
                     image = {
                         PosterCard(
                             modifier = Modifier.fillMaxSize(),
-                            popularity.movies[it]
+                            popularity.movies[it],
+                            openFilm = openFilm
                         )
                     },
                     overView = { (position, isScrolling) ->
@@ -100,6 +107,9 @@ fun Movie(
                                 .matchParentSize()
                                 .onGloballyPositioned {
                                     size = it.size
+                                }
+                                .clickable {
+                                    openFilm(it.id.toString())
                                 },
                             contentScale = ContentScale.Crop,
                         )
@@ -185,6 +195,7 @@ internal fun Overview(
 internal fun PosterCard(
     modifier: Modifier = Modifier,
     movie: MovieResult,
+    openFilm: (Id: String) -> Unit = { },
 ) {
 
     Card(
@@ -201,6 +212,7 @@ internal fun PosterCard(
             modifier = Modifier
                 .aspectRatio(16 / 9f)
                 .clickable {
+                    openFilm(movie.id.toString())
                 }
                 .onGloballyPositioned {
                     size = it.size

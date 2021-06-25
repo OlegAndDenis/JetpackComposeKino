@@ -35,10 +35,6 @@ object ThemdbModule {
 
     @Provides
     @Singleton
-    fun provideMediaType(): MediaType = "application/json".toMediaType()
-
-    @Provides
-    @Singleton
     fun provideOkHttpClient(
         @ApplicationContext context: Context,
         connectionInfo: StateFlow<ConnectionType>
@@ -55,12 +51,19 @@ object ThemdbModule {
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
+    private val json = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
+
+    fun mediaType(): MediaType = "application/json".toMediaType()
+
     @OptIn(ExperimentalSerializationApi::class)
     @Provides
     @Singleton
-    fun provideRetrofit(mediaType: MediaType, client: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(API_URL)
-        .addConverterFactory(Json { coerceInputValues = true }.asConverterFactory(mediaType))
+        .addConverterFactory(json.asConverterFactory(mediaType()))
         .client(client)
         .build()
 
