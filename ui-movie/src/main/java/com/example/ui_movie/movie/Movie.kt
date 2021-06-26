@@ -1,5 +1,7 @@
 package com.example.ui_movie.movie
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -43,14 +45,28 @@ fun Movie(
     val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
         .collectAsState(initial = MovieState.Loading()).value
 
-    when (state) {
-        is MovieState.Loading -> Loading()
-        is MovieState.Result -> Movie(
-            movie = state.uiMovies,
-            state.top,
-            openFilm = openFilm,
-        )
-        else -> {
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
+        Crossfade(
+            targetState = state,
+            animationSpec = tween(
+                durationMillis = 700,
+                delayMillis = 250,
+                easing = FastOutSlowInEasing
+            )
+        ) {
+            when (it) {
+                is MovieState.Loading -> Loading()
+                is MovieState.Result -> Movie(
+                    movie = it.uiMovies,
+                    it.top,
+                    openFilm = openFilm,
+                    contentPadding = paddingValues,
+                )
+                else -> {
+                }
+            }
         }
     }
 }
@@ -60,60 +76,57 @@ fun Movie(
     movie: List<UiMovie>,
     popularity: UiMovie = UiMovie(),
     openFilm: (Id: String) -> Unit = { },
+    contentPadding: PaddingValues,
 ) {
     val lazyState = rememberLazyListState()
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) { paddingValues ->
-        LazyColumn(
-            contentPadding = paddingValues,
-            state = lazyState
-        ) {
-            item("Top") {
-                Carousel(
-                    totalCount = popularity.movies.size,
-                    title = {
-                        Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
-                    },
-                    image = {
-                        PosterCard(
-                            modifier = Modifier.fillMaxSize(),
-                            popularity.movies[it],
-                            openFilm = openFilm
-                        )
-                    },
-                    overView = { (position, isScrolling) ->
-                        Overview(item = popularity.movies[position], isScrolling = isScrolling)
-                    }
-                )
-            }
+    LazyColumn(
+        contentPadding = contentPadding,
+        state = lazyState
+    ) {
+        item("Top") {
+            Carousel(
+                totalCount = popularity.movies.size,
+                title = {
+                    Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
+                },
+                image = {
+                    PosterCard(
+                        modifier = Modifier.fillMaxSize(),
+                        popularity.movies[it],
+                        openFilm = openFilm
+                    )
+                },
+                overView = { (position, isScrolling) ->
+                    Overview(item = popularity.movies[position], isScrolling = isScrolling)
+                }
+            )
+        }
 
-            items(movie.size) { index ->
-                val uiMovie = movie[index]
-                HorizontalGenre(
-                    header = { Header(uiMovie) },
-                    items = uiMovie.movies
-                ) {
-                    Box {
-                        var size by remember { mutableStateOf(IntSize(0, 0)) }
+        items(movie.size) { index ->
+            val uiMovie = movie[index]
+            HorizontalGenre(
+                header = { Header(uiMovie) },
+                items = uiMovie.movies
+            ) {
+                Box {
+                    var size by remember { mutableStateOf(IntSize(0, 0)) }
 
-                        val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
+                    val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
 
-                        CoilImageWithCircularProgress(
-                            data = path,
-                            nameFilm = it.originalTitle,
-                            modifier = Modifier
-                                .matchParentSize()
-                                .onGloballyPositioned {
-                                    size = it.size
-                                }
-                                .clickable {
-                                    openFilm(it.id.toString())
-                                },
-                            contentScale = ContentScale.Crop,
-                        )
-                    }
+                    CoilImageWithCircularProgress(
+                        data = path,
+                        nameFilm = it.originalTitle,
+                        modifier = Modifier
+                            .matchParentSize()
+                            .onGloballyPositioned {
+                                size = it.size
+                            }
+                            .clickable {
+                                openFilm(it.id.toString())
+                            },
+                        contentScale = ContentScale.Crop,
+                    )
                 }
             }
         }
