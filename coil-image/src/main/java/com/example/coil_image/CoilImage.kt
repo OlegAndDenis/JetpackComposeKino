@@ -18,17 +18,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LifecycleOwner
-import coil.ImageLoader
 import coil.request.CachePolicy
 import coil.request.Disposable
 import coil.request.ImageRequest
 import coil.size.Precision
+import com.example.coil_image.LocalCoilProvider.getCoilImageLoader
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -123,7 +124,7 @@ private fun CoilBuilder(
                 } else {
                     coilImageState.imageBitmap?.let {
                         Image(
-                            bitmap = it,
+                            painter = BitmapPainter(it),
                             contentDescription = "",
                             modifier = modifier,
                             alignment = alignment,
@@ -146,6 +147,7 @@ private fun CoilLoadImage(
     content: @Composable (imageState: ImageLoadState) -> Unit
 ) {
     val context = LocalContext.current
+    val imageLoader = getCoilImageLoader()
     val imageLoadStateFlow =
         remember { MutableStateFlow<ImageLoadState>(ImageLoadState.Loading(0f)) }
     val disposable = remember { mutableStateOf<Disposable?>(null) }
@@ -154,7 +156,7 @@ private fun CoilLoadImage(
         imageRequest = request,
         executeImageRequest = {
             suspendCancellableCoroutine { dispose ->
-                disposable.value = ImageLoader.invoke(context).enqueue(
+                disposable.value = imageLoader.enqueue(
                     request.newBuilder(context).target(
                         onSuccess = {
                             imageLoadStateFlow.value =
