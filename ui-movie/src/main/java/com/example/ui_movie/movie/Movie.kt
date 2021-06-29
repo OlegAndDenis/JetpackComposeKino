@@ -2,7 +2,6 @@ package com.example.ui_movie.movie
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
@@ -93,7 +92,7 @@ fun Movie(
                 image = {
                     PosterCard(
                         modifier = Modifier.fillMaxSize(),
-                        popularity.movies[it],
+                        movie = popularity.movies[it],
                         openFilm = openFilm
                     )
                 },
@@ -177,9 +176,8 @@ internal fun Overview(
     val alpha by animateFloatAsState(
         targetValue = if (isScrolling) 1F else 0F,
         tween(
-            durationMillis = 150,
-            delayMillis = 10,
-            easing = LinearOutSlowInEasing
+            durationMillis = 400,
+            delayMillis = 50,
         )
     )
 
@@ -218,7 +216,6 @@ internal fun PosterCard(
             .clip(shape = MaterialTheme.shapes.large)
     ) {
         var size by remember { mutableStateOf(IntSize(0, 0)) }
-
         CoilImageWithCircularProgress(
             data = createPath(size, UrlType.Backdrop, movie.backdropPath),
             nameFilm = movie.originalTitle,
