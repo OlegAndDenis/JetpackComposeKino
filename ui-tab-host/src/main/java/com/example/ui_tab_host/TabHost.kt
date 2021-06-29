@@ -1,5 +1,7 @@
 package com.example.ui_tab_host
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -31,21 +33,35 @@ fun TabHost(
             TabTopBar(
                 tabHostScreens = allScreens,
                 pagerState = pagerState,
-                onTabSelected = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(it, pagerState.currentPageOffset)
+                onTabSelected = { page ->
+                    if (page != pagerState.currentPage && !pagerState.isScrollInProgress) {
+                        coroutineScope.launch {
+                            if (pagerState.currentPage != page) {
+                                pagerState.animateScrollToPage(
+                                    page = page,
+                                    pageOffset = pagerState.currentPageOffset,
+                                    animationSpec = tween(500, 50)
+                                )
+                            }
+                        }
                     }
                 }
             )
         }
     ) { innerPadding ->
-        HorizontalPager(state = pagerState, Modifier.padding(innerPadding)) { pager ->
-            when (allScreens[pager]) {
+        HorizontalPager(
+            state = pagerState,
+            Modifier
+                .padding(innerPadding)
+                .animateContentSize(animationSpec = tween(500, 50))
+        ) { page ->
+            when (allScreens[page]) {
                 TabScreen.MovieScreen -> Movie(
                     openFilm = { openFilm(it, Type.MOVIE) },
                     openGenres = { openGenres(it, Type.MOVIE) })
                 TabScreen.TvScreen -> Serial(
-                    openFilm = { openFilm(it, Type.TV) }, openGenres = { openGenres(it, Type.TV) })
+                    openFilm = { openFilm(it, Type.TV) },
+                    openGenres = { openGenres(it, Type.TV) })
             }
         }
     }
