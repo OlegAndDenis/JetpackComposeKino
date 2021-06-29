@@ -211,15 +211,16 @@ object Libs {
 
     object Accompanist {
         private const val accompanistVersion = "0.12.0"
+
+        const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+        const val pagerIndicator =
+            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
         const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val insetsUi = "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
         const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
         const val swipeRefresh =
             "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
-        const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
-        const val pagerIndicator =
-            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
     }
 
     object Leakcanary {

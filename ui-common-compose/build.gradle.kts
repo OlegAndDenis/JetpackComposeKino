@@ -62,5 +62,6 @@ dependencies {
     implementation(Libs.coroutines.coroutinesAndroid)
     implementation(Libs.coroutines.coroutines)
     implementation(Libs.accompanist.pager)
+    implementation(Libs.timber.timber)
     implementation(Libs.compose.uiUti)
 }
