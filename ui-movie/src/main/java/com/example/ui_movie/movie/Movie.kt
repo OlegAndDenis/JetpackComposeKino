@@ -29,6 +29,7 @@ import com.example.themdb_api.UrlType
 import com.example.themdb_api.createPath
 import com.example.themdb_api.movie.MovieResult
 import com.example.themdb_api.movie.UiMovie
+import com.example.ui_common_compose.animation.scaleAnimation
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
 import com.example.ui_common_compose.loading.Loading
@@ -84,22 +85,25 @@ fun Movie(
         state = lazyState
     ) {
         item("Top") {
-            Carousel(
-                totalCount = popularity.movies.size,
-                title = {
-                    Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
-                },
-                image = {
-                    PosterCard(
-                        modifier = Modifier.fillMaxSize(),
-                        movie = popularity.movies[it],
-                        openFilm = openFilm
-                    )
-                },
-                overView = { (position, isScrolling) ->
-                    Overview(item = popularity.movies[position], isScrolling = isScrolling)
-                }
-            )
+            Box(modifier = Modifier.scaleAnimation(lazyState, 1F)) {
+                Carousel(
+                    modifier = Modifier,
+                    totalCount = popularity.movies.size,
+                    title = {
+                        Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
+                    },
+                    image = {
+                        PosterCard(
+                            modifier = Modifier.fillMaxSize(),
+                            movie = popularity.movies[it],
+                            openFilm = openFilm
+                        )
+                    },
+                    overView = { (position, isScrolling) ->
+                        Overview(modifier = Modifier, item = popularity.movies[position], isScrolling = isScrolling)
+                    }
+                )
+            }
         }
 
         items(movie.size) { index ->
