@@ -130,7 +130,7 @@ object Libs {
         private const val appCompatVersion = "1.3.0"
         private const val coreKtxVersion = "1.6.0-rc01"
         private const val fragmentKtx = "1.4.0-alpha03"
-        private const val androidxActivityComposeVersion = "1.3.0-beta02"
+        private const val androidxActivityComposeVersion = "1.3.0-rc01"
 
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -195,14 +195,14 @@ object Libs {
     }
 
     object NavigationComponent {
-        private const val nav_version = "2.4.0-alpha03"
+        private const val nav_version = "2.4.0-alpha04"
         const val navigationComponentCompose =
             "androidx.navigation:navigation-compose:$nav_version"
     }
 
     object Paging {
-        private const val pagingVersion = "3.1.0-alpha01"
-        private const val pagingComposVersion = "1.0.0-alpha10"
+        private const val pagingVersion = "3.1.0-alpha02"
+        private const val pagingComposVersion = "1.0.0-alpha11"
 
         const val pagingCommon = "androidx.paging:paging-common-ktx:$pagingVersion"
         const val pagingRuntime = "androidx.paging:paging-runtime-ktx:$pagingVersion"
