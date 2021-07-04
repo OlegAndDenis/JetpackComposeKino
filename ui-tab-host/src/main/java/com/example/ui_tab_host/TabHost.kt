@@ -1,6 +1,5 @@
 package com.example.ui_tab_host
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
@@ -49,12 +48,7 @@ fun TabHost(
             )
         }
     ) { innerPadding ->
-        HorizontalPager(
-            state = pagerState,
-            Modifier
-                .padding(innerPadding)
-                .animateContentSize(animationSpec = tween(500, 50))
-        ) { page ->
+        HorizontalPager(state = pagerState, Modifier.padding(innerPadding)) { page ->
             when (allScreens[page]) {
                 TabScreen.MovieScreen -> Movie(
                     openFilm = { openFilm(it, Type.MOVIE) },
