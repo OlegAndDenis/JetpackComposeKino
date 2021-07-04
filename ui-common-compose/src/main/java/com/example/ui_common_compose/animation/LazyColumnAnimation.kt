@@ -26,26 +26,26 @@ fun Modifier.scaleAnimation(
     val transaction = updateTransition(targetState = offset, label = "scaleAnimation")
 
     val scale by transaction.animateFloat(
-        transitionSpec = { spring(dampingRatio = offset.coerceIn(0F, 0.5F), ) },
+        transitionSpec = { spring(dampingRatio = offset.coerceIn(0F, 0.5F)) },
         label = ""
     ) {
         1f - it.coerceIn(0f, 1f) / animationSpeed
     }
 
     return graphicsLayer {
-            lerp(
-                start = 0.6F,
-                stop = 1F,
-                fraction = scale
-            ).also {
-                scaleX = it
-                scaleY = it
-            }
+        lerp(
+            start = 0.6F,
+            stop = 1F,
+            fraction = scale
+        ).also {
+            scaleX = it
+            scaleY = it
+        }
 
-            alpha = lerp(
-                start = 0.2f,
-                stop = 1f,
-                fraction = 1f - (offset * 2).coerceIn(0f, 1f) * animationSpeed
-            )
+        alpha = lerp(
+            start = 0.2f,
+            stop = 1f,
+            fraction = 1f - (offset * 2).coerceIn(0f, 1f) * animationSpeed
+        )
     }
 }
