@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import com.example.ui_common_compose.theme.KinoTheme
+import com.example.ui_common_compose.theme.StatusBarColorProvider
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +18,7 @@ class RootActivity : AppCompatActivity() {
         setContent {
             KinoTheme {
                 ProvideWindowInsets {
+                    StatusBarColorProvider()
                     Root()
                 }
             }
