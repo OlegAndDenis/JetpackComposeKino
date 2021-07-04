@@ -53,8 +53,12 @@ dependencies {
 
     implementation(Libs.compose.uiUi)
     implementation(Libs.compose.uiTooling)
+    implementation(Libs.compose.composeAnimationAnimation)
     implementation(Libs.compose.composeFoundationFoundation)
     implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.accompanist.uiController)
+    implementation(Libs.accompanist.insets)
+    implementation(Libs.accompanist.insetsUi)
     implementation(Libs.compose.uiViewBinding)
     implementation(Libs.compose.composeMaterialIconsext)
     implementation(Libs.compose.composeMaterialMaterial)

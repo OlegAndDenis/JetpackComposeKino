@@ -210,11 +210,12 @@ object Libs {
     }
 
     object Accompanist {
-        private const val accompanistVersion = "0.12.0"
+        private const val accompanistVersion = "0.13.0"
 
         const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
         const val pagerIndicator =
             "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
+        const val uiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
         const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val insetsUi = "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
