@@ -114,7 +114,7 @@ object Libs {
 
 
     object UI {
-        private const val materialComponentsVersion = "1.4.0-rc01"
+        private const val materialComponentsVersion = "1.4.0"
         private const val adapterDelegateVersion = "4.3.0"
 
         const val materialComponents =
@@ -127,9 +127,9 @@ object Libs {
 
     object AndroidX {
         private const val constraintLayoutVersion = "2.1.0-beta02"
-        private const val appCompatVersion = "1.3.0"
-        private const val coreKtxVersion = "1.6.0-rc01"
-        private const val fragmentKtx = "1.4.0-alpha03"
+        private const val appCompatVersion = "1.4.0-alpha03"
+        private const val coreKtxVersion = "1.7.0-alpha01"
+        private const val fragmentKtx = "1.4.0-alpha04"
         private const val androidxActivityComposeVersion = "1.3.0-rc01"
 
         const val constraintLayout =
@@ -183,7 +183,7 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val uiUiVersion = "1.0.0-beta07"
+        private const val uiUiVersion = "1.0.0-rc01"
         private const val viewModelVersion = "1.0.0-alpha07"
         private const val lifecycle = "2.4.0-alpha02"
 
@@ -276,8 +276,8 @@ object Libs {
 
     object Test {
         private const val junitVersion = "4.13.2"
-        private const val junitExtVersion = "1.1.2"
-        private const val espressoVersion = "3.3.0"
+        private const val junitExtVersion = "1.1.3-rc01"
+        private const val espressoVersion = "3.4.0"
 
         const val junit = "junit:junit:$junitVersion"
         const val junitExt = "androidx.test.ext:junit:$junitExtVersion"
