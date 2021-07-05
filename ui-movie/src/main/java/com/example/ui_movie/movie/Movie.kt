@@ -1,7 +1,11 @@
 package com.example.ui_movie.movie
 
-import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
@@ -28,10 +33,14 @@ import com.example.themdb_api.UrlType
 import com.example.themdb_api.createPath
 import com.example.themdb_api.movie.MovieResult
 import com.example.themdb_api.movie.UiMovie
+import com.example.ui_common_compose.animation.FlingBehavior
+import com.example.ui_common_compose.animation.rememberSplineDecay
+import com.example.ui_common_compose.animation.scaleAnimation
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
+import com.example.ui_movie.R
 
 @Composable
 fun Movie(
@@ -43,35 +52,54 @@ fun Movie(
     val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
         .collectAsState(initial = MovieState.Loading()).value
 
-    when (state) {
-        is MovieState.Loading -> Loading()
-        is MovieState.Result -> Movie(
-            movie = state.uiMovies,
-            state.top,
-            openFilm = openFilm,
-        )
-        else -> {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+    ) { paddingValues ->
+        Crossfade(
+            targetState = state,
+            animationSpec = tween(
+                durationMillis = 700,
+                delayMillis = 250,
+                easing = FastOutSlowInEasing
+            )
+        ) {
+            when (it) {
+                is MovieState.Loading -> Loading()
+                is MovieState.Result -> Movie(
+                    movie = it.uiMovies,
+                    it.top,
+                    openFilm = openFilm,
+                    contentPadding = paddingValues,
+                )
+                else -> {
+                }
+            }
         }
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Movie(
     movie: List<UiMovie>,
     popularity: UiMovie = UiMovie(),
     openFilm: (Id: String) -> Unit = { },
+    contentPadding: PaddingValues,
 ) {
     val lazyState = rememberLazyListState()
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize()
-    ) { paddingValues ->
-        LazyColumn(
-            contentPadding = paddingValues,
-            state = lazyState
-        ) {
-            item("Top") {
+    LazyColumn(
+        contentPadding = contentPadding,
+        state = lazyState,
+        flingBehavior = FlingBehavior(flingDecay = rememberSplineDecay())
+    ) {
+        item("Top") {
+            Box(
+                modifier = Modifier
+                    .scaleAnimation(lazyState, 0.5F)
+            ) {
                 Carousel(
+                    modifier = Modifier,
                     totalCount = popularity.movies.size,
                     title = {
                         Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
@@ -79,41 +107,48 @@ fun Movie(
                     image = {
                         PosterCard(
                             modifier = Modifier.fillMaxSize(),
-                            popularity.movies[it],
+                            movie = popularity.movies[it],
                             openFilm = openFilm
                         )
                     },
                     overView = { (position, isScrolling) ->
-                        Overview(item = popularity.movies[position], isScrolling = isScrolling)
+                        Overview(
+                            modifier = Modifier,
+                            item = popularity.movies[position],
+                            isScrolling = isScrolling
+                        )
                     }
                 )
             }
+        }
 
-            items(movie.size) { index ->
-                val uiMovie = movie[index]
-                HorizontalGenre(
-                    header = { Header(uiMovie) },
-                    items = uiMovie.movies
-                ) {
-                    Box {
-                        var size by remember { mutableStateOf(IntSize(0, 0)) }
+        items(movie.size, key = { it }) { index ->
+            val position by animateIntAsState(targetValue = index, tween(400))
+            val uiMovie = movie[position]
+            HorizontalGenre(
+                modifier = Modifier,
+                header = { Header(uiMovie) },
+                items = uiMovie.movies
+            ) {
+                Box {
+                    var size by remember { mutableStateOf(IntSize(0, 0)) }
 
-                        val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
+                    val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
 
-                        CoilImageWithCircularProgress(
-                            data = path,
-                            nameFilm = it.originalTitle,
-                            modifier = Modifier
-                                .matchParentSize()
-                                .onGloballyPositioned {
-                                    size = it.size
-                                }
-                                .clickable {
-                                    openFilm(it.id.toString())
-                                },
-                            contentScale = ContentScale.Crop,
-                        )
-                    }
+                    CoilImageWithCircularProgress(
+                        data = path,
+                        nameFilm = it.originalTitle,
+                        modifier = Modifier
+                            .matchParentSize()
+                            .onGloballyPositioned {
+                                size = it.size
+                            }
+                            .animateContentSize()
+                            .clickable {
+                                openFilm(it.id.toString())
+                            },
+                        contentScale = ContentScale.Crop,
+                    )
                 }
             }
         }
@@ -132,8 +167,14 @@ internal fun Header(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val title =
+            movie.title.replaceFirst(
+                movie.title.first(),
+                movie.title.first().uppercaseChar(),
+                true
+            )
         Text(
-            text = movie.title,
+            text = title,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
@@ -149,7 +190,7 @@ internal fun Header(
                 .weight(1f)
                 .wrapContentWidth(Alignment.End)
         ) {
-            Text(text = "More")
+            Text(text = stringResource(R.string.more))
         }
     }
 
@@ -164,9 +205,8 @@ internal fun Overview(
     val alpha by animateFloatAsState(
         targetValue = if (isScrolling) 1F else 0F,
         tween(
-            durationMillis = 150,
-            delayMillis = 10,
-            easing = LinearOutSlowInEasing
+            durationMillis = 400,
+            delayMillis = 50,
         )
     )
 
@@ -205,7 +245,6 @@ internal fun PosterCard(
             .clip(shape = MaterialTheme.shapes.large)
     ) {
         var size by remember { mutableStateOf(IntSize(0, 0)) }
-
         CoilImageWithCircularProgress(
             data = createPath(size, UrlType.Backdrop, movie.backdropPath),
             nameFilm = movie.originalTitle,

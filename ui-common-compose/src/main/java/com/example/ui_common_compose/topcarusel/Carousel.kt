@@ -9,10 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.calculateCurrentOffsetForPage
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import kotlin.math.absoluteValue
 
 @Composable
@@ -51,20 +48,19 @@ internal fun CarouselWithHeader(
         initialOffscreenLimit = 2,
     )
 
-
     HorizontalPager(
         state = pagerState,
-        itemSpacing = 5.dp,
+        itemSpacing = 2.dp,
         modifier = modifier.padding(bottom = 5.dp)
-    ) { pager ->
+    ) { page ->
         Column(
             modifier = modifier
                 .graphicsLayer {
 
-                    val pageOffset = calculateCurrentOffsetForPage(pager).absoluteValue
+                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
 
                     lerp(
-                        start = 0.75f,
+                        start = 0.8f,
                         stop = 1f,
                         fraction = 1f - pageOffset.coerceIn(0f, 1f)
                     ).also { scale ->
@@ -79,8 +75,14 @@ internal fun CarouselWithHeader(
                     )
                 }
         ) {
-            image.invoke(pager)
-            overView.invoke(Pair(pager, !pagerState.isScrollInProgress))
+            image.invoke(page)
         }
     }
+    pagerState.SelectCurrentPage(overView)
+}
+
+@Composable
+@ExperimentalPagerApi
+fun PagerState.SelectCurrentPage(overView: @Composable (Pair<Int, Boolean>) -> Unit = { }) {
+    overView.invoke(Pair(currentPage, !isScrollInProgress))
 }

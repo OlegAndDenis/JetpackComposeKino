@@ -1,5 +1,7 @@
 package com.example.ui_tv
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -7,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
@@ -27,6 +31,9 @@ import com.example.themdb_api.UrlType
 import com.example.themdb_api.createPath
 import com.example.themdb_api.serials.SerialResult
 import com.example.themdb_api.serials.UiSerial
+import com.example.ui_common_compose.animation.FlingBehavior
+import com.example.ui_common_compose.animation.rememberSplineDecay
+import com.example.ui_common_compose.animation.scaleAnimation
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
 import com.example.ui_common_compose.loading.Loading
@@ -41,11 +48,29 @@ fun Serial(
     viewModule.loadGenres()
     val state = rememberFlowWithLifecycle(flow = viewModule.serials)
         .collectAsState(initial = SerialState.Loading).value
-    when (state) {
-        is SerialState.Loading -> Loading()
-        is SerialState.Result -> Serial(listUiSerial = state.uiMovies, popularity = state.top)
-        else -> {
 
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues ->
+        Crossfade(
+            targetState = state,
+            animationSpec = tween(
+                durationMillis = 700,
+                delayMillis = 250,
+                easing = FastOutSlowInEasing
+            )
+        ) {
+            when (it) {
+                is SerialState.Loading -> Loading()
+                is SerialState.Result -> Serial(
+                    listUiSerial = it.uiMovies,
+                    popularity = it.top,
+                    contentPadding = paddingValues
+                )
+                else -> {
+
+                }
+            }
         }
     }
 }
@@ -53,15 +78,18 @@ fun Serial(
 @Composable
 fun Serial(
     listUiSerial: List<UiSerial>,
-    popularity: UiSerial
+    popularity: UiSerial,
+    contentPadding: PaddingValues,
 ) {
+    val lazyState = rememberLazyListState()
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize(),
+    LazyColumn(
+        contentPadding = contentPadding,
+        state = lazyState,
+        flingBehavior = FlingBehavior(flingDecay = rememberSplineDecay())
     ) {
-        LazyColumn(contentPadding = it) {
-            item("Top") {
+        item("Top") {
+            Box(modifier = Modifier.scaleAnimation(lazyState, 0.5F)) {
                 Carousel(
                     totalCount = popularity.serials.size,
                     title = {
@@ -78,26 +106,26 @@ fun Serial(
                     }
                 )
             }
+        }
 
-            items(listUiSerial.size) { index ->
-                val uiSerial = listUiSerial[index]
-                HorizontalGenre(
-                    items = uiSerial.serials,
-                    header = { Header(serial = uiSerial) }
-                ) { serial ->
-                    var size by remember { mutableStateOf(IntSize(0, 0)) }
-                    Box {
-                        CoilImageWithCircularProgress(
-                            modifier = Modifier
-                                .matchParentSize()
-                                .onGloballyPositioned { layoutParam ->
-                                    size = layoutParam.size
-                                },
-                            nameFilm = serial.originalName,
-                            data = createPath(size, UrlType.PosterPatch, serial.posterPath),
-                            contentScale = ContentScale.Crop,
-                        )
-                    }
+        items(listUiSerial.size) { index ->
+            val uiSerial = listUiSerial[index]
+            HorizontalGenre(
+                items = uiSerial.serials,
+                header = { Header(serial = uiSerial) }
+            ) { serial ->
+                var size by remember { mutableStateOf(IntSize(0, 0)) }
+                Box {
+                    CoilImageWithCircularProgress(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .onGloballyPositioned { layoutParam ->
+                                size = layoutParam.size
+                            },
+                        nameFilm = serial.originalName,
+                        data = createPath(size, UrlType.PosterPatch, serial.posterPath),
+                        contentScale = ContentScale.Crop,
+                    )
                 }
             }
         }
@@ -115,14 +143,21 @@ internal fun Header(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val title =
+            serial.name.replaceFirst(
+                serial.name.first(),
+                serial.name.first().uppercaseChar(),
+                false
+            )
         Text(
-            text = serial.name,
+            text = title,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
+            maxLines = 1,
             modifier = Modifier
-                .weight(1f)
-                .wrapContentWidth(Alignment.Start)
+                .weight(1F)
+                .wrapContentWidth(Alignment.Start, true)
         )
 
         Button(
@@ -130,9 +165,9 @@ internal fun Header(
             onClick = { },
             modifier = Modifier
                 .weight(1f)
-                .wrapContentWidth(Alignment.End)
+                .wrapContentWidth(Alignment.End, true)
         ) {
-            Text(text = "More")
+            Text(text = stringResource(R.string.more))
         }
     }
 

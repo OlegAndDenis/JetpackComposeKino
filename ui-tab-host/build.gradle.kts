@@ -48,6 +48,8 @@ android {
 }
 
 dependencies {
+    implementation(Libs.accompanist.pager)
+    implementation(Libs.accompanist.pagerIndicator)
     implementation(Libs.compose.uiUi)
     implementation(Libs.compose.uiTooling)
     implementation(Libs.compose.composeFoundationFoundation)
@@ -59,9 +61,8 @@ dependencies {
     implementation(Libs.coroutines.coroutinesAndroid)
     implementation(Libs.coroutines.coroutines)
     implementation(Libs.compose.uiUti)
-    implementation(Libs.accompanist.pager)
-    implementation(Libs.accompanist.pagerIndicator)
     implementation(Libs.timber.timber)
     implementation(project(Modules.movie))
     implementation(project(Modules.tv))
+    implementation(project(Modules.uiCommonCompose))
 }

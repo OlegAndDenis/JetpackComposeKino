@@ -1,10 +1,7 @@
 package com.example.kino.navigation
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,7 +32,10 @@ val blackList = listOf(
 @Composable
 fun BottomNavBar(
     navController: NavController
-) = BottomNavigation {
+) = BottomNavigation(
+    backgroundColor = MaterialTheme.colors.background,
+    elevation = 10.dp,
+) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     items.forEach { screen ->

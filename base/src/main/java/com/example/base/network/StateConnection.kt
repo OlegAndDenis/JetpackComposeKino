@@ -46,7 +46,6 @@ private fun registerNetwork(manager: ConnectivityManager) =
         object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
-                manager.bindProcessToNetwork(network)
                 connectionListener.tryEmit(ConnectionType.Available(true))
             }
 

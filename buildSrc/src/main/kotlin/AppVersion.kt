@@ -6,7 +6,7 @@ object AppVersion {
     const val applicationId = "com.example.kino"
     const val versionCode = 1
     const val versionName = "1.0"
-    const val compose = "1.0.0-beta09"
+    const val compose = "1.0.0-rc01"
     const val hilt = "2.37"
     const val targetJvm = "1.8"
 

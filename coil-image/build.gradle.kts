@@ -64,4 +64,5 @@ dependencies {
     implementation(Libs.accompanist.coil)
     implementation(Libs.timber.timber)
     implementation(Libs.androidX.coreKtx)
+    implementation(project(Modules.uiCommonCompose))
 }

@@ -114,7 +114,7 @@ object Libs {
 
 
     object UI {
-        private const val materialComponentsVersion = "1.4.0-rc01"
+        private const val materialComponentsVersion = "1.4.0"
         private const val adapterDelegateVersion = "4.3.0"
 
         const val materialComponents =
@@ -127,10 +127,10 @@ object Libs {
 
     object AndroidX {
         private const val constraintLayoutVersion = "2.1.0-beta02"
-        private const val appCompatVersion = "1.3.0"
-        private const val coreKtxVersion = "1.6.0-rc01"
-        private const val fragmentKtx = "1.4.0-alpha03"
-        private const val androidxActivityComposeVersion = "1.3.0-beta02"
+        private const val appCompatVersion = "1.4.0-alpha03"
+        private const val coreKtxVersion = "1.7.0-alpha01"
+        private const val fragmentKtx = "1.4.0-alpha04"
+        private const val androidxActivityComposeVersion = "1.3.0-rc01"
 
         const val constraintLayout =
             "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
@@ -183,7 +183,7 @@ object Libs {
     }
 
     object Lifecycle {
-        private const val uiUiVersion = "1.0.0-beta07"
+        private const val uiUiVersion = "1.0.0-rc01"
         private const val viewModelVersion = "1.0.0-alpha07"
         private const val lifecycle = "2.4.0-alpha02"
 
@@ -195,14 +195,14 @@ object Libs {
     }
 
     object NavigationComponent {
-        private const val nav_version = "2.4.0-alpha03"
+        private const val nav_version = "2.4.0-alpha04"
         const val navigationComponentCompose =
             "androidx.navigation:navigation-compose:$nav_version"
     }
 
     object Paging {
-        private const val pagingVersion = "3.1.0-alpha01"
-        private const val pagingComposVersion = "1.0.0-alpha10"
+        private const val pagingVersion = "3.1.0-alpha02"
+        private const val pagingComposVersion = "1.0.0-alpha11"
 
         const val pagingCommon = "androidx.paging:paging-common-ktx:$pagingVersion"
         const val pagingRuntime = "androidx.paging:paging-runtime-ktx:$pagingVersion"
@@ -210,16 +210,18 @@ object Libs {
     }
 
     object Accompanist {
-        private const val accompanistVersion = "0.12.0"
+        private const val accompanistVersion = "0.13.0"
+
+        const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
+        const val pagerIndicator =
+            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
+        const val uiController = "com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion"
         const val coil = "com.google.accompanist:accompanist-coil:$accompanistVersion"
         const val insets = "com.google.accompanist:accompanist-insets:$accompanistVersion"
         const val insetsUi = "com.google.accompanist:accompanist-insets-ui:$accompanistVersion"
         const val flowLayout = "com.google.accompanist:accompanist-flowlayout:$accompanistVersion"
         const val swipeRefresh =
             "com.google.accompanist:accompanist-swiperefresh:$accompanistVersion"
-        const val pager = "com.google.accompanist:accompanist-pager:$accompanistVersion"
-        const val pagerIndicator =
-            "com.google.accompanist:accompanist-pager-indicators:$accompanistVersion"
     }
 
     object Leakcanary {
@@ -274,8 +276,8 @@ object Libs {
 
     object Test {
         private const val junitVersion = "4.13.2"
-        private const val junitExtVersion = "1.1.2"
-        private const val espressoVersion = "3.3.0"
+        private const val junitExtVersion = "1.1.3-rc01"
+        private const val espressoVersion = "3.4.0"
 
         const val junit = "junit:junit:$junitVersion"
         const val junitExt = "androidx.test.ext:junit:$junitExtVersion"
