@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ProgressIndicatorDefaults
 import androidx.compose.material.Text
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.LifecycleOwner
 import coil.request.CachePolicy
@@ -123,15 +125,16 @@ private fun CoilBuilder(
                     success.invoke(coilImageState)
                 } else {
                     coilImageState.imageBitmap?.let {
-                        Image(
-                            painter = BitmapPainter(it),
-                            contentDescription = "",
-                            modifier = modifier,
-                            alignment = alignment,
-                            contentScale = contentScale,
-                            alpha = alpha,
-                            colorFilter = colorFilter,
-                        )
+                        Card(elevation = 8.dp) {
+                            Image(
+                                painter = BitmapPainter(it),
+                                contentDescription = "",
+                                alignment = alignment,
+                                contentScale = contentScale,
+                                alpha = alpha,
+                                colorFilter = colorFilter,
+                            )
+                        }
                     }
                 }
             }
