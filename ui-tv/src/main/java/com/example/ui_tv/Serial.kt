@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
@@ -30,6 +31,8 @@ import com.example.themdb_api.UrlType
 import com.example.themdb_api.createPath
 import com.example.themdb_api.serials.SerialResult
 import com.example.themdb_api.serials.UiSerial
+import com.example.ui_common_compose.animation.FlingBehavior
+import com.example.ui_common_compose.animation.rememberSplineDecay
 import com.example.ui_common_compose.animation.scaleAnimation
 import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
@@ -80,9 +83,13 @@ fun Serial(
 ) {
     val lazyState = rememberLazyListState()
 
-    LazyColumn(contentPadding = contentPadding, state = lazyState) {
+    LazyColumn(
+        contentPadding = contentPadding,
+        state = lazyState,
+        flingBehavior = FlingBehavior(flingDecay = rememberSplineDecay())
+    ) {
         item("Top") {
-            Box(modifier = Modifier.scaleAnimation(lazyState, 1F)) {
+            Box(modifier = Modifier.scaleAnimation(lazyState, 0.5F)) {
                 Carousel(
                     totalCount = popularity.serials.size,
                     title = {
@@ -136,14 +143,21 @@ internal fun Header(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val title =
+            serial.name.replaceFirst(
+                serial.name.first(),
+                serial.name.first().uppercaseChar(),
+                false
+            )
         Text(
-            text = serial.name,
+            text = title,
             fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
+            maxLines = 1,
             modifier = Modifier
-                .weight(1f)
-                .wrapContentWidth(Alignment.Start)
+                .weight(1F)
+                .wrapContentWidth(Alignment.Start, true)
         )
 
         Button(
@@ -151,9 +165,9 @@ internal fun Header(
             onClick = { },
             modifier = Modifier
                 .weight(1f)
-                .wrapContentWidth(Alignment.End)
+                .wrapContentWidth(Alignment.End, true)
         ) {
-            Text(text = "More")
+            Text(text = stringResource(R.string.more))
         }
     }
 
