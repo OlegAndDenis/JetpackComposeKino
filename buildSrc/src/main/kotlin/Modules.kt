@@ -9,7 +9,9 @@ object Modules {
         ":ui-tab-host",
         ":coil-image",
         ":ui-tv",
-        ":ui-detail"
+        ":ui-detail",
+        ":ui-search",
+        ":ui-common-resources"
     )
 
     val detail = "ui-detail"
@@ -19,4 +21,5 @@ object Modules {
     val themdb = ":themdb-api"
     val base = ":base"
     val uiCommonCompose = ":ui-common-compose"
+    val uiRes = ":ui-common-resources"
 }
