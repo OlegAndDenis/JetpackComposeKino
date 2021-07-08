@@ -7,12 +7,11 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-
-        mavenCentral()
         maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
         maven { setUrl("https://kotlin.bintray.com/kotlinx") }
         maven { setUrl("https://dl.bintray.com/jetbrains/kotlin-native-dependencies") }
         maven { setUrl("https://dl.bintray.com/svok/jar2npm") }
+        maven { setUrl("https://maven.google.com") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:$androidBuildToolsVersion")
@@ -24,20 +23,22 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
-
+        google()
         mavenCentral()
         maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap") }
         maven { setUrl("https://kotlin.bintray.com/kotlinx") }
         maven { setUrl("https://dl.bintray.com/jetbrains/kotlin-native-dependencies") }
         maven { setUrl("https://dl.bintray.com/svok/jar2npm") }
+        maven { setUrl("https://maven.google.com") }
     }
 }
 
 subprojects {
     repositories {
+        google()
         mavenCentral()
         maven { setUrl("https://kotlin.bintray.com/kotlinx") }
+        maven { setUrl("https://maven.google.com") }
     }
 }
 

@@ -14,10 +14,3 @@ include(
     ":shared-module",
 )
 rootProject.buildFileName = "build.gradle.kts"
-
-fun configureGradleScriptKotlinOn(project: ProjectDescriptor) {
-    project.buildFileName = "build.gradle.kts"
-    project.children.forEach { configureGradleScriptKotlinOn(it) }
-}
-
-configureGradleScriptKotlinOn(rootProject)
