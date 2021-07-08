@@ -28,7 +28,7 @@ fun <T> HorizontalGenre(
         val contentPadding = PaddingValues(start = 16.dp, top = 0.dp, end = 8.dp, bottom = 10.dp)
 
         LazyRow(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
             contentPadding = PaddingValues(
@@ -45,7 +45,7 @@ fun <T> HorizontalGenre(
                 val item = items[index]
                 //Fixme добавить шейп из темы
                 Card(
-                    modifier = modifier
+                    modifier = Modifier
                         .padding(spacingContent)
                         .height(150.dp)
                         .fillMaxWidth()
