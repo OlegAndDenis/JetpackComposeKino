@@ -3,7 +3,7 @@ package com.example.ui_tv
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.base.network.model.ConnectionType
-import com.example.themdb_api.serials.SerialResult
+import com.example.themdb_api.common.SerialResult
 import com.example.themdb_api.serials.UiSerial
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

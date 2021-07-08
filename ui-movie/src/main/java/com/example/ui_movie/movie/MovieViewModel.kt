@@ -3,7 +3,7 @@ package com.example.ui_movie.movie
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.base.network.model.ConnectionType
-import com.example.themdb_api.movie.MovieResult
+import com.example.themdb_api.common.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

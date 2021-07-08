@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
 import com.example.themdb_api.UrlType
+import com.example.themdb_api.common.MovieResult
 import com.example.themdb_api.createPath
-import com.example.themdb_api.movie.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.ui_common_compose.animation.FlingBehavior
 import com.example.ui_common_compose.animation.rememberSplineDecay

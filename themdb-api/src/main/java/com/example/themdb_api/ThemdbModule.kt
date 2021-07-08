@@ -3,6 +3,7 @@ package com.example.themdb_api
 import android.content.Context
 import com.example.base.network.model.ConnectionType
 import com.example.themdb_api.api.ApiClient
+import com.example.themdb_api.common.module
 import com.example.themdb_api.interceptors.Interceptors
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import com.example.themdb_api.themdbrepository.ThemdbRepositoryImpl
@@ -51,9 +52,11 @@ object ThemdbModule {
             .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build()
 
-    private val json = Json {
+    private val json = Json{
         ignoreUnknownKeys = true
         coerceInputValues = true
+        classDiscriminator = "media_type"
+        serializersModule = module
     }
 
     fun mediaType(): MediaType = "application/json".toMediaType()

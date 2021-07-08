@@ -1,9 +1,10 @@
-package com.example.themdb_api.movie
+package com.example.themdb_api.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@SerialName("movie")
 data class MovieResult(
     @SerialName("backdrop_path")
     val backdropPath: String = "no",
@@ -33,4 +34,5 @@ data class MovieResult(
     val voteCount: Long = 0L,
     @SerialName("adult")
     val adult: Boolean = false,
-)
+    override val mediaType: String = "movie",
+) : Type()
