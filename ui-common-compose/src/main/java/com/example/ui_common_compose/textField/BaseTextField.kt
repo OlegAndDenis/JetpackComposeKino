@@ -32,7 +32,9 @@ internal fun BaseTextField(
         innerTextField: @Composable () -> Unit
     ) -> Unit
 ) {
-    Label(text = label)
+    if (label.isNotEmpty()) {
+        Label(text = label)
+    }
 
     var focus by remember { mutableStateOf(false) }
 
