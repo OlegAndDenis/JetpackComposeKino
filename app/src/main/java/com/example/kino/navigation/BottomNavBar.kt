@@ -49,7 +49,10 @@ fun BottomNavBar(
                     // avoid building up a large stack of destinations
                     // on the back stack as users select items
                     popUpTo(navController.graph.findStartDestination().id) {
-                        saveState = true
+                        // FixMe: Extract Methods
+                        saveState =
+                            currentDestination?.hierarchy?.any { it.route == screen.route } != true ||
+                                    currentDestination.parent?.startDestinationRoute == currentDestination.route
                     }
                     // Avoid multiple copies of the same destination when
                     // reselecting the same item
