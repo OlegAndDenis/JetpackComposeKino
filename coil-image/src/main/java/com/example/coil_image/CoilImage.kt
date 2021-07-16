@@ -37,7 +37,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 /**
- * This method load image and custom sattings display view
+ * This method load image and custom settings display view
  *
  * Set the data to load.
  * The default supported data types are: (@link ImageRequest#data)
@@ -46,7 +46,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 fun CoilImage(
     modifier: Modifier = Modifier,
     data: Any,
-    contentScale: ContentScale = ContentScale.Crop,
     success: @Composable ((imageState: CoilImageState.Success) -> Unit)? = null,
     loading: @Composable ((ImageLoader: CoilImageState.Loading) -> Unit)? = null,
     failure: @Composable ((imageState: CoilImageState.Failure) -> Unit)? = null,
@@ -54,7 +53,6 @@ fun CoilImage(
     CoilBuilder(
         data = data,
         modifier = modifier,
-        contentScale = contentScale,
         loading = loading,
         failure = failure,
         success = success
@@ -194,7 +192,7 @@ private fun CoilLoadImage(
                             imageLoadStateFlow.value =
                                 ImageLoadState.Failure(it?.toBitmap()?.asImageBitmap())
                         }
-                    ).build()
+                    ).placeholderMemoryCacheKey(request.memoryCacheKey).build()
                 )
                 dispose.resume(imageLoadStateFlow) {
                     disposable.value?.dispose()
