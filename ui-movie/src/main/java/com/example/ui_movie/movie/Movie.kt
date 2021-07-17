@@ -1,9 +1,7 @@
 package com.example.ui_movie.movie
 
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
@@ -33,48 +31,83 @@ import com.example.themdb_api.UrlType
 import com.example.themdb_api.common.MovieResult
 import com.example.themdb_api.createPath
 import com.example.themdb_api.movie.UiMovie
+import com.example.ui_common_compose.animation.FadeThrough
 import com.example.ui_common_compose.animation.FlingBehavior
 import com.example.ui_common_compose.animation.rememberSplineDecay
 import com.example.ui_common_compose.animation.scaleAnimation
-import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
 import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.topcarusel.Carousel
 import com.example.ui_movie.R
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun Movie(
+fun CreateMovie(
     openFilm: (Id: String) -> Unit = { },
     openGenres: (genresId: String) -> Unit = { },
 ) {
     val movieViewModel: MovieViewModel = hiltViewModel()
-    movieViewModel.loadGenres()
-    val state = rememberFlowWithLifecycle(flow = movieViewModel.movieState)
-        .collectAsState(initial = MovieState.Loading()).value
+    val state = movieViewModel.viewState.value
+    val effect = movieViewModel.effect
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-    ) { paddingValues ->
-        Crossfade(
-            targetState = state,
-            animationSpec = tween(
-                durationMillis = 700,
-                delayMillis = 250,
-                easing = FastOutSlowInEasing
-            )
-        ) {
+    FadeThrough(
+        targetState = state,
+    ) {
+        if (it == state) {
             when (it) {
+                is MovieState.Init -> {
+                    Loading()
+                    movieViewModel.loadGenres()
+                }
                 is MovieState.Loading -> Loading()
-                is MovieState.Result -> Movie(
-                    movie = it.uiMovies,
-                    it.top,
-                    openFilm = openFilm,
-                    contentPadding = paddingValues,
-                )
+                is MovieState.Result -> {
+                    ShowMovie(
+                        scaffoldState = scaffoldState,
+                        movieViewModel = movieViewModel,
+                        it.uiMovies
+                    )
+                }
                 else -> {
                 }
             }
         }
+    }
+
+    LaunchedEffect("") {
+        effect.onEach { effect ->
+            when (effect) {
+                is Effect.DataWasLoaded ->
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Loading finish!",
+                        duration = SnackbarDuration.Short
+                    )
+                is Effect.Navigation.ToCategoryDetails -> {
+                    openFilm(effect.id)
+                }
+                else -> {
+                }
+            }
+        }.collect { }
+    }
+}
+
+@Composable
+private fun ShowMovie(
+    scaffoldState: ScaffoldState,
+    movieViewModel: MovieViewModel,
+    movie: List<UiMovie>
+) {
+    Scaffold(
+        scaffoldState = scaffoldState,
+        modifier = Modifier.fillMaxSize(),
+    ) { paddingValues ->
+        Movie(
+            movie = movie,
+            openFilm = { id -> movieViewModel.setEvent(Event.CategorySelection(id)) },
+            contentPadding = paddingValues,
+        )
     }
 }
 
@@ -82,7 +115,6 @@ fun Movie(
 @Composable
 fun Movie(
     movie: List<UiMovie>,
-    popularity: UiMovie = UiMovie(),
     openFilm: (Id: String) -> Unit = { },
     contentPadding: PaddingValues,
 ) {
@@ -93,69 +125,73 @@ fun Movie(
         state = lazyState,
         flingBehavior = FlingBehavior(flingDecay = rememberSplineDecay())
     ) {
-        item("Top") {
-            Box(
-                modifier = Modifier
-                    .scaleAnimation(lazyState, 0.5F)
-            ) {
-                Carousel(
-                    modifier = Modifier,
-                    totalCount = popularity.movies.size,
-                    title = {
-                        Text(text = popularity.title, modifier = Modifier.padding(start = 10.dp))
-                    },
-                    image = {
-                        PosterCard(
-                            modifier = Modifier.fillMaxSize(),
-                            movie = popularity.movies[it],
-                            openFilm = openFilm
-                        )
-                    },
-                    overView = { (position, isScrolling) ->
-                        Overview(
-                            modifier = Modifier,
-                            item = popularity.movies[position],
-                            isScrolling = isScrolling
-                        )
-                    }
-                )
-            }
-        }
-
         items(movie.size, key = { it }) { index ->
-            val position by animateIntAsState(targetValue = index, tween(400))
-            val uiMovie = movie[position]
-            HorizontalGenre(
-                modifier = Modifier,
-                header = { Header(uiMovie) },
-                items = uiMovie.movies
-            ) { movieResult, spassingConent ->
-                Card(
+            if (index == 0) {
+                Box(
                     modifier = Modifier
-                        .padding(spassingConent)
-                        .height(150.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(2 / 3f),
+                        .scaleAnimation(lazyState, 0.5F)
                 ) {
-                    Box {
-                        var size by remember { mutableStateOf(IntSize(0, 0)) }
+                    Carousel(
+                        modifier = Modifier,
+                        totalCount = movie[index].movies.size,
+                        title = {
+                            Text(
+                                text = movie[index].title,
+                                modifier = Modifier.padding(start = 10.dp)
+                            )
+                        },
+                        image = {
+                            PosterCard(
+                                modifier = Modifier.fillMaxSize(),
+                                movie = movie[index].movies[it],
+                                openFilm = openFilm
+                            )
+                        },
+                        overView = { (position, isScrolling) ->
+                            Overview(
+                                modifier = Modifier,
+                                item = movie[index].movies[position],
+                                isScrolling = isScrolling
+                            )
+                        }
+                    )
+                }
+            } else {
+                val position by animateIntAsState(targetValue = index, tween(400))
+                val uiMovie = movie[position]
+                HorizontalGenre(
+                    modifier = Modifier,
+                    header = { Header(uiMovie) },
+                    items = uiMovie.movies
+                ) { movieResult, spassingConent ->
+                    Card(
+                        modifier = Modifier
+                            .padding(spassingConent)
+                            .height(150.dp)
+                            .fillMaxWidth()
+                            .aspectRatio(2 / 3f),
+                    ) {
+                        Box {
+                            var size by remember { mutableStateOf(IntSize(0, 0)) }
 
-                        val path = createPath(size = size, UrlType.PosterPatch, movieResult.posterPath)
+                            val path =
+                                createPath(size = size, UrlType.PosterPatch, movieResult.posterPath)
 
-                        CoilImageWithCircularProgress(
-                            data = path,
-                            nameFilm = movieResult.originalTitle,
-                            modifier = Modifier
-                                .matchParentSize()
-                                .onGloballyPositioned {
-                                    size = it.size
-                                }
-                                .animateContentSize()
-                                .clickable {
-                                    openFilm(movieResult.id.toString())
-                                },
-                            contentScale = ContentScale.Crop,
-                        )
+                            CoilImageWithCircularProgress(
+                                data = path,
+                                nameFilm = movieResult.originalTitle,
+                                modifier = Modifier
+                                    .matchParentSize()
+                                    .onGloballyPositioned {
+                                        size = it.size
+                                    }
+                                    .animateContentSize()
+                                    .clickable {
+                                        openFilm(movieResult.id.toString())
+                                    },
+                                contentScale = ContentScale.Crop,
+                            )
+                        }
                     }
                 }
             }

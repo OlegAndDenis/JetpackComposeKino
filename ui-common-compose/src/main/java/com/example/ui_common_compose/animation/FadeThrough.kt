@@ -36,12 +36,12 @@ fun <T> FadeThrough(
         keys.mapTo(items) { key ->
             FadeThroughAnimationItem(key) {
                 val disappearAnimationSpec = tween<Float>(
-                    delayMillis = 1000,
-                    durationMillis = 3000
+                    delayMillis = 500,
+                    durationMillis = 150
                 )
                 val appearAnimationSpec = tween<Float>(
-                    delayMillis = 1000,
-                    durationMillis = 3000
+                    delayMillis = 500,
+                    durationMillis = 150
                 )
 
                 val alpha by transition.animateFloat(

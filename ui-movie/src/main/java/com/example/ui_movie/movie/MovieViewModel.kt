@@ -1,13 +1,15 @@
 package com.example.ui_movie.movie
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.base.network.base.BaseViewModel
 import com.example.base.network.model.ConnectionType
 import com.example.themdb_api.common.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -18,13 +20,19 @@ private const val TOP_MORE = 14
 class MovieViewModel @Inject constructor(
     network: StateFlow<ConnectionType>,
     private val themdbRepository: ThemdbRepository
-) : ViewModel() {
+) : BaseViewModel<Event, MovieState, Effect>() {
 
-    private val _movieState = MutableStateFlow<MovieState>(MovieState.Loading())
-    val movieState: StateFlow<MovieState> = _movieState.asStateFlow()
+    override fun setInitialState(): MovieState = MovieState.Init
+
+    override fun handleEvents(event: Event) {
+        when (event) {
+            is Event.CategorySelection -> {
+                setEffect { Effect.Navigation.ToCategoryDetails(event.id) }
+            }
+        }
+    }
 
     init {
-        _movieState.value = MovieState.Loading()
         viewModelScope.launch {
             network
                 .onEach {
@@ -33,7 +41,7 @@ class MovieViewModel @Inject constructor(
                             Timber.i("Connection type Available")
                         }
                         is ConnectionType.Lost -> {
-                            _movieState.value = MovieState.Loading()
+                            setState { MovieState.Loading }
                             Timber.i("Connection type lost")
                         }
                         else -> {
@@ -46,6 +54,7 @@ class MovieViewModel @Inject constructor(
     }
 
     fun loadGenres() {
+        setState {  MovieState.Loading }
         viewModelScope.launch {
             val genre = themdbRepository.getListGenresByMovie()
             val popularity = themdbRepository.getPopularityMove()
@@ -58,10 +67,12 @@ class MovieViewModel @Inject constructor(
                 listUiMovie.add(uiMovie)
             }
             if (listUiMovie.isNotEmpty()) {
-                _movieState.value = MovieState.Result(listUiMovie, UiMovie("Top", movies = topPopularity))
+                listUiMovie.add(0,  UiMovie("Top", movies = topPopularity))
+                setState { MovieState.Result(listUiMovie) }
             } else {
-                _movieState.value = MovieState.ConnectionLost
+                setState {  MovieState.ConnectionLost }
             }
+            setEffect { Effect.DataWasLoaded }
         }
     }
 
