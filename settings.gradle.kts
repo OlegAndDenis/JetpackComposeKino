@@ -13,5 +13,6 @@ include(
     ":ui-detail",
     ":shared-module",
     ":ui-search",
+    ":firebase",
 )
 rootProject.buildFileName = "build.gradle.kts"
