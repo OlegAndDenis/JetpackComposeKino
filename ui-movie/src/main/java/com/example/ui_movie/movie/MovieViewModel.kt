@@ -7,6 +7,7 @@ import com.example.themdb_api.common.MovieResult
 import com.example.themdb_api.movie.UiMovie
 import com.example.themdb_api.themdbrepository.ThemdbRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -54,8 +55,9 @@ class MovieViewModel @Inject constructor(
     }
 
     fun loadGenres() {
+        if (viewState.value == MovieState.Loading) return
         setState {  MovieState.Loading }
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val genre = themdbRepository.getListGenresByMovie()
             val popularity = themdbRepository.getPopularityMove()
             val topPopularity = selectionTopMore(popularity.result, 5)
