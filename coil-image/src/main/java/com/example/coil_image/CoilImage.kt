@@ -192,7 +192,7 @@ private fun CoilLoadImage(
                             imageLoadStateFlow.value =
                                 ImageLoadState.Failure(it?.toBitmap()?.asImageBitmap())
                         }
-                    ).placeholderMemoryCacheKey(request.memoryCacheKey).build()
+                    ).build()
                 )
                 dispose.resume(imageLoadStateFlow) {
                     disposable.value?.dispose()
