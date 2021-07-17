@@ -2,7 +2,6 @@ package com.example.ui_common_compose.genrecommon
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +13,7 @@ fun <T> HorizontalGenre(
     items: List<T>,
     modifier: Modifier = Modifier,
     header: @Composable () -> Unit = { },
-    content: @Composable (T) -> Unit? = { },
+    content: @Composable (T, PaddingValues) -> Unit? = {_,_ -> },
 ) {
     Column(
         modifier = modifier,
@@ -28,7 +27,7 @@ fun <T> HorizontalGenre(
         val contentPadding = PaddingValues(start = 16.dp, top = 0.dp, end = 8.dp, bottom = 10.dp)
 
         LazyRow(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(),
             contentPadding = PaddingValues(
@@ -43,16 +42,7 @@ fun <T> HorizontalGenre(
         ) {
             items(items.size) { index ->
                 val item = items[index]
-                //Fixme добавить шейп из темы
-                Card(
-                    modifier = modifier
-                        .padding(spacingContent)
-                        .height(150.dp)
-                        .fillMaxWidth()
-                        .aspectRatio(2 / 3f),
-                ) {
-                    content(item)
-                }
+                content(item, spacingContent)
             }
         }
     }

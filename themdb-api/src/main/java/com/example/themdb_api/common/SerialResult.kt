@@ -1,9 +1,10 @@
-package com.example.themdb_api.serials
+package com.example.themdb_api.common
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@SerialName("tv")
 data class SerialResult(
     @SerialName("poster_path")
     val posterPath: String = "no",
@@ -37,4 +38,5 @@ data class SerialResult(
     val voteCount: Long = 0L,
     @SerialName("adult")
     val adult: Boolean = false,
-)
+    override val mediaType: String = "tv",
+) : Type()

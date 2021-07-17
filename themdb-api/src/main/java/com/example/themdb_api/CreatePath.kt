@@ -32,17 +32,45 @@ private fun backdropSizes(size: Int): String =
         }
     }
 
-fun createPath(size: IntSize, type: UrlType, path: String): String {
+private fun logoSize(size: Int): String = when {
+    size <= 100 -> "w92"
+    size <= 160 -> "w154"
+    size <= 200 -> "w185"
+    size <= 300 -> "w300"
+    size <= 500 -> "w500"
+    size > 500 -> "original"
+    else -> {
+        Timber.i("unknown size")
+        ""
+    }
+}
 
-    Timber.i("$size, $path")
+fun createPath(size: IntSize, type: UrlType, path: String): Any {
+
     val maxSize = size.height.coerceAtLeast(size.width)
     if (maxSize == 0) {
-        return ""
+        return when(type) {
+            UrlType.Logo -> R.drawable.person_default
+            else -> R.drawable.film_default
+        }
     }
 
-    return when(type) {
+    if (path.isEmpty()) {
+
+       return when(type) {
+            UrlType.Logo -> R.drawable.person_default
+            else -> R.drawable.film_default
+        }
+    }
+
+    return when (type) {
         UrlType.Backdrop -> baseImageUrl.plus(backdropSizes(maxSize)).plus(path)
         UrlType.PosterPatch -> baseImageUrl.plus(posterSizes(maxSize)).plus(path)
-        UrlType.Logo -> ""
+        UrlType.Logo -> {
+            val url =
+                baseImageUrl.plus(logoSize(maxSize).plus(path))
+            Timber.tag("URLS").i(url)
+            url
+        }
     }
 }

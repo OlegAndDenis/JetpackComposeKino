@@ -3,7 +3,6 @@ plugins {
     id("kotlin-android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
 }
 
 repositories {
@@ -30,18 +29,16 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            val tmdbApiKey = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
-                rootDir
-            ).getProperty("tmdbApiKey")
-            buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
         }
-        debug {
-            isMinifyEnabled = true
-            val tmdbApiKey = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(
-                rootDir
-            ).getProperty("tmdbApiKey")
-            buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
-        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
     }
 
     compileOptions {
@@ -54,19 +51,28 @@ android {
 }
 
 dependencies {
+    implementation(Libs.compose.uiUi)
+    implementation(Libs.compose.uiTooling)
+    implementation(Libs.compose.composeFoundationFoundation)
+    implementation(Libs.compose.composeFoundationLayout)
+    implementation(Libs.accompanist.insetsUi)
+    implementation(Libs.accompanist.insets)
+    implementation(Libs.compose.uiViewBinding)
+    implementation(Libs.compose.composeMaterialIconsext)
+    implementation(Libs.compose.composeMaterialMaterial)
+    implementation(Libs.compose.uiUti)
+    implementation(Libs.coil.coil)
+    implementation(Libs.accompanist.coil)
+    implementation(Libs.accompanist.pager)
+    implementation(Libs.timber.timber)
+    implementation(Libs.hilt.hiltNavigation)
     implementation(Libs.hilt.hilt)
     implementation(Libs.hilt.dagger)
     implementation(Libs.hilt.hiltAndroid)
-    implementation(Libs.retrofit.retrofit)
-    implementation(Libs.timber.timber)
-    implementation(Libs.coroutines.coroutines)
-    implementation(Libs.coroutines.coroutinesAndroid)
-    implementation(Libs.okhttp.okhttp)
-    implementation(Libs.serialisation.serialisationAdapter)
-    implementation(Libs.serialisation.json)
-    implementation(Libs.compose.uiUi)
-    implementation(project(Modules.uiRes))
-    implementation(project(Modules.base))
     kapt(Libs.hilt.compilerKapt)
     kapt(Libs.hilt.hiltAndroidCompiler)
+    implementation(project(Modules.uiCommonCompose))
+    implementation(project(Modules.base))
+    implementation(project(Modules.themdb))
+    implementation(project(Modules.coil))
 }

@@ -12,5 +12,6 @@ include(
     ":ui-tv",
     ":ui-detail",
     ":shared-module",
+    ":ui-search",
 )
 rootProject.buildFileName = "build.gradle.kts"

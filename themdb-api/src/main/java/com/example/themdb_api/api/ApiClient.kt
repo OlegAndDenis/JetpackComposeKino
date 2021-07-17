@@ -1,5 +1,6 @@
 package com.example.themdb_api.api
 
+import com.example.themdb_api.common.SearchResult
 import com.example.themdb_api.genres.GenresApi
 import com.example.themdb_api.movie.DetailMovie
 import com.example.themdb_api.movie.MovieApi
@@ -46,4 +47,7 @@ interface ApiClient {
         @Path("movie_id") id: String,
         @QueryMap param: MutableMap<String, String>,
     ): DetailMovie
+
+    @GET("search/multi")
+    suspend fun getSearch(@QueryMap param: MutableMap<String, String>): SearchResult
 }

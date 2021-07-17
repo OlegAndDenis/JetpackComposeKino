@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coil_image.CoilImageWithCircularProgress
 import com.example.themdb_api.UrlType
+import com.example.themdb_api.common.SerialResult
 import com.example.themdb_api.createPath
-import com.example.themdb_api.serials.SerialResult
 import com.example.themdb_api.serials.UiSerial
 import com.example.ui_common_compose.animation.FlingBehavior
 import com.example.ui_common_compose.animation.rememberSplineDecay
@@ -113,19 +113,27 @@ fun Serial(
             HorizontalGenre(
                 items = uiSerial.serials,
                 header = { Header(serial = uiSerial) }
-            ) { serial ->
-                var size by remember { mutableStateOf(IntSize(0, 0)) }
-                Box {
-                    CoilImageWithCircularProgress(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .onGloballyPositioned { layoutParam ->
-                                size = layoutParam.size
-                            },
-                        nameFilm = serial.originalName,
-                        data = createPath(size, UrlType.PosterPatch, serial.posterPath),
-                        contentScale = ContentScale.Crop,
-                    )
+            ) { serial, spassingConent ->
+                Card(
+                    modifier = Modifier
+                        .padding(spassingConent)
+                        .height(150.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(2 / 3f),
+                ) {
+                    var size by remember { mutableStateOf(IntSize(0, 0)) }
+                    Box {
+                        CoilImageWithCircularProgress(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .onGloballyPositioned { layoutParam ->
+                                    size = layoutParam.size
+                                },
+                            nameFilm = serial.originalName,
+                            data = createPath(size, UrlType.PosterPatch, serial.posterPath),
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
                 }
             }
         }

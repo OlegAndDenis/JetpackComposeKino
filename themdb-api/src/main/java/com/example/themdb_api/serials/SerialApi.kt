@@ -1,5 +1,6 @@
 package com.example.themdb_api.serials
 
+import com.example.themdb_api.common.SerialResult
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

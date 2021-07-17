@@ -1,5 +1,6 @@
 package com.example.themdb_api.themdbrepository
 
+import com.example.themdb_api.common.SearchResult
 import com.example.themdb_api.genres.GenresApi
 import com.example.themdb_api.movie.DetailMovie
 import com.example.themdb_api.movie.MovieApi
@@ -20,4 +21,6 @@ interface ThemdbRepository {
     suspend fun getPopularSerial(): SerialApi
 
     suspend fun loadDetail(id: String): DetailMovie
+
+    suspend fun getSearchingResult(query: String) : SearchResult
 }

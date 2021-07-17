@@ -2,6 +2,7 @@ package com.example.themdb_api.themdbrepository
 
 import com.example.themdb_api.BuildConfig
 import com.example.themdb_api.api.ApiClient
+import com.example.themdb_api.common.SearchResult
 import com.example.themdb_api.genres.GenresApi
 import com.example.themdb_api.movie.DetailMovie
 import com.example.themdb_api.movie.MovieApi
@@ -36,6 +37,18 @@ class ThemdbRepositoryImpl @Inject constructor(
 
     override suspend fun loadDetail(id: String): DetailMovie =
         clientApi.getMovie(id, buildDetail())
+
+    override suspend fun getSearchingResult(query: String): SearchResult =
+        clientApi.getSearch(buildParamSearch(1, query))
+
+    private fun buildParamSearch(page: Int, query: String): MutableMap<String, String> {
+        val map: MutableMap<String, String> = mutableMapOf()
+        map["api_key"] = BuildConfig.TMDB_API_KEY
+        map["language"] = "ru-RU"
+        map["query"] = query
+        map["page"] = page.toString()
+        return map
+    }
 
     private fun buildParamFilm(genres: String): MutableMap<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
