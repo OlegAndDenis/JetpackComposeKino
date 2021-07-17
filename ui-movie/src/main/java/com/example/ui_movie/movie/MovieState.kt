@@ -1,12 +1,13 @@
 package com.example.ui_movie.movie
 
+import com.example.base.network.base.ViewState
 import com.example.themdb_api.movie.UiMovie
 
-sealed class MovieState {
-    data class Loading(val isLoading: Boolean = false) : MovieState()
+sealed class MovieState : ViewState {
+    object Init: MovieState()
+    object Loading : MovieState()
     data class Result(
         val uiMovies: List<UiMovie> = emptyList(),
-        val top: UiMovie = UiMovie(),
         val isLoading: Boolean = false
     ) : MovieState()
     object ConnectionLost : MovieState()

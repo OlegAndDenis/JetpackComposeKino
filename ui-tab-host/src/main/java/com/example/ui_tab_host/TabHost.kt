@@ -6,7 +6,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.example.ui_movie.movie.Movie
+import com.example.ui_movie.movie.CreateMovie
 import com.example.ui_tv.Serial
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -50,7 +50,7 @@ fun TabHost(
     ) { innerPadding ->
         HorizontalPager(state = pagerState, Modifier.padding(innerPadding)) { page ->
             when (allScreens[page]) {
-                TabScreen.MovieScreen -> Movie(
+                TabScreen.MovieScreen -> CreateMovie(
                     openFilm = { openFilm(it, Type.MOVIE) },
                     openGenres = { openGenres(it, Type.MOVIE) })
                 TabScreen.TvScreen -> Serial(
