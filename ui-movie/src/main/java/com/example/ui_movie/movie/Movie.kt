@@ -79,7 +79,10 @@ fun CreateMovie(
         effect.onEach { effect ->
             when (effect) {
                 is Effect.DataWasLoaded ->
-                    scaffoldState.drawerState.open()
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Loading finish!",
+                        duration = SnackbarDuration.Short
+                    )
                 is Effect.Navigation.ToCategoryDetails -> {
                     openFilm(effect.id)
                 }
