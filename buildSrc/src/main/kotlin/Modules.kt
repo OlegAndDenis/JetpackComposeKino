@@ -11,7 +11,8 @@ object Modules {
         ":ui-tv",
         ":ui-detail",
         ":ui-search",
-        ":ui-common-resources"
+        ":ui-common-resources",
+        ":firebase",
     )
 
     val detail = "ui-detail"
