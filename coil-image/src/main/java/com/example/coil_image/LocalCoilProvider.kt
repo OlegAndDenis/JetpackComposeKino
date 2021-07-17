@@ -11,7 +11,6 @@ val LocalCoilImageLoader = staticCompositionLocalOf<ImageLoader?> { null }
 internal object LocalCoilProvider {
 
     @Composable
-    fun getCoilImageLoader(): ImageLoader {
-        return LocalCoilImageLoader.current ?: LocalContext.current.imageLoader
-    }
+    fun getCoilImageLoader(): ImageLoader =
+        LocalCoilImageLoader.current ?: LocalContext.current.imageLoader
 }
