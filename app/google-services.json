@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "713016195628",
+    "project_id": "jetpackcomposekino",
+    "storage_bucket": "jetpackcomposekino.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713016195628:android:da598c8e80aa5a28faaf89",
+        "android_client_info": {
+          "package_name": "com.example.kino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713016195628-hj4pdmo5t08ra8t0kr4aes1cg62vqoca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kino",
+            "certificate_hash": "32bbc0bf3cfd1ba6040f59c764b118497af6f0bc"
+          }
+        },
+        {
+          "client_id": "713016195628-iiaftcdmlu7kf6pkgv9bddefgoq6vquq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa7owc9xlzuZmKfPsprKKR9DNL1cK-dJQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713016195628-iiaftcdmlu7kf6pkgv9bddefgoq6vquq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

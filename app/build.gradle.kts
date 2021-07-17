@@ -4,6 +4,7 @@ import ImplementsDependency.apiList
 import ImplementsDependency.debuggerDependency
 import ImplementsDependency.kaptDependency
 import ImplementsDependency.listImplements
+import ImplementsDependency.platformImplements
 import ImplementsDependency.testImplementations
 
 plugins {
@@ -12,6 +13,7 @@ plugins {
     kotlin("kapt")
     id("kotlin-parcelize")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 kapt {
@@ -77,6 +79,9 @@ android {
 }
 
 dependencies {
+    platformImplements.forEach {
+        implementation(platform(it))
+    }
     apiList.forEach {
         api(it)
     }

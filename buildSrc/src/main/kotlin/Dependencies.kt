@@ -4,6 +4,7 @@ import Libs.androidX
 import Libs.coil
 import Libs.compose
 import Libs.coroutines
+import Libs.firebase
 import Libs.hilt
 import Libs.kotlin
 import Libs.leakcanary
@@ -18,6 +19,8 @@ import Libs.timber
 import Libs.ui
 
 object ImplementsDependency {
+    val platformImplements = listOf(firebase.bom)
+
     val listImplements = listOf(
         kotlin,
         ui.adapterDelegateKotlinDsl,
@@ -59,6 +62,7 @@ object ImplementsDependency {
         accompanist.swipeRefresh,
         accompanist.flowLayout,
         hilt.hiltNavigation,
+        firebase.analytics
     )
 
     val apiList = listOf(
@@ -111,6 +115,7 @@ object Libs {
     val navigation = NavigationComponent
     val paging = Paging
     val accompanist = Accompanist
+    val firebase = Firebase
 
 
     object UI {
@@ -272,6 +277,13 @@ object Libs {
         private const val okhttpVersion = "5.0.0-alpha.2"
 
         const val okhttp = "com.squareup.okhttp3:logging-interceptor:$okhttpVersion"
+    }
+
+    object Firebase {
+        private const val bomVersion = "28.2.1"
+
+        const val bom = "com.google.firebase:firebase-bom:$bomVersion"
+        const val analytics = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Test {

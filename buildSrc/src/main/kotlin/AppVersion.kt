@@ -13,6 +13,8 @@ object AppVersion {
     const val kotlin = "1.5.10"
     const val androidGradle = "7.1.0-alpha02"
 
+    const val googleServices = "4.3.8"
+
     val stringValue = StringValue
 }
 
