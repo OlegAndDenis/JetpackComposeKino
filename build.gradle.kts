@@ -18,7 +18,7 @@ buildscript {
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${AppVersion.hilt}")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
-        classpath("com.google.gms:google-services:${AppVersion.googleService}")
+        classpath("com.google.gms:google-services:${AppVersion.googleServices}")
     }
 }
 
