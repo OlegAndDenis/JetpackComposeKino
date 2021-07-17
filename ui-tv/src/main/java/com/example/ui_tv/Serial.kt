@@ -113,19 +113,27 @@ fun Serial(
             HorizontalGenre(
                 items = uiSerial.serials,
                 header = { Header(serial = uiSerial) }
-            ) { serial ->
-                var size by remember { mutableStateOf(IntSize(0, 0)) }
-                Box {
-                    CoilImageWithCircularProgress(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .onGloballyPositioned { layoutParam ->
-                                size = layoutParam.size
-                            },
-                        nameFilm = serial.originalName,
-                        data = createPath(size, UrlType.PosterPatch, serial.posterPath),
-                        contentScale = ContentScale.Crop,
-                    )
+            ) { serial, spassingConent ->
+                Card(
+                    modifier = Modifier
+                        .padding(spassingConent)
+                        .height(150.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(2 / 3f),
+                ) {
+                    var size by remember { mutableStateOf(IntSize(0, 0)) }
+                    Box {
+                        CoilImageWithCircularProgress(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .onGloballyPositioned { layoutParam ->
+                                    size = layoutParam.size
+                                },
+                            nameFilm = serial.originalName,
+                            data = createPath(size, UrlType.PosterPatch, serial.posterPath),
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
                 }
             }
         }

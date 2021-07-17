@@ -129,26 +129,34 @@ fun Movie(
                 modifier = Modifier,
                 header = { Header(uiMovie) },
                 items = uiMovie.movies
-            ) {
-                Box {
-                    var size by remember { mutableStateOf(IntSize(0, 0)) }
+            ) { movieResult, spassingConent ->
+                Card(
+                    modifier = Modifier
+                        .padding(spassingConent)
+                        .height(150.dp)
+                        .fillMaxWidth()
+                        .aspectRatio(2 / 3f),
+                ) {
+                    Box {
+                        var size by remember { mutableStateOf(IntSize(0, 0)) }
 
-                    val path = createPath(size = size, UrlType.PosterPatch, it.posterPath)
+                        val path = createPath(size = size, UrlType.PosterPatch, movieResult.posterPath)
 
-                    CoilImageWithCircularProgress(
-                        data = path,
-                        nameFilm = it.originalTitle,
-                        modifier = Modifier
-                            .matchParentSize()
-                            .onGloballyPositioned {
-                                size = it.size
-                            }
-                            .animateContentSize()
-                            .clickable {
-                                openFilm(it.id.toString())
-                            },
-                        contentScale = ContentScale.Crop,
-                    )
+                        CoilImageWithCircularProgress(
+                            data = path,
+                            nameFilm = movieResult.originalTitle,
+                            modifier = Modifier
+                                .matchParentSize()
+                                .onGloballyPositioned {
+                                    size = it.size
+                                }
+                                .animateContentSize()
+                                .clickable {
+                                    openFilm(movieResult.id.toString())
+                                },
+                            contentScale = ContentScale.Crop,
+                        )
+                    }
                 }
             }
         }
@@ -180,7 +188,7 @@ internal fun Header(
             color = Color.Gray,
             modifier = Modifier
                 .weight(1f)
-                .wrapContentWidth(Alignment.Start)
+                .wrapContentWidth(Alignment.Start, true)
         )
 
         Button(
@@ -188,7 +196,7 @@ internal fun Header(
             onClick = { },
             modifier = Modifier
                 .weight(1f)
-                .wrapContentWidth(Alignment.End)
+                .wrapContentWidth(Alignment.End, true)
         ) {
             Text(text = stringResource(R.string.more))
         }
