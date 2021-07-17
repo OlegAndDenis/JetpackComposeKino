@@ -31,6 +31,14 @@ android {
             )
         }
     }
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = AppVersion.compose
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -46,6 +54,10 @@ dependencies {
     implementation(Libs.hilt.dagger)
     implementation(Libs.hilt.hiltAndroid)
     implementation(Libs.timber.timber)
+    implementation(Libs.compose.uiTooling)
+    implementation(Libs.compose.uiUti)
+    implementation(Libs.lifecycle.lifecycleViewModel)
+    implementation(Libs.lifecycle.viewModelKtx)
     implementation(Libs.coroutines.coroutines)
     implementation(Libs.coroutines.coroutinesAndroid)
     kapt(Libs.hilt.compilerKapt)
