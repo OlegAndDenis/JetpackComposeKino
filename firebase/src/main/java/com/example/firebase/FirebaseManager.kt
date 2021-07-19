@@ -28,5 +28,25 @@ object FirebaseManager {
             }
     }
 
+    fun signIn(
+        email: String,
+        password: String,
+        onSuccess: ((FirebaseUser) -> Unit) = {},
+        onError: ((Exception?) -> Unit) = {}
+    ) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    auth.currentUser?.let {
+                        Timber.d("signInWithEmailAndPassword:success")
+                        onSuccess(it)
+                    } ?: onError(Exception("User is null"))
+                } else {
+                    Timber.e(task.exception, "signInWithEmailAndPassword:failure")
+                    onError(task.exception)
+                }
+            }
+    }
+
 }
 
