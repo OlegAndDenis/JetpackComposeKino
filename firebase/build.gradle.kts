@@ -39,4 +39,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(Libs.firebase.bom))
+    implementation(Libs.firebase.auth)
+    implementation(Libs.timber.timber)
 }
