@@ -8,6 +8,9 @@ import timber.log.Timber
 object FirebaseManager {
     private val auth = Firebase.auth
 
+    val authorized
+        get() = auth.currentUser != null
+
     fun createUser(
         email: String,
         password: String,
