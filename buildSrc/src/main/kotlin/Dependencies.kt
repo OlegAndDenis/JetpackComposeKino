@@ -284,6 +284,7 @@ object Libs {
 
         const val bom = "com.google.firebase:firebase-bom:$bomVersion"
         const val analytics = "com.google.firebase:firebase-analytics-ktx"
+        const val auth = "com.google.firebase:firebase-auth-ktx"
     }
 
     object Test {
