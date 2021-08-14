@@ -4,4 +4,5 @@ data class SmallData(
     val id: String = "",
     val title: String = "",
     val path: String = "",
+    val voteCount: Long = 0
 )

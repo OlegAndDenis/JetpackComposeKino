@@ -61,7 +61,6 @@ fun CreateMovie(
                     Loading()
                     movieViewModel.loadGenres()
                 }
-                is MovieState.Loading -> Loading()
                 is MovieState.Result -> {
                     ShowMovie(
                         scaffoldState = scaffoldState,
@@ -78,11 +77,6 @@ fun CreateMovie(
     LaunchedEffect("") {
         effect.onEach { effect ->
             when (effect) {
-                is Effect.DataWasLoaded ->
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = "Loading finish!",
-                        duration = SnackbarDuration.Short
-                    )
                 is Effect.Navigation.ToCategoryDetails -> {
                     openFilm(effect.id)
                 }

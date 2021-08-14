@@ -36,12 +36,12 @@ fun <T> FadeThrough(
         keys.mapTo(items) { key ->
             FadeThroughAnimationItem(key) {
                 val disappearAnimationSpec = tween<Float>(
-                    delayMillis = 500,
-                    durationMillis = 150
+                    delayMillis = 700,
+                    durationMillis = 250
                 )
                 val appearAnimationSpec = tween<Float>(
-                    delayMillis = 500,
-                    durationMillis = 150
+                    delayMillis = 700,
+                    durationMillis = 250
                 )
 
                 val alpha by transition.animateFloat(
@@ -54,7 +54,7 @@ fun <T> FadeThrough(
 
                 val scale by transition.animateFloat(
                     transitionSpec = { appearAnimationSpec }, label = ""
-                ) { if (it == key) 1f else 0.92f }
+                ) { if (it == key) 1f else 0.7f }
 
                 Box(Modifier.alpha(alpha).scale(scale = scale)) {
                     content(key)

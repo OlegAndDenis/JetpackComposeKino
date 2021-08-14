@@ -29,11 +29,13 @@ import com.example.coil_image.CoilImage
 import com.example.coil_image.CoilImageWithCircularProgress
 import com.example.themdb_api.UrlType
 import com.example.themdb_api.createPath
-import com.example.ui_common_compose.extensions.rememberFlowWithLifecycle
 import com.example.ui_common_compose.genrecommon.HorizontalGenre
+import com.example.ui_common_compose.loading.Loading
 import com.example.ui_common_compose.textField.SearchTextField
 import com.example.ui_search.data.SearchUi
 import com.example.ui_search.data.SmallData
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 
 @Composable
 fun Search() {
@@ -48,10 +50,10 @@ fun Search() {
 @Composable
 internal fun Search(contentPaddingValues: PaddingValues) {
     val viewModel: SearchViewModel = hiltViewModel()
+    val scope = rememberCoroutineScope()
+    var currentJob by remember { mutableStateOf<Job?>(null) }
 
-    val content = rememberFlowWithLifecycle(flow = viewModel.result).collectAsState(
-        initial = emptyList()
-    )
+    val content = viewModel.viewState.value
     val state = rememberLazyListState()
 
     LazyColumn(
@@ -69,35 +71,61 @@ internal fun Search(contentPaddingValues: PaddingValues) {
             ) {
                 SearchTextField(
                     hint = "Search",
-                    modifier = Modifier,
+                    modifier = Modifier.padding(end = 20.dp),
                     onValueChange = {
-                        if (it.length >= 3) {
-                            viewModel.search(it)
+                        currentJob?.cancel()
+                        currentJob = scope.async {
+                            if (it.length > 1)
+                                viewModel.search(it)
                         }
                     }
                 )
             }
         }
 
-        if (content.value.isNotEmpty()) {
-            items(count = content.value.size) {
-                val searchUi = content.value[it]
-                HorizontalGenre(
-                    modifier = Modifier,
-                    header = { Header(searchUi) },
-                    items = searchUi.content
-                ) { smailDate, spacingContent ->
-                    when (searchUi.type) {
-                        "person" -> {
-                            PersonPoster(smallData = smailDate, spacingContent)
-                        }
-                        else -> {
-                            FilmPoster(smallData = smailDate, spacingContent)
-                        }
-                    }
+        when (content) {
+            is SearchState.Loading -> {
+                item {
+                    Loading()
                 }
             }
+            is SearchState.Result -> {
+                if (content.result.isNotEmpty()) {
+                    items(count = content.result.size) {
+                        val searchUi = content.result[it]
+                        HorizontalGenre(
+                            modifier = Modifier,
+                            header = { Header(searchUi) },
+                            items = searchUi.content
+                        ) { smailDate, spacingContent ->
+                            when (searchUi.type) {
+                                "person" -> {
+                                    PersonPoster(smallData = smailDate, spacingContent)
+                                }
+                                else -> {
+                                    FilmPoster(smallData = smailDate, spacingContent)
+                                }
+                            }
+                        }
+                    }
+                    currentJob?.cancel()
+                }
+            }
+            is SearchState.NoResult -> {
+                item {
+                    currentJob?.cancel()
+                    Text(
+                        text = content.result,
+                        modifier = Modifier
+                            .padding(10.dp),
+                    )
+                }
+            }
+            else -> {
+
+            }
         }
+
     }
 }
 
